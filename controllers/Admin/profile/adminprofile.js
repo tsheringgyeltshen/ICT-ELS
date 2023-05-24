@@ -1,5 +1,7 @@
 const Users = require("../../../models/userModel");
 const fs = require('fs');
+const cloudinary = require('cloudinary').v2;
+
 
 exports.getAdminProfilePage = async (req, res) => {
     try {
@@ -62,8 +64,17 @@ exports.postAdminEditProfile = async (req, res) => {
     try {
 
         if (req.file) {
+            const userData1 = await Users.findById(req.body.id);
+
+            const result = await cloudinary.uploader.upload(req.file.path);
+
+            // Delete the original image from Cloudinary
+            const publicId = userData1.image.split('/').pop().split('.')[0];
+            await cloudinary.uploader.destroy(publicId);
 
             const userData = await Users.findByIdAndUpdate({ _id: req.body.id },
+
+
 
                 {
                     $set: {
@@ -72,22 +83,14 @@ exports.postAdminEditProfile = async (req, res) => {
                         email: req.body.email,
                         mobilenumber: req.body.mno,
                         department: req.body.department1,
-                        image: req.file.filename
+                        image: result.secure_url,
                     }
                 });
 
-            const path = 'images/' + userData.image;
-            fs.unlink(path, (error) => {
-                if (error) {
-                    req.flash("error_msg", "Error Updating Profile");
-                } else {
-                    req.flash("success_msg", "Your profile has been updated");
-                }
-
-                req.session.save(() => {
-                    res.redirect(`/adminprofile?id=${req.body.id}`);
-                });
-            })
+            req.flash("success_msg", "Your profile has been updated");
+            req.session.save(() => {
+                res.redirect(`/adminprofile?id=${req.body.id}`);
+            });
 
 
         }
