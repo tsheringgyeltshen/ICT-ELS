@@ -28,7 +28,7 @@ const sendResetPasswordMail = async(name, email, token)=>{
             from: process.env.USER_MAIL,
             to:email,
             subject:'Reset Password',
-            html:'<p>Hii '+name+', please click here to <a href="http://127.0.0.1:5000/forget-password?token='+token+'">reset </a> your password.</p>'
+            html:'<p>Hii '+name+', please click here to <a href="/https://ict-equipment-loan-system.onrender.com/forget-password?token='+token+'">reset </a> your password.</p>'
         }
         transporter.sendMail(mailOptions, function(error, info){
             if(error){
