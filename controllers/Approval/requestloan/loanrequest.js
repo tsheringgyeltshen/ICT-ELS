@@ -163,7 +163,7 @@ exports.addToCartapprovalhome = async (req, res) => {
       }
     }
     await cart.save();
-    req.flash("success_msg", "Equipment ' " + item.name + " 'successfully added to cart");
+    req.flash("success_msg", +item.name+" successfully added to cart");
     req.session.save(() => {
       res.redirect('/approvalhome');
     });
