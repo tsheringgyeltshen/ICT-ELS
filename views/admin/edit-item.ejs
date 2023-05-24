@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <title>Equipment Details</title>
+
+  <link rel="shortcut icon" href="/assets/img/logo-small.png">
+
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="/assets/plugins/feather/feather.css">
+
+  <link rel="stylesheet" href="/assets/plugins/icons/flags/flags.css">
+
+  <link rel="stylesheet" href="/controllers/">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/plugins/datatables/datatables.min.css">
+
+  <link rel="stylesheet" href="/assets/css/style.css" type="text/css">
+</head>
+
+<body>
+
+  <div class="main-wrapper">
+
+    <div class="header">
+
+      <div class="header-left">
+        <a href="/adminhome" class="logo">
+          <img src="/assets/img/logo.png" alt="Logo">
+        </a>
+        <a href="/adminhome" class="logo logo-small">
+          <img src="/assets/img/logo-small.png" alt="Logo" width="30" height="30">
+        </a>
+      </div>
+
+      <div class="menu-toggle">
+        <a href="javascript:void(0);" id="toggle_btn">
+          <i class="fas fa-bars"></i>
+        </a>
+      </div>
+
+
+      <a class="mobile_btn" id="mobile_btn">
+        <i class="fas fa-bars"></i>
+      </a>
+
+
+
+      <ul class="nav user-menu">
+
+
+        <li class="nav-item zoom-screen me-2">
+          <a href="#" class="nav-link header-nav-list">
+            <img src="/assets/img/icons/header-icon-04.svg" alt="">
+          </a>
+        </li>
+
+        <li class="nav-item dropdown has-arrow new-user-menus">
+          <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+            <span class="user-img">
+              <img class="rounded-circle" src="/<%=admin.image%>" width="31" alt="Soeng Souy">
+              <div class="user-text">
+                <h6>
+                  <%=admin.name%>
+                </h6>
+                <p class="text-muted mb-0">Administrator</p>
+              </div>
+            </span>
+          </a>
+          <div class="dropdown-menu">
+            <div class="user-header">
+              <div class="avatar avatar-sm">
+                <img src="/<%=admin.image%>" alt="User Image" class="avatar-img rounded-circle">
+              </div>
+              <div class="user-text">
+                <h6>
+                  <%=admin.name%>
+                </h6>
+                <p class="text-muted mb-0">Administrator</p>
+              </div>
+            </div>
+            <a class="dropdown-item" href="/adminprofile">My Profile</a>
+            <a class="dropdown-item" href="/logout">Logout</a>
+          </div>
+        </li>
+
+      </ul>
+
+    </div>
+
+
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+          <ul>
+            <li class="menu-title">
+              <span>Main Menu</span>
+            </li>
+            <li>
+              <a href="/adminhome"><i class="feather-grid"></i> <span> Dashboard</span></a>
+
+            </li>
+            <li class="submenu ">
+              <a href="#"><i class="fas fa-user"></i> <span> User</span> <span class="menu-arrow"></span></a>
+              <ul>
+                <li><a href="/new-user">Add User</a></li>
+                <li><a href="/viewstudent">All User</a></li>
+                <!-- <li><a href="/viewstaff">Staff View</a></li> -->
+
+
+                <!-- <li><a href="edit-student.html">Student Edit</a></li> -->
+              </ul>
+            </li>
+
+            <li class="submenu active">
+              <a href="#"><i class="fas fa-laptop"></i> <span> Equipment</span> <span class="menu-arrow"></span></a>
+              <ul>
+                <li><a href="/all-item"class="active">All Equipment</a></li>
+                <li><a href="/add-items"> Add Equipment</a></li>
+                <li><a href="/categories" >Category</a></li>
+              </ul>
+            </li>
+
+            <li class="submenu">
+              <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span class="menu-arrow"></span></a>
+
+              <ul>
+                <li><a href="/view-approved-loan">Approved Loan</a></li>
+                <li><a href="/viewreq-loan">Pending Loan</a></li>
+                <li><a href="/return-date">Return Loan</a></li>
+
+
+
+              </ul>
+
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="page-wrapper">
+
+      <div class="content container-fluid">
+
+        <div class="page-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="page-title">Equipment Details</h3>
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Equipment</a></li>
+                <li class="breadcrumb-item active">Equipment Details</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+        <div class="card">
+          <div class="row g-0">
+            <div class="col-md-6 border-end">
+              <div class="d-flex justify-content-center">
+                <div class="main_image">
+                  <div id="image-container">
+                    <form action="/edit-item/<%=item._id %>" method="post" enctype="multipart/form-data">
+                      <label for="image-upload" style="position: relative; display: inline-block;">
+                        <i class="fas fa-camera"
+                          style="position: absolute; bottom: 0; right: 0; font-size: 2rem; filter: brightness(120%);"></i>
+                        <img src="/<%=item.image%>" alt="Original Image" class="img-fluid mt-5" width="300px"
+                          height="250px">
+                      </label>
+                      <input id="image-upload" value="<%= item.image %>" name="image" type="file"
+                        style="display: none;">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+
+
+              <div class="p-3 right-side">
+                <div class="col-sm-3">
+                  <p class="mb-2">Name</p>
+                </div>
+                <div>
+
+                  <input type="text" style="font-size: 1em ; color: gray;" class="form-control mb-2" name="name"
+                    id="name" value="<%=item.name%>" required>
+
+                </div>
+                <div class="p3 right-side">
+                  <div class="col-sm-3">
+                    <p class="">Category</p>
+                  </div>
+                  <select class="form-control" id="category" style="font-size: 1em ; color: gray;" name="category">
+                    <% categories.forEach(function(category) { %>
+                      <option value="<%=category._id %>" <% if (item.category &&
+                        category._id.toString()===item.category._id.toString()) { %>selected<% } %>>
+                          <%= category.name %>
+                      </option>
+                      <% }); %>
+                  </select>
+
+                </div>
+                <hr>
+                <div class="mt-2 pr-3 content">
+                  <div class="col-sm-3">
+                    <p class="mb-2">Description</p>
+                  </div>
+                  <textarea style="font-size: 1em ; color: gray;" name="description" id="description" value=""
+                    class="form-control" rows="3"><%=item.description%></textarea>
+                </div>
+                <hr>
+                <div class="col-sm-3">
+                  <p class="mb-2">Quantity</p>
+                </div>
+                <input type="number" style="font-size: 1em ; color: gray;" class="form-control" name="available_items"
+                  id="available_items" min="1" value="<%=item.available_items%>">
+                <!-- <hr> -->
+                <!-- <input type="file" name="image" value="<%= item.image %>" class="form-control" id="fileInput" /> -->
+
+              </div>
+              <div class="buttons d-flex flex-row  gap-3 p-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+              </form>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <script>
+    // const imageUpload = document.getElementById("image-upload");
+
+    // imageUpload.addEventListener("change", () => {
+    //     const file = imageUpload.files[0];
+    //     console.log("Selected file:", file);
+    //     // You can now do something with the selected file, such as uploading it to a server or displaying it in the page
+    // });
+    const imageContainer = document.getElementById("image-container");
+    const originalImage = imageContainer.querySelector("img");
+    // const hoverImageSrc = "https://placehold.it/150x150/0000FF/FFFFFF";
+    const imageUpload = imageContainer.querySelector("#image-upload");
+
+    // imageContainer.addEventListener("mouseenter", () => {
+    //     originalImage.src = hoverImageSrc;
+    // });
+
+    // imageContainer.addEventListener("mouseleave", () => {
+    //     originalImage.src = originalImage.dataset.src;
+    // });
+
+    imageUpload.addEventListener("change", () => {
+      const file = imageUpload.files[0];
+      const reader = new FileReader();
+
+      reader.addEventListener("load", () => {
+        originalImage.src = reader.result;
+        originalImage.dataset.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    });
+
+
+
+
+  </script>
+  <script src="/assets/js/jquery-3.6.0.min.js"></script>
+
+  <script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <script src="/assets/js/feather.min.js"></script>
+
+  <script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+
+  <script src="/assets/plugins/datatables/datatables.min.js"></script>
+
+
+  <script src="/assets/js/script.js"></script>
+</body>
+
+</html>

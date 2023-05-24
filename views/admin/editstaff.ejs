@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Edit Staff</title>
+
+    <link rel="shortcut icon" href="assets/img/logo-small.png">
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="assets/plugins/feather/feather.css">
+
+    <link rel="stylesheet" href="assets/plugins/icons/flags/flags.css">
+
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+
+    <link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <div class="header">
+
+            <div class="header-left">
+                <a href="/adminhome" class="logo">
+
+                    <img src="assets/img/logo.png" alt="Logo">
+                </a>
+                <a href="adminhome" class="logo logo-small">
+                    <img src="assets/img/logo-small.png" alt="Logo" width="30" height="30">
+                </a>
+            </div>
+            <div class="menu-toggle">
+                <a href="javascript:void(0);" id="toggle_btn">
+                    <i class="fas fa-bars"></i>
+                </a>
+            </div>
+
+
+            <a class="mobile_btn" id="mobile_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+
+            <ul class="nav user-menu">
+
+
+                <li class="nav-item zoom-screen me-2">
+                    <a href="#" class="nav-link header-nav-list win-maximize">
+                        <img src="assets/img/icons/header-icon-04.svg" alt="">
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown has-arrow new-user-menus">
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="/<%=admin.image%>" width="31" alt="Soeng Souy">
+                            <div class="user-text">
+                                <h6>
+                                    <%=admin.name%>
+                                </h6>
+                                <p class="text-muted mb-0">Administrator</p>
+                            </div>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm">
+                                <img src="/<%=admin.image%>" alt="User Image" class="avatar-img rounded-circle">
+                            </div>
+                            <div class="user-text">
+                                <h6>
+                                    <%=admin.name%>
+                                </h6>
+                                <p class="text-muted mb-0">Administrator</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="/adminprofile">My Profile</a>
+                        <!-- <a class="dropdown-item" href="inbox.html">Inbox</a> -->
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">
+                            <span>Main Menu</span>
+                        </li>
+                        <li>
+                            <a href="/adminhome"><i class="feather-grid"></i> <span> Dashboard</span></a>
+
+                        </li>
+                        <li class="submenu active">
+                            <a href="#"><i class="fas fa-user"></i> <span> User</span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a href="/new-user">Add User</a></li>
+                                <li><a href="/viewstudent" class="active">All User</a></li>
+                                <!-- <li><a href="/viewstaff" class="active">Staff View</a></li> -->
+
+
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><i class="fas fa-laptop"></i> <span> Equipment</span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a href="/all-item">All Equipment</a></li>
+                                <li><a href="/add-items"> Add Equipment</a></li>
+                                <li><a href="/categories">Category</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span
+                                    class="menu-arrow"></span></a>
+
+                            <ul>
+                                <li><a href="/view-approved-loan">Approved Loan</a></li>
+                                <li><a href="/viewreq-loan">Pending Loan</a></li>
+                                <li><a href="/return-date">Return Loan</a></li>
+
+
+
+                            </ul>
+
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-sub-header">
+                                <h3 class="page-title">User Details</h3>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">User</a></li>
+                                    <li class="breadcrumb-item active">All User</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <div class="col-lg-8" style="position: absolute; right: 10rem;">
+                    <div class="card mb-4">
+                        <form action="/edit-staff" method="post" enctype="multipart/form-data">
+
+
+                            <div class="card-body">
+                                <div class="col-sm-3" id="image-container">
+
+
+                                    <div class="col-lg-9">
+
+                                        <label for="image-upload" style="position: relative; display: inline-block;">
+                                            <i class="fas fa-camera"
+                                                style="position: absolute; bottom: 0; right: 0; font-size: 2rem; filter: brightness(120%);"></i>
+                                            <img src="/<%=users.image%>" alt="Original Image" class="img-fluid mt-4"
+                                                width="300px" height="300px">
+                                        </label>
+                                        <input id="image-upload" value="<%= users.image %>" name="image" type="file"
+                                            style="display: none;">
+
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Full Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input class=" form-control" value="<%=users.name%>" type="text" required>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Email</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input class=" form-control" name="email" type="email" value="<%=users.email%>"
+                                            required>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">User ID</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="number" min="0" name="userid" value="<%=users.userid%>"
+                                            class=" form-control" required>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Phone</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="number" name="mno" min="0" value="<%=users.mobilenumber%>"
+                                            class=" form-control" required>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Department</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <select name="department" class="form-control">
+                                            <option value="BScIT" <% if (users.department==="BScIT" ) { %>
+                                                selected<% } %>>BScIT</option>
+                                            <option value="SIDD" <% if (users.department==="SIDD" ) { %>
+                                                selected<% } %>>SIDD</option>
+                                            <option value="Blockchain" <% if (users.department==="Blockchain" ) { %>
+                                                selected<% } %>
+                                                    >Blockchain
+                                            </option>
+                                            <option value="Fullstack" <% if (users.department==="Fullstack" ) { %>
+                                                selected<% } %>>Fullstack</option>
+                                            <option value="SOC" <% if (users.department==="SOC" ) { %>
+                                                selected<% } %>>SOC</option>
+                                            <option value="BScCS" <% if (users.department==="BScCS" ) { %>
+                                                selected<% } %>>BScCS</option>
+                                            <option value="AI&DS" <% if (users.department==="AI&DS" ) { %>
+                                                selected<% } %>>AI&DS</option>
+                                            <option value="ICT" <% if (users.department==="ICT" ) { %>
+                                                selected<% } %>>ICT</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Profile Picture</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <label class="form-label" for="customFile">(Accepted file: jpg, jpeg,
+                                            png)</label>
+
+                                        <input type="file" name="image" value="<%= users.image %>" class="form-control"
+                                            id="fileInput" />
+                                    </div>
+                                </div> 
+
+
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Role</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <label>User</label>
+                                        <input type="radio" name="usertype" value="user" <% if(users.usertype=="user" ){
+                                            %> checked<% } %>>
+                                            <label>Approval</label>
+                                            <input type="radio" name="usertype" value="approval" <%
+                                                if(users.usertype=="approval" ){ %> checked<% } %>>
+
+                                                <label>Admin</label>
+                                                <input type="radio" name="usertype" value="admin" <%
+                                                    if(users.usertype=="admin" ){ %> checked<% } %>>
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                                <div class="modal-footer mt-2">
+                                    <input type="submit" class="btn btn-info " style="color: white;" value="Save">
+                                    <input type="hidden" name="id" value="<%= users._id %>">
+
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div> -->
+
+
+
+
+
+                <div class="col-lg-12">
+                    <div class="card mb-4">
+                        <form action="/edit-staff" method="post" enctype="multipart/form-data">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-4">
+
+                                        <div class="col-12" id="image-container">
+
+
+                                            <label for="image-upload"
+                                                style="position: relative; display: inline-block;">
+                                                <i class="fas fa-camera"
+                                                    style="position: absolute; bottom: 0; right: 0; font-size: 2rem; filter: brightness(120%);"></i>
+                                                <div class="profile-user">
+                                                    <img src="/<%=users.image%>" alt="Original Image"
+                                                        class=" img-fluid mt-4">
+                                                </div>
+                                            </label>
+                                            <input id="image-upload" value="<%=users.image %>" name="image" type="file"
+                                                style="display: none;">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-9 col-sm-8 col-md-8">
+
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-ld-3 col-md-3">
+                                                <p class="mb-0">Full Name</p>
+                                            </div>
+                                            <div class="col-sm-9 col-lg-9 col-md-9">
+                                                <input class=" form-control" value="<%=users.name%>" type="text"
+                                                    name="name" required>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Email</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input class=" form-control" name="email" type="email"
+                                                    value="<%=users.email%>" required>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">User ID</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="number" min="0" name="userid" value="<%=users.userid%>"
+                                                    class=" form-control" required>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Phone</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="number" name="mno" min="0" value="<%=users.mobilenumber%>"
+                                                    class=" form-control" required>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Department</p>
+                                            </div>
+                                            <div class="col-sm-9">
+
+
+                                                <select name="department" class="form-control" required>
+                                                    <option value="BScIT" <% if (users.department==="BScIT" ) { %>
+                                                        selected<% } %>>BScIT</option>
+                                                    <option value="SIDD" <% if (users.department==="SIDD" ) { %>selected
+                                                        <% } %>>SIDD
+                                                    </option>
+                                                    <option value="Blockchain" <% if (users.department==="Blockchain" )
+                                                        { %>
+                                                        selected<% } %>>Blockchain
+                                                    </option>
+                                                    <option value="Fullstack" <% if (users.department==="Fullstack" ) {
+                                                        %>
+                                                        selected<% } %>>Fullstack</option>
+                                                    <option value="SOC" <% if (users.department==="SOC" ) { %>selected<%
+                                                            } %>
+                                                            >SOC</option>
+                                                    <option value="BScCS" <% if (users.department==="BScCS" ) { %>
+                                                        selected<% } %>>BScCS</option>
+                                                    <option value="AI&DS" <% if (users.department==="AI&DS" ) { %>
+                                                        selected<% } %>>AI&DS</option>
+                                                    <option value="ICT" <% if (users.department==="ICT" ) { %>selected<%
+                                                            } %>
+                                                            >ICT</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Role</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div>
+                                                    <input type="radio" name="usertype" value="User" <%
+                                                        if(users.usertype=="User" ){ %> checked<% } %>>
+                                                        <label>User</label>
+
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="usertype" value="Approval" <%
+                                                        if(users.usertype=="Approval" ){ %> checked<% } %>>
+                                                        <label>Approval</label>
+
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="usertype" value="Admin" <%
+                                                        if(users.usertype=="Admin" ){ %> checked<% } %>>
+
+                                                        <label>Admin</label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer mt-2">
+                                            <input type="submit" class="btn btn-info " style="color: white;"
+                                                value="Save">
+                                            <input type="hidden" name="id" value="<%= users._id %>">
+
+                                        </div>
+                                    </div>
+                                </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        </section>
+
+
+    </div>
+
+
+
+    </div>
+
+    </div>
+
+    <script>
+        const imageContainer = document.getElementById("image-container");
+        const originalImage = imageContainer.querySelector("img");
+        // const hoverImageSrc = "https://placehold.it/150x150/0000FF/FFFFFF";
+        const imageUpload = imageContainer.querySelector("#image-upload");
+
+        imageUpload.addEventListener("change", () => {
+            const file = imageUpload.files[0];
+            const reader = new FileReader();
+
+            reader.addEventListener("load", () => {
+                originalImage.src = reader.result;
+                originalImage.dataset.src = reader.result;
+            });
+
+            reader.readAsDataURL(file);
+        });
+    </script>
+
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+
+    <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/feather.min.js"></script>
+
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+
+    <script src="assets/plugins/datatables/datatables.min.js"></script>
+
+
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>

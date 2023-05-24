@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ICT Equipment</title>
+  <link rel="icon" href="assets/img/logo-small.png" type="image/png">
+  <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="assets/themify-icons/themify-icons.css">
+  <link rel="stylesheet" href="assets/linericon/style.css">
+  <link rel="stylesheet" href="assets/owl-carousel/owl.theme.default.min.css">
+  <link rel="stylesheet" href="assets/owl-carousel/owl.carousel.min.css">
+  <link rel="stylesheet" href="assets/nice-select/nice-select.css">
+  <link rel="stylesheet" href="assets/nouislider/nouislider.min.css">
+
+  <link rel="stylesheet" href="assets/css/style1.css">
+</head>
+
+<body>
+  <!--================ Start Header Menu Area =================-->
+  <header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid ml-3">
+          <a class="navbar-brand logo_h" href="/approvalhome"><img src="assets/img/logo-small.png"
+              style="width: 60px; height: 60px;" alt=""></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+              <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
+              <li class="nav-item active"><a class="nav-link" href="#">Equipment</a></li>
+              <li class="nav-item submenu dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                    aria-haspopup="true" aria-expanded="false">Loan
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
+                    <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
+                    </li>
+                </ul>
+            </li>              <li class="nav-item"><a class="nav-link" href="/aboutus1">About Us</a></li>
+
+
+            </ul>
+
+            <ul class="nav-shop">
+              <!-- <li class="nav-item"><button><i class="ti-search"></i></button></li> -->
+              <li class="nav-item cartnav"><a href="/cart1"><i class="ti-shopping-cart"></i><span
+                    class="nav-shop__circle"></span> </a></li>
+              <li class="nav-item submenu dropdown">
+
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false"> <img src="/<%=user.image%>" class="rounded-circle" height="30" width="30"
+                    alt="User Profile" loading="lazy" /></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                  <li>
+                    <a class="dropdown-item" href="/approval-profile">My profile</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                  </li>
+                </ul>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-3 col-lg-4 col-md-5">
+        <div class="sidebar-categories">
+          <div class="head">Browse Categories</div>
+          <ul class="main-categories">
+            <li class="common-filter">
+              <form action="#">
+                <% if (categories.length> 0) { %>
+
+                  <ul>
+                    <% categories.forEach(category=> { %>
+
+                      <li class="filter-list "><a href="/approvalcategoriesitems/<%= category._id %>" class="category"
+                          >
+                          <%= category.name %>
+                        </a>
+                        <label for="men">
+
+                        </label>
+                      </li>
+
+                      <% }) %>
+                  </ul>
+                  <% } %>
+              </form>
+            </li>
+          </ul>
+        </div>
+        <div class="sidebar-filter">
+
+        </div>
+      </div>
+      <div class="col-xl-9 col-lg-8 col-md-7">
+        <!-- Start Filter Bar -->
+        <div class="filter-bar d-flex flex-wrap align-items-center">
+          <form class="input-group" action="/all-equipment" method="GET">
+            <div>
+              <div class="input-group filter-bar-search">
+                <input type="search" name="search1" placeholder="Category/Name" class="form-control"
+                  value="<%= searchQuery %>">
+                <!-- <div class="input-group-append"> -->
+                <button type="submit"><i class="ti-search"></i></button>
+                <!-- </div> -->
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- End Filter Bar -->
+        <!-- Start Best Seller -->
+        <section class="lattest-product-area pb-40 category-list">
+          <%- include('messages') %>
+
+          <div class="row" id="card-container">
+            <% if (items.length> 0) { %>
+              <% items.forEach(item=> { %>
+                <div class="col-md-6 col-lg-4">
+                  <div class="card text-center card-product">
+                    <div class="card-product__img">
+                      <img class="img-fluid item img-thumbnail" src="<%= item.image %>" alt="">
+                      <ul class="card-product__imgOverlay">
+                        <li>
+                          <form action="/addto_card1/<%= item._id %>" method="POST">
+                            <input type="hidden" name="<%= item._id %>" value="<%= item._id %>">
+                            <button type="submit"><i class="ti-shopping-cart"></i></button>
+                          </form>
+                        </li>
+
+                      </ul>
+                    </div>
+                    <div>
+                      <div class="card-body">
+                        <p>
+                          <%= item.category.name %>
+                        </p>
+                        <p>Available: <%=item.available_items%>
+                        </p>
+                        <h4 class="card-product__title">
+                          <a href="/view-equipment/<%= item._id %>">
+                            <%= item.name %>
+                          </a>
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+                  <% } else { %>
+                    <p>No items found.</p>
+                    <% } %>
+
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div id="pagination" class="text-center">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" id="prev-page">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <% var numPages=Math.ceil(items.length / cardsPerPage); %>
+            <% for (var page=1; page <=numPages; page++) { %>
+              <li class="page-item <%= page === currentPage ? 'active' : '' %>" id="page-<%= page %>">
+                <a class="page-link" href="#">
+                  <%= page %>
+                </a>
+              </li>
+              <% } %>
+                <li class="page-item" id="next-page">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+        </ul>
+      </nav>
+    </div>
+
+
+
+
+  </div>
+  </section>
+
+  <footer class="mt-1">
+
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row d-flex">
+          <p class="col-lg-12 footer-text text-center">
+            Copyright &copy;
+            <script>document.write(new Date().getFullYear());</script> All rights reserved | ICT-ELS
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--================ End footer Area  =================-->
+
+
+  <script>
+    // JavaScript code to handle pagination functionality
+    var currentPage = 1;
+    var cardsPerPage = 9; // Number of cards to show per page
+    var cards = document.querySelectorAll('#card-container .card');
+    var numPages = Math.ceil(cards.length / cardsPerPage);
+
+    // Function to show the cards for the current page
+    function showCards(page) {
+      var startIndex = (page - 1) * cardsPerPage;
+      var endIndex = startIndex + cardsPerPage;
+
+      for (var i = 0; i < cards.length; i++) {
+        if (i >= startIndex && i < endIndex) {
+          cards[i].style.display = 'block';
+        } else {
+          cards[i].style.display = 'none';
+        }
+      }
+    }
+
+    // Function to update the pagination UI
+    function updatePaginationUI(page) {
+      var paginationItems = document.querySelectorAll('#pagination li');
+
+      paginationItems.forEach(function (item) {
+        item.classList.remove('active');
+      });
+
+      var currentPageItem = document.getElementById('page-' + page);
+      currentPageItem.classList.add('active');
+    }
+
+    // Function to handle page navigation
+    function goToPage(page) {
+      if (page < 1 || page > numPages) {
+        return;
+      }
+
+      currentPage = page;
+      showCards(currentPage);
+      updatePaginationUI(currentPage);
+    }
+
+    // Event listeners for previous and next page buttons
+    document.getElementById('prev-page').addEventListener('click', function (e) {
+      e.preventDefault();
+      goToPage(currentPage - 1);
+    });
+
+    document.getElementById('next-page').addEventListener('click', function (e) {
+      e.preventDefault();
+      goToPage(currentPage + 1);
+    });
+
+    // Event listeners for individual page buttons
+    var pageButtons = document.querySelectorAll('#pagination li[id^="page-"]');
+
+    pageButtons.forEach(function (button) {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        var page = parseInt(this.id.split('-')[1]);
+        goToPage(page);
+      });
+    });
+
+    // Initial setup
+    showCards(currentPage);
+    updatePaginationUI(currentPage);
+
+    $(document).ready(function () {
+      $('.category').click(function (e) {
+        e.preventDefault();
+        $('.category').removeClass('active');
+        $(this).addClass('active');
+      });
+    });
+
+  </script>
+
+  <script src="assets/jquery/jquery-3.2.1.min.js"></script>
+  <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/skrollr.min.js"></script>
+  <script src="assets/owl-carousel/owl.carousel.min.js"></script>
+  <script src="assets/nice-select/jquery.nice-select.min.js"></script>
+  <script src="assets/nouislider/nouislider.min.js"></script>
+  <script src="assets/jquery.ajaxchimp.min.js"></script>
+  <script src="assets/mail-script.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>

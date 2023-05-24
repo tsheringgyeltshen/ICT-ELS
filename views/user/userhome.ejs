@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ICT Home</title>
+    <link rel="icon" href="assets/img/logo-small.png" type="image/png">
+
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="assets/nice-select/nice-select.css">
+    <link rel="stylesheet" href="assets/owl-carousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="assets/owl-carousel/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="assets/css/style1.css">
+</head>
+
+<body>
+    <header class="header_area">
+        <div class="main_menu">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid ml-3">
+                    <a class="navbar-brand logo_h" href="/userhome"><img src="assets/img/logo-small.png" alt=""
+                            style="width: 60px; height: 60px;"></a>
+                    <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+                            <li class="nav-item active"><a class="nav-link" href="/userhome">Home</a></li>
+                            <li class="nav-item "><a class="nav-link" href="/all-items">Equipment</a></li>
+                            <li class="nav-item "><a class="nav-link" href="/get_loan">Loan</a></li>
+                            <li class="nav-item "><a class="nav-link" href="/aboutus">About Us</a></li>
+
+                            
+
+
+
+                            <!-- <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li> -->
+                        </ul>
+
+                        <ul class="nav-shop">
+                            <li class="nav-item cartnav"><a href="/cart"><i class="ti-shopping-cart"></i><span
+                                        class="nav-shop__circle"></span></a>
+                            </li>
+
+
+                            <li class="nav-item submenu dropdown">
+
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false"> <img src="<%=user.image%>"
+                                        class="rounded-circle" height="30" width="30" alt="User Profile"
+                                        loading="lazy" />
+                                </a>
+                                <!-- <ul class="dropdown-menu">
+
+                  <li class="nav-item"><a class="dropdown-item" href="">Profile</a></li>
+                  <li class="nav-item"><a class="dropdown-item" href="">Logout</a></li>
+
+                </ul> -->
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                                    <li>
+                                        <a class="dropdown-item" href="/user-profile">My profile</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/logout">Logout</a>
+                                    </li>
+                                </ul>
+
+                            </li>
+
+
+                        </ul>
+
+                    </div>
+                    <div>
+
+
+
+                    </div>
+
+                    </ul>
+
+
+                </div>
+        </div>
+        </nav>
+        </div>
+    </header>
+    <!--================ End Header Menu Area =================-->
+
+    <main class="site-main">
+
+        <!--================ Hero banner start =================-->
+        <section class="hero-banner">
+            <div class="container">
+                <div class="row no-gutters align-items-center pt-60px">
+                    <div class="col-5 d-none d-sm-block">
+                        <div class="hero-banner__img">
+                            <img class="img-fluid"
+                                src="https://i.pinimg.com/originals/7e/fa/b1/7efab1ed00cfa124b1fab5c6b12e2567.jpg"
+                                alt="">
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
+                        <div class="hero-banner__content">
+                            <h4>Loan Equipment</h4>
+                            <h1>Browse ICT Equipment</h1>
+                            <p>Us which over of signs divide dominion deep fill bring they're meat beho upon own earth
+                                without morning
+                                over third. Their male dry. They are great appear whose land fly grass.</p>
+                            <a class="button button-hero" href="/all-items">Browse Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================ trending product section start ================= -->
+        <section class="section-margin calc-60px">
+            <div class="container">
+            
+                <div class="section-intro pb-60px">
+                    <%- include('messages') %>
+
+                    <!-- <p>Popular Item in the market</p> -->
+                    <h2>New <span class="section-intro__style">Equipment</span></h2>
+                </div>
+
+                <div class="row" id="card-container">
+                    <% if (items.length> 0) { %>
+                        <% items.forEach(item=> { %>
+                            <div class="col-md-6 col-sm-6 col-lg-4 col-xl-3">
+                                <div class="card text-center card-product">
+                                    <div class="card-product__img">
+                                        <img class="card-img item img-thumbnail" src="<%= item.image %>" alt="">
+                                        <ul class="card-product__imgOverlay">
+                                            <li>
+                                                <form action="/addto_carduserhome/<%= item._id %>" method="POST">
+                                                    <input type="hidden" name="<%= item._id %>" value="<%= item._id %>">
+                                                    <button type="submit"><i class="ti-shopping-cart"></i></button>
+                                                </form>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <div class="card-body">
+                                            <p>
+                                                <%= item.category.name %>
+                                            </p>
+                                            <p>Available: <%=item.available_items%>
+                                            </p>
+                                            <h4 class="card-product__title">
+                                                <a href="/view-item/<%= item._id %>">
+                                                    <%= item.name %>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+                            <% }) %>
+                                <% } else { %>
+                                    <p>No items found.</p>
+                                    <% } %>
+                </div>
+
+
+                <div id="pagination" class="text-center">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" id="prev-page">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <% var numPages=Math.ceil(items.length / cardsPerPage); %>
+                                <% for (var page=1; page <=numPages; page++) { %>
+                                    <li class="page-item <%= page === currentPage ? 'active' : '' %>"
+                                        id="page-<%= page %>">
+                                        <a class="page-link" href="#">
+                                            <%= page %>
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                        <li class="page-item" id="next-page">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
+        </section>
+
+
+
+    </main>
+
+
+    <!--================ Start footer Area  =================-->
+    <footer class="footer">
+
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row d-flex">
+                    <p class="col-lg-12 footer-text text-center">
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | ICT-ELS
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--================ End footer Area  =================-->
+
+
+    <script>
+
+        // JavaScript code to handle pagination functionality
+        var currentPage = 1;
+        var cardsPerPage = 12; // Number of cards to show per page
+        var cards = document.querySelectorAll('#card-container .card');
+        var numPages = Math.ceil(cards.length / cardsPerPage);
+
+        // Function to show the cards for the current page
+        function showCards(page) {
+            var startIndex = (page - 1) * cardsPerPage;
+            var endIndex = startIndex + cardsPerPage;
+
+            for (var i = 0; i < cards.length; i++) {
+                if (i >= startIndex && i < endIndex) {
+                    cards[i].style.display = 'block';
+                } else {
+                    cards[i].style.display = 'none';
+                }
+            }
+        }
+
+        // Function to update the pagination UI
+        function updatePaginationUI(page) {
+            var paginationItems = document.querySelectorAll('#pagination li');
+
+            paginationItems.forEach(function (item) {
+                item.classList.remove('active');
+            });
+
+            var currentPageItem = document.getElementById('page-' + page);
+            currentPageItem.classList.add('active');
+        }
+
+        // Function to handle page navigation
+        function goToPage(page) {
+            if (page < 1 || page > numPages) {
+                return;
+            }
+
+            currentPage = page;
+            showCards(currentPage);
+            updatePaginationUI(currentPage);
+        }
+
+        // Event listeners for previous and next page buttons
+        document.getElementById('prev-page').addEventListener('click', function (e) {
+            e.preventDefault();
+            goToPage(currentPage - 1);
+        });
+
+        document.getElementById('next-page').addEventListener('click', function (e) {
+            e.preventDefault();
+            goToPage(currentPage + 1);
+        });
+
+        // Event listeners for individual page buttons
+        var pageButtons = document.querySelectorAll('#pagination li[id^="page-"]');
+
+        pageButtons.forEach(function (button) {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                var page = parseInt(this.id.split('-')[1]);
+                goToPage(page);
+            });
+        });
+
+        // Initial setup
+        showCards(currentPage);
+        updatePaginationUI(currentPage);
+
+
+    </script>
+    <script src="assets/jquery/jquery-3.2.1.min.js"></script>
+    <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/skrollr.min.js"></script>
+    <script src="assets/owl-carousel/owl.carousel.min.js"></script>
+    <script src="assets/nice-select/jquery.nice-select.min.js"></script>
+    <script src="assets/jquery.ajaxchimp.min.js"></script>
+    <script src="assets/mail-script.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

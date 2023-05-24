@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ICT ELS - Cart</title>
+  <link rel="icon" href="../assets/img/logo-small.png" type="image/png">
+  <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../assets/themify-icons/themify-icons.css">
+  <link rel="stylesheet" href="../assets/linericon/style.css">
+  <link rel="stylesheet" href="../assets/owl-carousel/owl.theme.default.min.css">
+  <link rel="stylesheet" href="../assets/owl-carousel/owl.carousel.min.css">
+  <link rel="stylesheet" href="../assets/nice-select/nice-select.css">
+  <link rel="stylesheet" href="../assets/nouislider/nouislider.min.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="stylesheet" href="../assets/css/style1.css">
+</head>
+
+<body>
+  <!--================ Start Header Menu Area =================-->
+  <header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid ml-3">
+          <a class="navbar-brand logo_h" href="/approvelhome"><img src="../assets/img/logo-small.png"
+              style="width: 60px; height: 60px;" alt=""></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+              <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="/all-equipment">Equipment</a></li>
+              <li class="nav-item submenu dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">Loan
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
+                  <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="/aboutus1">About Us</a></li>
+
+
+            </ul>
+
+            <ul class="nav-shop">
+              <li class="nav-item cartnav "> <a href="#"><i class="ti-shopping-cart"></i><span
+                    class="nav-shop__circle"></span> </a></li>
+              <li class="nav-item submenu dropdown">
+
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false"> <img src="/<%= users.image %>" class="rounded-circle" height="30" width="30"
+                    alt="User Profile" loading="lazy" /></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                  <li>
+                    <a class="dropdown-item" href="/approval-profile">My profile</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                  </li>
+                </ul>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container mt-2">
+    <%- include('messages') %>
+
+    <div class="cart_inner">
+      <% if (cart && cart.length) { %>
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Available</th>
+                <th scope="col">Quantity</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <form action="/card1" method="POST">
+                <% cart.forEach((cartItem)=> { %>
+                  <tr>
+                    <td class="col-lg-5">
+                      <div class="media">
+                        <img src="<%= cartItem.item.image %>" alt="" class="img-fluid img-thumbnail imgcard mr-3">
+                        <div class="media-body">
+                          <p>
+                            <%= cartItem.item.name %>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="col-lg-2">
+                      <div class="media-body">
+                        <p>
+                          <%= cartItem.item.available_items %>
+                        </p>
+                      </div>
+                    </td>
+                    <td class="col-lg-2">
+                      <input type="hidden" name="item_ids[]" value="<%= cartItem.item._id %>">
+                      <div class="form-group" style="width: 30;">
+                        <input type="number" class="form-control" placeholder="1" name="quantities[]" min="1"
+                          max="<%= cartItem.available_items %>" required>
+                      </div>
+                    </td>
+                    <td class="col-lg-3">
+                      <input type="hidden" value="<%= cartItem.id %>">
+                      <a href="/deleteItem1?id=<%= cartItem.id %>"><span class="material-symbols-outlined"
+                          style="color: gray;">
+                          cancel
+                        </span></a>
+                    </td>
+                  </tr>
+                  <% }) %>
+                    <tr>
+                      <td colspan="3">
+                        <div class="form-group">
+                          <label for="return_date">Return Date:</label>
+                          <input type="date" class="form-control col-lg-4" name="return_date" required>
+                        </div>
+                      </td>
+
+                    </tr>
+
+
+            </tbody>
+          </table>
+          <div class="form-group mt-3">
+            <button class="btn btn-primary" style="border-radius: 1vh;" type="submit">Request
+              Loan</button>
+          </div>
+          </form>
+        </div>
+
+        <% } else { %>
+          <p>Your cart is empty.</p>
+          <% } %>
+    </div>
+  </div>
+
+
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="row d-flex">
+        <p class="col-lg-12 footer-text text-center">
+          Copyright &copy;
+          <script>document.write(new Date().getFullYear());</script> All rights reserved | ICT-ELS
+        </p>
+      </div>
+    </div>
+  </div>
+  </footer>
+  <!--================ End footer Area  =================-->
+
+
+
+  <script src="../assets/jquery/jquery-3.2.1.min.js"></script>
+  <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/skrollr.min.js"></script>
+  <script src="../assets/owl-carousel/owl.carousel.min.js"></script>
+  <script src="../assets/nice-select/jquery.nice-select.min.js"></script>
+  <script src="../assets/jquery.ajaxchimp.min.js"></script>
+  <script src="../assets/mail-script.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Equipment Loan System</title>
+    <style>
+        #yearsection1 {
+            display: none;
+        }
+    </style>
+    <script>
+        function showfield() {
+            document.getElementById('yearsection').style.display = "block";
+            // document.getElementById('yearsection1').style.display="none";
+            return;
+        }
+        function showfield1() {
+            document.getElementById('yearsection').style.display = "none";
+            document.getElementById('yearsection1').style.display = "block";
+
+            return;
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Add New User</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="Name" id="" required>
+        <br><br>
+        <input type="text" name="userid" placeholder="User_ID" id="" required>
+        <br><br>
+        <input type="email" name="email" placeholder="Email" id="" required>
+        <br><br>
+        <input type="text" name="mobilenumber" placeholder="MobileNumber" id="" required>
+        <br><br>
+        <input type="password" name="password" placeholder="Password" id="" required>
+        <br><br>
+        <label>User Type</label>
+        <br><br>
+        <input type="radio" name="usertype" value="User" id="">
+        <label>User</label>
+        <input type="radio" name="usertype" value="Approval" id="">
+        <label>Approval</label>
+        <input type="radio" name="usertype" value="Admin" id="">
+        <label>Admin</label>
+        <br><br>
+
+        <label>Staff/Student</label>
+        <br><br>
+        <input type="radio" name="studentorstaff" value="student" id="" onclick="showfield()" checked>Student
+        <input type="radio" name="studentorstaff" value="staff" onclick="showfield1()" id="">Staff
+        <br><br>
+        <div id="yearsection">
+            <select name="year">
+                <option value="0" selected>Year</option>
+                <option value="1">Year I</option>
+                <option value="2">Year II</option>
+                <option value="3">Year III</option>
+                <option value="4">Year IV</option>
+                <input type="hidden" name="year_input" id="year_input">
+
+            </select>
+            <!-- <select name="department">
+            <option value="null" selected>Section</option>
+            <option value="BScIT">BScIT</option>
+            <option value="SIDD">SIDD</option>
+            <option value="Blockchain">Blockchain</option>
+            <option value="Fullstack">Fullstack</option>
+            <option value="SOC">SOC</option>
+            <option value="BScCS">BScCS</option>
+            <option value="AI&DS">AI&DS</option>
+            <input type="hidden" name="section_input" id="section_input">
+        </select> -->
+        </div>
+        <br><br>
+
+        <!-- <br><br> -->
+        <div id="yearsection1">
+            <!-- <select name="department" >
+            <option value="null" selected>Department</option>
+            <option value="BScIT">BScIT</option>
+            <option value="SIDD">SIDD</option>
+            <option value="Blockchain">Blockchain</option>
+            <option value="Fullstack">Fullstack</option>
+            <option value="SOC">SOC</option>
+            <option value="BScCS">BScCS</option>
+            <option value="AI&DS">AI&DS</option>
+            <option value="ICT">ICT</option>
+            <input type="hidden" name="department_input" id="department_input">
+        </select>
+        <br><br> -->
+        </div>
+        <p>Department</p>
+        <div id="depart">
+            <select name="department">
+                <option value="BScIT" selected>BScIT</option>
+                <option value="SIDD">SIDD</option>
+                <option value="Blockchain">Blockchain</option>
+                <option value="Fullstack">Fullstack</option>
+                <option value="SOC">SOC</option>
+                <option value="BScCS">BScCS</option>
+                <option value="AI&DS">AI&DS</option>
+                <option value="ICT">ICT</option>
+                <input type="hidden" name="department_input" id="department_input">
+            </select>
+            <br><br>
+        </div>
+
+
+        <input type="file" name="image" id="" required>
+        <br><br>
+        <input type="submit" value="Register">
+    </form>
+
+    <% if(typeof message !=='undefined' ){ %>
+        <p style="color: red;">
+            <%= message %>
+        </p>
+        <% } %>
+
+            <a href="/admin/adminhome">Go Back</a>
+</body>
+
+</html>

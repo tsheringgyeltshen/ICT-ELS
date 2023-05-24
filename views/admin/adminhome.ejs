@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Admin Dashboard</title>
+    <link rel="shortcut icon" href="assets/img/logo-small.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/plugins/feather/feather.css">
+    <link rel="stylesheet" href="assets/plugins/icons/flags/flags.css">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <div class="header">
+
+            <div class="header-left">
+                <a href="/adminhome" class="logo">
+
+                    <img src="assets/img/logo.png" alt="Logo">
+                </a>
+                <a href="/adminhome" class="logo logo-small">
+                    <img src="assets/img/logo-small.png" alt="Logo" width="30" height="30">
+                </a>
+            </div>
+            <div class="menu-toggle">
+                <a href="javascript:void(0);" id="toggle_btn">
+                    <i class="fas fa-bars"></i>
+                </a>
+            </div>
+
+
+            <a class="mobile_btn" id="mobile_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+
+            <ul class="nav user-menu">
+
+
+                <li class="nav-item zoom-screen me-2">
+                    <a href="#" class="nav-link header-nav-list win-maximize">
+                        <img src="assets/img/icons/header-icon-04.svg" alt="">
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown has-arrow new-user-menus">
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="/<%= admin.image %>" width="31" alt="Soeng Souy">
+                            <div class="user-text">
+                                <h6>
+                                    <%= admin.name %>
+                                </h6>
+                                <p class="text-muted mb-0">Administrator</p>
+                            </div>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm">
+                                <img src="/<%= admin.image %>" alt="User Image" class="avatar-img rounded-circle">
+                            </div>
+                            <div class="user-text">
+                                <h6>
+                                    <%= admin.name %>
+                                </h6>
+                                <p class="text-muted mb-0">Administrator</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="/adminprofile">My Profile</a>
+                        <!-- <a class="dropdown-item" href="inbox.html">Inbox</a> -->
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">
+                            <span>Main Menu</span>
+                        </li>
+                        <li class="submenu active">
+                            <a href="#"><i class="feather-grid"></i> <span> Dashboard</span> <span></span></a>
+
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="fas fa-user"></i> <span> User</span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul>
+                                <!-- <li><a href="student-details.html">Student View</a></li> -->
+                                <li><a href="/new-user">Add User</a></li>
+                                <li><a href="/viewstudent">All User</a></li>
+                                <!-- <li><a href="/viewstaff">Staff View</a></li> -->
+
+
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><i class="fas fa-laptop"></i> <span> Equipment</span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a href="/all-item">All Equipment</a></li>
+                                <li><a href="/add-item"> Add Equipment</a></li>
+                                <li><a href="/categories">Category</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span
+                                    class="menu-arrow"></span></a>
+
+                            <ul>
+                                <li><a href="/view-approved-loan">Approved Loan</a></li>
+                                <li><a href="/viewreq-loan">Pending Loan</a></li>
+                                <li><a href="/return-date">Return Loan</a></li>
+
+
+
+                            </ul>
+
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-sub-header">
+                                <h3 class="page-title">Welcome <%= admin.name%>!</h3>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/adminhome">Home</a></li>
+                                    <li class="breadcrumb-item active">Admin</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <%- include('messages') %>
+
+                    <!-- <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                        <div class="card bg-comman w-100">
+                            <div class="card-body">
+                                <div class="db-widgets d-flex justify-content-between align-items-center">
+                                    <div class="db-info"><a href="viewstudent">
+                                            <h6>All User</h6>
+                                            <h3>
+                                                <%=userCount%>
+                                            </h3>
+                                        </a>
+                                    </div>
+                                    <div class="db-icon">
+                                        <img src="assets/img/icons/dash-icon-01.svg" alt="Dashboard Icon">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                        <div class="card bg-comman w-100">
+                            <div class="card-body">
+                                <a href="/collection-date">
+                                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                                        <div class="db-info">
+                                            <h6>Todays Collection Due </h6>
+                                            <h3>
+                                                <%= collectionCount %>
+                                            </h3>
+                                        </div>
+                                </a>
+                                <div class="db-icon">
+                                    <!-- <img src="assets/img/icons/dash-icon-02.svg" alt="Dashboard Icon"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                    <div class="card bg-comman w-100">
+                        <div class="card-body">
+                            <div class="db-widgets d-flex justify-content-between align-items-center">
+                                <div class="db-info"><a href="/viewreq-loan">
+                                        <h6>Pending Loan</h6>
+                                        <h3>
+                                            <%= pendingLoanCount %>
+                                        </h3>
+                                    </a>
+                                </div>
+                                <div class="db-icon">
+                                    <!-- <img src="assets/img/icons/dash-icon-03.svg" alt="Dashboard Icon"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                    <div class="card bg-comman w-100">
+                        <div class="card-body">
+                            <div class="db-widgets d-flex justify-content-between align-items-center">
+                                <div class="db-info"><a href="/view-approved-loan">
+                                        <h6>Approved Loan</h6>
+                                        <h3>
+                                            <%=approvedLoanCount%>
+                                        </h3>
+                                    </a>
+                                </div>
+                                <div class="db-icon">
+                                    <!-- <img src="assets/img/icons/dash-icon-04.svg" alt="Dashboard Icon"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                    <div class="card bg-comman w-100">
+                        <div class="card-body">
+                            <div class="db-widgets d-flex justify-content-between align-items-center">
+                                <div class="db-info"><a href="/all-item">
+                                        <h6>Equipment</h6>
+                                        <h3>
+                                            <%=itemcount%>
+                                        </h3>
+                                    </a>
+                                </div>
+                                <div class="db-icon">
+                                    <!-- <img src="assets/img/icons/dash-icon-04.svg" alt="Dashboard Icon"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                    <div class="card bg-comman w-100">
+                        <div class="card-body">
+                            <div class="db-widgets d-flex justify-content-between align-items-center">
+                                <div class="db-info"><a href="/all-item">
+                                        <h6>Equipment</h6>
+                                        <h3>
+                                            <%=itemcount%>
+                                        </h3>
+                                    </a>
+                                </div>
+                                <div class="db-icon">
+                                    <img src="assets/img/icons/dash-icon-04.svg" alt="Dashboard Icon">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                    <div class="card bg-comman w-100">
+                        <div class="card-body">
+                            <div class="db-widgets d-flex justify-content-between align-items-center">
+                                <div class="db-info"><a href="/all-item">
+                                        <h6>Equipment</h6>
+                                        <h3>
+                                            <%=itemcount%>
+                                        </h3>
+                                    </a>
+                                </div>
+                                <div class="db-icon">
+                                    <img src="assets/img/icons/dash-icon-04.svg" alt="Dashboard Icon">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                    <div class="card bg-comman w-100">
+                        <div class="card-body">
+                            <div class="db-widgets d-flex justify-content-between align-items-center">
+                                <div class="db-info"><a href="/all-item">
+                                        <h6>Equipment</h6>
+                                        <h3>
+                                            <%=itemcount%>
+                                        </h3>
+                                    </a>
+                                </div>
+                                <div class="db-icon">
+                                    <img src="assets/img/icons/dash-icon-04.svg" alt="Dashboard Icon">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+
+        
+
+            <!-- <div class="row">
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card flex-fill fb sm-box">
+                            <div class="social-likes">
+                                <p>Like us on facebook</p>
+                                <h6>50,095</h6>
+                            </div>
+                            <div class="social-boxs">
+                                <img src="assets/img/icons/social-icon-01.svg" alt="Social Icon">
+                            </div>
+                        </div>
+                    </div> -->
+            <!-- <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card flex-fill twitter sm-box">
+                            <div class="social-likes">
+                                <p>Follow us on twitter</p>
+                                <h6>48,596</h6>
+                            </div>
+                            <div class="social-boxs">
+                                <img src="assets/img/icons/social-icon-02.svg" alt="Social Icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card flex-fill insta sm-box">
+                            <div class="social-likes">
+                                <p>Follow us on instagram</p>
+                                <h6>52,085</h6>
+                            </div>
+                            <div class="social-boxs">
+                                <img src="assets/img/icons/social-icon-03.svg" alt="Social Icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card flex-fill linkedin sm-box">
+                            <div class="social-likes">
+                                <p>Follow us on linkedin</p>
+                                <h6>69,050</h6>
+                            </div>
+                            <div class="social-boxs">
+                                <img src="assets/img/icons/social-icon-04.svg" alt="Social Icon">
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+        </div>
+        <!-- <footer>
+                <p>Copyright © 2022 Dreamguys.</p>
+            </footer> -->
+    </div>
+
+    </div>
+
+
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/feather.min.js"></script>
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+    <script src="assets/plugins/apexchart/chart-data.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>

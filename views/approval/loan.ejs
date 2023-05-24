@@ -1,0 +1,342 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Item Detail</title>
+    <link rel="stylesheet" href="/css/styles.css" type="text/css" />
+  </head>
+
+<% if (message) { %>
+  <div class="alert alert-success" role="alert">
+    <%= message %>
+  </div> 
+<% } %>
+
+<div class="container mt-5">
+  <form action="/claim-loan/<%=item.id%>" method="POST">
+    <div id="layoutSidenav_content">
+      <div class="container-fluid mt-3 mb-4 p-2">
+        <div>
+          <h2 style="color: #2a3f5a">Loan</h2>
+        </div>
+        <div class="card">
+          <div class="row g-0">
+            <div class="col-md-6 border-end">
+              <div class="d-flex justify-content-center">
+                <div class="main_image">
+                  <img
+                    src="/<%= item.image %>"
+                    width="500px"
+                    height="300px"
+                    class="img-fluid mt-4"
+                    alt="<%= item.image %>"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 right-side">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h3><%= item.name %></h3>
+                </div>
+                <div class="mt-1">
+                  <p style="font-size: 0.8em; color: gray">
+                    <%= item.category.name %>
+                  </p>
+                </div>
+
+                <hr />
+
+                <div class="mt-2 pr-3 content">
+                  <p><%= item.description %></p>
+                </div>
+                <hr />
+                <span> Available : <%= item.available_items %> </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="form-group">
+      <label for="quantity">Quantity:</label>
+      <input type="number" name="quantity" id="quantity" class="form-control" min="1" max="<%= item.available_items %>" required>
+    </div>
+    <div class="form-group">
+      <label for="return_date">Return Date:</label>
+      <input type="date" name="return_date" id="return_date" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Loan Request</button>
+  </form>
+</div>
+ -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Item Detail</title>
+    <link rel="stylesheet" href="/css/styles.css" type="text/css" />
+  </head>
+
+<% if (message) { %>
+  <div class="alert alert-success" role="alert">
+    <%= message %>
+  </div> 
+<% } %>
+
+<div class="container mt-5">
+  <form action="/claim-loan/<%=item.id%>" method="POST">
+    <div id="layoutSidenav_content">
+      <div class="container-fluid mt-3 mb-4 p-2">
+        <div>
+          <h2 style="color: #2a3f5a">Loan</h2>
+        </div>
+        <div class="card">
+          <div class="row g-0">
+            <div class="col-md-6 border-end">
+              <div class="d-flex justify-content-center">
+                <div class="main_image">
+                  <img
+                    src="/<%= item.image %>"
+                    width="500px"
+                    height="300px"
+                    class="img-fluid mt-4"
+                    alt="<%= item.image %>"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 right-side">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h3><%= item.name %></h3>
+                </div>
+                <div class="mt-1">
+                  <p style="font-size: 0.8em; color: gray">
+                    <%= item.category.name %>
+                  </p>
+                </div>
+
+                <hr />
+
+                <div class="mt-2 pr-3 content">
+                  <p><%= item.description %></p>
+                </div>
+                <hr />
+                <span> Available : <%= item.available_items %> </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="form-group">
+      <label for="quantity">Quantity:</label>
+      <input type="number" name="quantity" id="quantity" class="form-control" min="1" max="<%= item.available_items %>" required>
+    </div>
+    <div class="form-group">
+      <label for="return_date">Return Date:</label>
+      <input type="date" name="return_date" id="return_date" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Loan Request</button>
+  </form>
+</div>
+ -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ICT - Product Details</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="icon" href="../assets/img/logo-small.png" type="image/png">
+  <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../assets/themify-icons/themify-icons.css">
+  <link rel="stylesheet" href="../assets/linericon/style.css">
+  <link rel="stylesheet" href="../assets/nice-select/nice-select.css">
+  <link rel="stylesheet" href="../assets/owl-carousel/owl.theme.default.min.css">
+  <link rel="stylesheet" href="../assets/owl-carousel/owl.carousel.min.css">
+
+  <link rel="stylesheet" href="../assets/css/style1.css">
+</head>
+
+<body>
+  <!--================ Start Header Menu Area =================-->
+  <header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid ml-3">
+          <a class="navbar-brand logo_h" href="/approvalhome"><img src="../assets/img/logo-small.png"
+              style="width: 60px; height: 60px;" alt=""></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+              <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
+              <li class="nav-item active"><a class="nav-link" href="/all-equipment">Equipment</a></li>
+              <li class="nav-item submenu dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                    aria-haspopup="true" aria-expanded="false">Loan
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
+                    <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
+                    </li>
+                </ul>
+            </li>              <li class="nav-item"><a class="nav-link" href="/aboutus1">About Us</a></li>
+
+            </ul>
+
+            <ul class="nav-shop">
+              <li class="nav-item cartnav"><a href="/cart1"><i class="ti-shopping-cart"></i><span
+                    class="nav-shop__circle"></span></a></li>
+              <!-- <li class="nav-item"><button><i class="ti-search"></i></button></li> -->
+
+              <!-- <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li> -->
+              <li class="nav-item submenu dropdown">
+
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false"> <img src="/<%=user.image%>" class="rounded-circle" height="30" width="30"
+                    alt="User Profile" loading="lazy" /></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                  <li>
+                    <a class="dropdown-item" href="/approval-profile">My profile</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                  </li>
+                </ul>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- <div class="product_image_area"> -->
+  <div class="container">
+
+    <div class="row s_product_inner mt-auto">
+      <div class="col-lg-5">
+        <div class="owl-carousel owl-theme s_Product_carousel">
+          <div class="single-prd-item">
+            <img class="img-fluid" src="/<%=item.image%>" alt="ITEMIMG">
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-6 offset-lg-1">
+        <div class="s_product_text mt-auto">
+          <h3>
+            <%= item.name %>
+          </h3>
+          <ul class="list">
+            <li><a class="active" href="#"><span>Category</span>: <%= item.category.name %></a></li>
+            <li><a href="#"><span>Availibile</span>: <%= item.available_items %></a></li>
+          </ul>
+          <p>
+            <%= item.description %>
+          </p>
+          <!-- <div class="row quantity "> -->
+          <form action="/loan/<%=item.id%>" method="POST">
+
+            <span class="quantity" style="font-weight: bold; color: #000;">Quantity:</span>
+            <input type="number" name="quantity" placeholder="1" min="1" max="<%= item.available_items %>" required>
+            <div class="mt-2">
+
+              <span  style="font-weight: bold; color: #000;">
+                Select Return Date</span>
+
+              <input type="date" name="return_date" placeholder="dd-mm-yyyy" class="form-control" required>
+              <button type="submit" class="button primary-btn applyl">
+                Request Loan
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  </div>
+  <hr>
+
+
+  <footer>
+
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row d-flex">
+          <p class="col-lg-12 footer-text text-center">
+            Copyright &copy;
+            <script>document.write(new Date().getFullYear());</script> All rights reserved | ICT-ELS
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--================ End footer Area  =================-->
+
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="../assets/jquery/jquery-3.2.1.min.js"></script>
+  <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/skrollr.min.js"></script>
+  <script src="../assets/owl-carousel/owl.carousel.min.js"></script>
+  <script src="../assets/nice-select/jquery.nice-select.min.js"></script>
+  <script src="../assets/jquery.ajaxchimp.min.js"></script>
+  <script src="../assets/mail-script.js"></script>
+  <script src="../assets/js/main.js"></script>
+
+
+  <script>
+    // Get the input element
+    const datepicker = document.getElementById("datepicker");
+
+    // Initialize the datepicker
+    flatpickr(datepicker, {
+      // Set the format of the date
+      dateFormat: "d-m-Y",
+      // Set the default date to today's date
+      defaultDate: "today",
+      // Set the minimum selectable date to today's date
+      minDate: "today",
+    });
+
+  </script>
+
+</body>
+
+</html>

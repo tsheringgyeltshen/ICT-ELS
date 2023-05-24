@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Staff Details</title>
+
+    <link rel="shortcut icon" href="assets/img/logo-small.png">
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="assets/plugins/feather/feather.css">
+
+    <link rel="stylesheet" href="assets/plugins/icons/flags/flags.css">
+
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+
+    <link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+
+    <div class="main-wrapper">
+
+        <div class="header">
+
+            <div class="header-left">
+                <a href="/adminhome" class="logo">
+
+                    <img src="assets/img/logo.png" alt="Logo">
+                </a>
+                <a href="/adminhome" class="logo logo-small">
+                    <img src="assets/img/logo-small.png" alt="Logo" width="30" height="30">
+                </a>
+            </div>
+            <div class="menu-toggle">
+                <a href="javascript:void(0);" id="toggle_btn">
+                    <i class="fas fa-bars"></i>
+                </a>
+            </div>
+
+
+            <a class="mobile_btn" id="mobile_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+
+            <ul class="nav user-menu">
+
+
+                <li class="nav-item zoom-screen me-2">
+                    <a href="#" class="nav-link header-nav-list win-maximize">
+                        <img src="assets/img/icons/header-icon-04.svg" alt="">
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown has-arrow new-user-menus">
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="/<%=admin.image%>" width="31" alt="adminimage">
+                            <div class="user-text">
+                                <h6>
+                                    <%=admin.name%>
+                                </h6>
+                                <p class="text-muted mb-0">Administrator</p>
+                            </div>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm">
+                                <img src="/<%=admin.image%>" alt="User Image" class="avatar-img rounded-circle">
+                            </div>
+                            <div class="user-text">
+                                <h6>
+                                    <%=admin.name%>
+                                </h6>
+                                <p class="text-muted mb-0">Administrator</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="/adminprofile">My Profile</a>
+                        <!-- <a class="dropdown-item" href="inbox.html">Inbox</a> -->
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">
+                            <span>Main Menu</span>
+                        </li>
+                        <li>
+                            <a href="/adminhome"><i class="feather-grid"></i> <span> Dashboard</span></a>
+
+                        </li>
+                        <li class="submenu active">
+                            <a href="#"><i class="fas fa-user"></i> <span> User</span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul>
+                                <!-- <li><a href="student-details.html">Student View</a></li> -->
+                                <li><a href="/new-user">Add User</a></li>
+                                <li><a href="/viewstudent" class="active">All User</a></li>
+                                <!-- <li><a href="/viewstaff" class="active">Staff View</a></li> -->
+
+
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><i class="fas fa-laptop"></i> <span> Equipment</span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a href="/all-item">All Equipment</a></li>
+                                <li><a href="/add-item"> Add Equipment</a></li>
+                                <li><a href="/categories">Category</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span
+                                    class="menu-arrow"></span></a>
+
+                            <ul>
+                                <li><a href="/view-approved-loan">Approved Loan</a></li>
+                                <li><a href="/viewreq-loan">Pending Loan</a></li>
+                                <li><a href="/return-date">Return Loan</a></li>
+
+
+
+                            </ul>
+
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+                <%- include('messages') %>
+
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-sub-header">
+                                <h3 class="page-title">User Details</h3>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">User</a></li>
+                                    <li class="breadcrumb-item active">All User</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section style="background-color: #eee;">
+                    <div class="container py-5 justify-content-center">
+
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card mb-4">
+                                    <div class="card-body text-center">
+                                        <!-- <div class="profile-user-img">
+                                            <img src="assets/img/user.jpg" alt="Profile">
+                                            <div class="form-group students-up-files profile-edit-icon mb-0">
+                                                <div class="uplod d-flex">
+                                                    <label class="file-upload profile-upbtn mb-0">
+                                                        <i class="feather-edit-3"></i><input type="file">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+                                        <img src="<%=users.image%>" alt="avatar"
+                                            class="rounded-circle img-fluid mx-4 my-2 "
+                                            style="width: 125px; height: 125px;">
+
+
+                                        <h5 class="">
+                                            <%=users.name%>
+                                        </h5>
+                                        <p class="text-muted mb-1">
+                                            <%=users.userid%>
+                                        </p>
+                                        <p class="text-muted mb-4">
+                                            <%=users.department%>
+                                        </p>
+
+                                        <div class="d-flex justify-content-center mb-2">
+                                            <a href="/edit-staff?id=<%= users._id %>" class="btn btn-primary"
+                                                role="button">Edit</a>
+                                            <button type="button" data-bs-toggle="modal"
+                                                data-bs-target="#deleteUserModal"
+                                                class="btn btn-outline-danger ms-1">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteUserModalLabel">Confirm Delete</h5>
+                                                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+                                                <!-- <span aria-hidden="true">&times;</span> -->
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete user <%= users.name %>?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    onclick="$('#deleteUserModal').modal('hide')">Cancel</button>
+
+                                                <form action="/delete-staff" method="POST">
+                                                    <input type="hidden" name="id" value="<%= users._id %>">
+                                                    <input type="hidden" name="isDeleted" value="true">
+
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">FullName</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <%= users.name %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Email</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <%= users.email %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">User ID</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <%= users.userid %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Phone</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <%= users.mobilenumber %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Department</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <%= users.department %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Role</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">
+                                                    <%= users.usertype %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+            </div>
+
+            <footer>
+                <p>Copyright © 2023 ICT-ELS.</p>
+            </footer>
+
+        </div>
+
+    </div>
+
+
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+
+    <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/feather.min.js"></script>
+
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+
+    <script src="assets/plugins/datatables/datatables.min.js"></script>
+
+
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>
