@@ -20,7 +20,7 @@ auth_router.route('/forget')
     .get(getForgetPassword)
     .post(postForgetPassword)
 //@des get forgetpass
-auth_router.route('/forget-password')
+auth_router.route('/https://ict-equipment-loan-system.onrender.com/forget-password')
     .get(getForgetPasswordLoad)
     .post(postForgetPasswordLoad)
     
