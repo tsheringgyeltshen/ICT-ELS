@@ -106,7 +106,7 @@
                         </li>
                         <li>
                             <a href="/adminhome"><i class="feather-grid"></i> <span> Dashboard</span></a>
-                          
+
                         </li>
                         <li class="submenu active">
                             <a href="#"><i class="fas fa-user"></i> <span> User</span> <span
@@ -131,18 +131,19 @@
                         </li>
 
                         <li class="submenu">
-                            <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span class="menu-arrow"></span></a>
-              
+                            <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span
+                                    class="menu-arrow"></span></a>
+
                             <ul>
-                              <li><a href="/view-approved-loan">Approved Loan</a></li>
-                              <li><a href="/viewreq-loan">Pending Loan</a></li>
-                              <li><a href="/return-date">Return Loan</a></li>
-              
-              
-              
+                                <li><a href="/view-approved-loan">Approved Loan</a></li>
+                                <li><a href="/viewreq-loan">Pending Loan</a></li>
+                                <li><a href="/return-date">Return Loan</a></li>
+
+
+
                             </ul>
-              
-                          </li>
+
+                        </li>
 
                     </ul>
                 </div>
@@ -165,8 +166,8 @@
                             </div>
                         </div>
                     </div>
-                </div> 
-                        <!-- <div class="col-lg-12" >
+                </div>
+                <!-- <div class="col-lg-12" >
                             <div class="card mb-4">
                                 <form action="/edit-user" method="post" enctype="multipart/form-data">
                                     <div class="card-body">
@@ -275,167 +276,164 @@
                             </div>
 
                         </div> -->
-                        
-                        
-                        
-                       
-                        <div class="col-lg-12">
-                            <div class="card mb-4">
-                                <form action="/edit-user" method="post" enctype="multipart/form-data">
-        
-                                    <div class="card-body">
+
+
+
+
+                <div class="col-lg-12">
+                    <div class="card mb-4">
+                        <form action="/edit-user" method="post" enctype="multipart/form-data">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-4">
+
+                                        <div class="col-12" id="image-container">
+
+
+                                            <label for="image-upload"
+                                                style="position: relative; display: inline-block;">
+                                                <i class="fas fa-camera"
+                                                    style="position: absolute; bottom: 0; right: 0; font-size: 2rem; filter: brightness(120%);"></i>
+                                                <div class="profile-user">
+                                                    <img src="/<%=users.image%>" alt="Original Image"
+                                                        class=" img-fluid mt-4">
+                                                </div>
+                                            </label>
+                                            <input id="image-upload" value="<%=users.image %>" name="image" type="file"
+                                                style="display: none;">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-9 col-sm-8 col-md-8">
+
+
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-4 col-sm-4">
-        
-                                                <div class="col-12" id="image-container">
-        
-        
-                                                    <label for="image-upload"
-                                                        style="position: relative; display: inline-block;">
-                                                        <i class="fas fa-camera"
-                                                            style="position: absolute; bottom: 0; right: 0; font-size: 2rem; filter: brightness(120%);"></i>
-                                                        <div class="profile-user">
-                                                            <img src="/<%=users.image%>" alt="Original Image"
-                                                                class=" img-fluid mt-4"
-                                                            >
-                                                        </div>
-                                                    </label>
-                                                    <input id="image-upload" value="<%=users.image %>" name="image" type="file"
-                                                        style="display: none;">
-        
-                                                </div>
-        
+                                            <div class="col-sm-3 col-ld-3 col-md-3">
+                                                <p class="mb-0">Full Name</p>
                                             </div>
-                                            <div class="col-lg-9 col-sm-8 col-md-8">
-        
-        
-                                                <div class="row">
-                                                    <div class="col-sm-3 col-ld-3 col-md-3">
-                                                        <p class="mb-0">Full Name</p>
-                                                    </div>
-                                                    <div class="col-sm-9 col-lg-9 col-md-9">
-                                                        <input class=" form-control" value="<%=users.name%>" name="name" type="text"
-                                                            required>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <p class="mb-0">Email</p>
-                                                    </div>
-                                                    <div class="col-sm-9">
-                                                        <input class=" form-control" name="email" type="email"
-                                                            value="<%=users.email%>" required>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <p class="mb-0">User ID</p>
-                                                    </div>
-                                                    <div class="col-sm-9">
-                                                        <input type="number" min="0" name="userid" value="<%=users.userid%>"
-                                                            class=" form-control" required>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <p class="mb-0">Phone</p>
-                                                    </div>
-                                                    <div class="col-sm-9">
-                                                        <input type="number" name="mno" min="0" value="<%=users.mobilenumber%>"
-                                                            class=" form-control" required>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <p class="mb-0">Section</p>
-                                                    </div>
-                                                    <div class="col-sm-9">
-        
-        
-                                                        <select name="department" class="form-control" required>
-                                                            <option value="BScIT" <% if (users.department==="BScIT" ) { %>
-                                                                selected<% } %>>BScIT</option>
-                                                            <option value="SIDD" <% if (users.department==="SIDD" ) { %>selected
-                                                                <% } %>>SIDD
-                                                            </option>
-                                                            <option value="Blockchain" <% if (users.department==="Blockchain" )
-                                                                { %>
-                                                                selected<% } %>>Blockchain
-                                                            </option>
-                                                            <option value="Fullstack" <% if (users.department==="Fullstack" ) {
-                                                                %>
-                                                                selected<% } %>>Fullstack</option>
-                                                            <option value="SOC" <% if (users.department==="SOC" ) { %>selected<%
-                                                                    } %>
-                                                                    >SOC</option>
-                                                            <option value="BScCS" <% if (users.department==="BScCS" ) { %>
-                                                                selected<% } %>>BScCS</option>
-                                                            <option value="AI&DS" <% if (users.department==="AI&DS" ) { %>
-                                                                selected<% } %>>AI&DS</option>
-                                                            <option value="ICT" <% if (users.department==="ICT" ) { %>selected<%
-                                                                    } %>
-                                                                    >ICT</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <p class="mb-0">Year</p>
-                                                    </div>
-                                                    <div class="col-sm-9">
-                                                        <input type="number" name="year" value="<%=users.year%>" max="4" min="1"
-                                                            class=" form-control" required>
-                                                    </div>
-                                                </div>
-        
-                                                <div class="modal-footer mt-2">
-                                                    <input type="submit" class="btn btn-primary"
-                                                        value="Save">
-                                                    <input type="hidden" name="id" value="<%= users._id %>">
-        
-                                                </div>
+                                            <div class="col-sm-9 col-lg-9 col-md-9">
+                                                <input class=" form-control" value="<%=users.name%>" name="name"
+                                                    type="text" required>
                                             </div>
                                         </div>
-                                </form>
-                            </div>
-        
-                        </div> 
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Email</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input class=" form-control" name="email" type="email"
+                                                    value="<%=users.email%>" required>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">User ID</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="number" min="0" name="userid" value="<%=users.userid%>"
+                                                    class=" form-control" required>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Phone</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="number" name="mno" min="0" value="<%=users.mobilenumber%>"
+                                                    class=" form-control" required>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Section</p>
+                                            </div>
+                                            <div class="col-sm-9">
+
+
+                                                <select name="department" class="form-control" required>
+                                                    <option value="BScIT" <% if (users.department==="BScIT" ) { %>
+                                                        selected<% } %>>BScIT</option>
+                                                    <option value="SIDD" <% if (users.department==="SIDD" ) { %>selected
+                                                        <% } %>>SIDD
+                                                    </option>
+                                                    <option value="Blockchain" <% if (users.department==="Blockchain" )
+                                                        { %>
+                                                        selected<% } %>>Blockchain
+                                                    </option>
+                                                    <option value="Fullstack" <% if (users.department==="Fullstack" ) {
+                                                        %>
+                                                        selected<% } %>>Fullstack</option>
+                                                    <option value="SOC" <% if (users.department==="SOC" ) { %>selected<%
+                                                            } %>
+                                                            >SOC</option>
+                                                    <option value="BScCS" <% if (users.department==="BScCS" ) { %>
+                                                        selected<% } %>>BScCS</option>
+                                                    <option value="AI&DS" <% if (users.department==="AI&DS" ) { %>
+                                                        selected<% } %>>AI&DS</option>
+                                                    <option value="ICT" <% if (users.department==="ICT" ) { %>selected<%
+                                                            } %>
+                                                            >ICT</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Year</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="number" name="year" value="<%=users.year%>" max="4" min="1"
+                                                    class=" form-control" required>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="mt-2">
+                                            <input type="submit" class="btn btn-primary" value="Save">
+                                            <input type="hidden" name="id" value="<%= users._id %>">
+
+                                        </div>
+                                    </div>
+                                </div>
+                        </form>
                     </div>
-           
+
+                </div>
+            </div>
+
 
 
         </div>
 
-      
+
 
     </div>
 
     </div>
-<script>
-const imageContainer = document.getElementById("image-container");
-    const originalImage = imageContainer.querySelector("img");
-    // const hoverImageSrc = "https://placehold.it/150x150/0000FF/FFFFFF";
-    const imageUpload = imageContainer.querySelector("#image-upload");
-    
-    imageUpload.addEventListener("change", () => {
-      const file = imageUpload.files[0];
-      const reader = new FileReader();
+    <script>
+        const imageContainer = document.getElementById("image-container");
+        const originalImage = imageContainer.querySelector("img");
+        // const hoverImageSrc = "https://placehold.it/150x150/0000FF/FFFFFF";
+        const imageUpload = imageContainer.querySelector("#image-upload");
 
-      reader.addEventListener("load", () => {
-        originalImage.src = reader.result;
-        originalImage.dataset.src = reader.result;
-      });
+        imageUpload.addEventListener("change", () => {
+            const file = imageUpload.files[0];
+            const reader = new FileReader();
 
-      reader.readAsDataURL(file);
-    });
-</script>
+            reader.addEventListener("load", () => {
+                originalImage.src = reader.result;
+                originalImage.dataset.src = reader.result;
+            });
+
+            reader.readAsDataURL(file);
+        });
+    </script>
 
     <script src="assets/js/jquery-3.6.0.min.js"></script>
 

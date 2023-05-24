@@ -183,7 +183,7 @@
             </div>
 
             <% if (typeof message !=='undefined' ) { %>
-              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <div class="d-flex alert alert-danger alert-dismissible fade show" role="alert">
                 <%= message %>
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
@@ -196,7 +196,7 @@
                   <% } %>
 
           </div>
-          <div class="modal-footer ">
+          <div class=" ">
             <div class="student-submit">
               <input type="submit" class="btn btn-primary " value="Add" onclick="validateForm()">
               <input type="button" class="btn btn-secondary m-2" data-dismiss="modal" value="Cancel"
