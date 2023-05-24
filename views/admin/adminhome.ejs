@@ -164,83 +164,98 @@
                 <div class="row">
                     <%- include('messages') %>
 
-                    <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                        <div class="card bg-comman w-100">
-                            <div class="card-body">
-                                <a href="/collection-date">
-                                    <div class="db-widgets d-flex justify-content-between align-items-center">
-                                        <div class="db-info">
-                                            <h6>Todays Collection Due </h6>
-                                            <h3>
-                                                <%= collectionCount %>
-                                            </h3>
+
+                        <div class="col-xl-3 col-sm-6 col-12 d-flex">
+
+                            <!-- <a href="/collection-date">
+                                <div class="card bg-primary w-100">
+                                    <div class="card-body">
+
+                                        <div class="db-widgets d-flex justify-content-between align-items-center">
+                                            <div class="db-info">
+                                                <h5 class="card-title">Today's Collection Due</h5>
+                                                <h3>
+                                                        <%= collectionCount %>
+                                                    </h3>
+                                            </div>
+
+
                                         </div>
-                                </a>
-                                <div class="db-icon">
-                                    <!-- <img src="assets/img/icons/dash-icon-02.svg" alt="Dashboard Icon"> -->
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                    <div class="card bg-comman w-100">
-                        <div class="card-body">
-                            <div class="db-widgets d-flex justify-content-between align-items-center">
-                                <div class="db-info"><a href="/viewreq-loan">
-                                        <h6>Pending Loan</h6>
+                            </a> -->
+                            <a href="/collection-date">
+                                <div class="card text-black bg-primary mb-3" style="max-width: 18rem;">
+                                    <div class="card-header">Today's Collection Due</div>
+                                    <div class="card-body">
+                                        <!-- <h5 class="card-title"></h5> -->
                                         <h3>
                                             <%= pendingLoanCount %>
                                         </h3>
-                                    </a>
+                                    </div>
                                 </div>
-                                <div class="db-icon">
-                                    <!-- <img src="assets/img/icons/dash-icon-03.svg" alt="Dashboard Icon"> -->
+                            </a>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                            <div class="card bg-pri w-100">
+                                <div class="card-body">
+                                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                                        <div class="db-info">
+                                            <h6>Pending Loan</h6>
+                                            <h3>
+                                                <%= pendingLoanCount %>
+                                            </h3>
+                                            </a>
+                                        </div>
+                                        <div class="db-icon">
+                                            <!-- <img src="assets/img/icons/dash-icon-03.svg" alt="Dashboard Icon"> -->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                    <div class="card bg-comman w-100">
-                        <div class="card-body">
-                            <div class="db-widgets d-flex justify-content-between align-items-center">
-                                <div class="db-info"><a href="/view-approved-loan">
-                                        <h6>Approved Loan</h6>
-                                        <h3>
-                                            <%=approvedLoanCount%>
-                                        </h3>
-                                    </a>
-                                </div>
-                                <div class="db-icon">
-                                    <!-- <img src="assets/img/icons/dash-icon-04.svg" alt="Dashboard Icon"> -->
+                        <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                            <div class="card bg-comman w-100">
+                                <div class="card-body">
+                                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                                        <div class="db-info">
+                                            <a href="/view-approved-loan">
+                                                <h6>Approved Loan</h6>
+                                                <h3>
+                                                    <%=approvedLoanCount%>
+                                                </h3>
+                                            </a>
+                                        </div>
+                                        <div class="db-icon">
+                                            <!-- <img src="assets/img/icons/dash-icon-04.svg" alt="Dashboard Icon"> -->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
 
-                <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                    <div class="card bg-comman w-100">
-                        <div class="card-body">
-                            <div class="db-widgets d-flex justify-content-between align-items-center">
-                                <div class="db-info"><a href="/all-item">
-                                        <h6>Equipment</h6>
-                                        <h3>
-                                            <%=itemcount%>
-                                        </h3>
-                                    </a>
-                                </div>
-                                <div class="db-icon">
-                                    <!-- <img src="assets/img/icons/dash-icon-04.svg" alt="Dashboard Icon"> -->
+                        <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                            <div class="card bg-comman w-100">
+                                <div class="card-body">
+                                    <div class="db-widgets d-flex justify-content-between align-items-center">
+                                        <div class="db-info"><a href="/all-item">
+                                                <h6>Equipment</h6>
+                                                <h3>
+                                                    <%=itemcount%>
+                                                </h3>
+                                            </a>
+                                        </div>
+                                        <div class="db-icon">
+                                            <!-- <img src="assets/img/icons/dash-icon-04.svg" alt="Dashboard Icon"> -->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- <div class="col-xl-3 col-sm-6 col-12 d-flex">
+
+                        <!-- <div class="col-xl-3 col-sm-6 col-12 d-flex">
                     <div class="card bg-comman w-100">
                         <div class="card-body">
                             <div class="db-widgets d-flex justify-content-between align-items-center">
@@ -295,11 +310,11 @@
                         </div>
                     </div>
                 </div> -->
-            </div>
+                </div>
 
-        
 
-            <!-- <div class="row">
+
+                <!-- <div class="row">
                     <div class="col-xl-3 col-sm-6 col-12">
                         <div class="card flex-fill fb sm-box">
                             <div class="social-likes">
@@ -311,7 +326,7 @@
                             </div>
                         </div>
                     </div> -->
-            <!-- <div class="col-xl-3 col-sm-6 col-12">
+                <!-- <div class="col-xl-3 col-sm-6 col-12">
                         <div class="card flex-fill twitter sm-box">
                             <div class="social-likes">
                                 <p>Follow us on twitter</p>
@@ -345,9 +360,9 @@
                         </div>
                     </div>
                 </div> -->
+            </div>
+
         </div>
-       
-    </div>
 
     </div>
 
