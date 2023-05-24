@@ -157,104 +157,103 @@
             <div class="content container">
                 <%- include('messages') %>
 
-                            <div class="page-header">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h3 class="page-title">Equipment Details</h3>
-                                        <ul class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="#">Equipment</a></li>
-                                            <li class="breadcrumb-item active">Equipment Details</li>
-                                        </ul>
-                                    </div>
+                    <div class="page-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="page-title">Equipment Details</h3>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="#">Equipment</a></li>
+                                    <li class="breadcrumb-item active">Equipment Details</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="row g-0">
+                            <div class="col-md-6 border-end">
+                                <div class="d-flex justify-content-center">
+                                    <div class="main_image"> <img src="/<%=item.image%>" id="main_product_image"
+                                            class="img-fluid mt-4"> </div>
+
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="p-3 right-side">
+                                    <div class="d-flex justify-content-between align-items-center ">
+                                        <h3>
+                                            <%=item.name%>
+                                        </h3>
 
-                            <div class="card">
-                                <div class="row g-0">
-                                    <div class="col-md-6 border-end">
-                                        <div class="d-flex justify-content-center">
-                                            <div class="main_image"> <img src="/<%=item.image%>" id="main_product_image"
-                                                    class="img-fluid mt-4"> </div>
-
-                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="p-3 right-side">
-                                            <div class="d-flex justify-content-between align-items-center ">
-                                                <h3>
-                                                    <%=item.name%>
-                                                </h3>
-
-                                            </div>
-                                            <div class="mt-1">
-                                                <p style="font-size: 1em ; color: gray;">
-                                                    <%=item.category.name%>
-                                                </p>
-                                            </div>
+                                    <div class="mt-1">
+                                        <p style="font-size: 1em ; color: gray;">
+                                            <%=item.category.name%>
+                                        </p>
+                                    </div>
 
 
-                                            <hr>
+                                    <hr>
 
-                                            <div class="mt-2 pr-3 content">
-                                                <p>
-                                                    <%=item.description%>
-                                                </p>
-                                            </div>
-                                            <hr>
-                                            <span> Quantity : <%=item.available_items%>
-                                            </span>
-                                        </div>
-                                        <div class="buttons d-flex flex-row  gap-3 p-3">
-                                            <a href="/edit-item/<%= item._id %>" type="button"
-                                                class="btn btn-primary">Edit</a>
-                                            <!-- <form method="POST" action="/delete-item/<%= item._id %>" style="display:inline-block;">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <button type="submit" class="btn btn-outline-danger ms-1"
-                                        onclick="return confirm('Are you sure you want to delete <%= item.name, item.category%>, item')">
-                                        Delete </button>
-                                </form> -->
-                                            <button type="button" data-bs-toggle="modal"
-                                                data-bs-target="#deleteUserModal"
-                                                class="btn btn-outline-danger ms-1">Delete</button>
+                                    <div class="mt-2 pr-3 content">
+                                        <p>
+                                            <%=item.description%>
+                                        </p>
+                                    </div>
+                                    <hr>
+                                    <span> Quantity : <%=item.available_items%>
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-9 buttons d-flex flex-row  gap-3 p-3">
 
 
-                                            <a href="/view_loan_for_item/<%= item._id %>" type="button"
-                                                class="btn btn-outline-primary">Loan History</a>
+                                        <a href="/edit-item/<%= item._id %>" type="button"
+                                            class="btn btn-primary">Edit</a>
+
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#deleteUserModal"
+                                            class="btn btn-outline-danger ms-1">Delete</button>
+                                    </div>
+
+                                    <div class="col-lg-3 buttons d-flex flex-row  gap-3 p-3 mt-auto">
 
 
-                                        </div>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog"
-                                            aria-labelledby="deleteUserModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteUserModalLabel">Confirm Delete
-                                                        </h5>
-
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Are you sure you want to delete equipment "<%= item.name,
-                                                            item.category%>"?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            onclick="$('#deleteUserModal').modal('hide')">Cancel</button>
-
-                                                        <form action="/delete-item/<%= item._id %>" method="POST">
-                                                            <input type="hidden" name="id" value="<%= item._id %>">
-                                                            <input type="hidden" name="isDeleted" value="true">
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                        <a href="/view_loan_for_item/<%= item._id %>">Loan History</a>
                                     </div>
                                 </div>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteUserModalLabel">Confirm Delete
+                                                </h5>
+
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete equipment "<%= item.name,
+                                                    item.category%>"?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    onclick="$('#deleteUserModal').modal('hide')">Cancel</button>
+
+                                                <form action="/delete-item/<%= item._id %>" method="POST">
+                                                    <input type="hidden" name="id" value="<%= item._id %>">
+                                                    <input type="hidden" name="isDeleted" value="true">
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
+                        </div>
+                    </div>
 
             </div>
 

@@ -25,7 +25,7 @@
 	<header class="header_area">
 		<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light">
-				<div class="container-fluid ml-3">
+				<div class="container">
 					<a class="navbar-brand logo_h" href="/userhome"><img src="../assets/img/logo-small.png"
 							style="width: 60px; height: 60px;" alt=""></a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -40,7 +40,7 @@
 							<li class="nav-item"><a class="nav-link" href="/userhome">Home</a></li>
 							<li class="nav-item active"><a class="nav-link" href="/all-items">Equipment</a></li>
 							<li class="nav-item"><a class="nav-link" href="/get_loan">Loan</a></li>
-							<li class="nav-item"><a class="nav-link" href="/aboutus">About Us</a></li>
+							<li class="nav-item"><a class="nav-link" href="/aboutus">About</a></li>
 
 						</ul>
 
@@ -56,14 +56,11 @@
 									aria-haspopup="true" aria-expanded="false"> <img src="/<%=user.image%>"
 										class="rounded-circle" height="30" width="30" alt="User Profile"
 										loading="lazy" /></a>
-								<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-									<li>
-										<a class="dropdown-item" href="/user-profile">My profile</a>
-									</li>
-									<li>
-										<a class="dropdown-item" href="/logout">Logout</a>
-									</li>
-								</ul>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="/user-profile">My Profile</a>
+									<a class="dropdown-item" href="/logout">Logout</a>
+
+								</div>
 
 							</li>
 						</ul>
@@ -74,7 +71,7 @@
 	</header>
 
 	<!-- <div class="product_image_area"> -->
-	<div class="container">
+	<div class="container mt-5">
 		<div class="row s_product_inner">
 			<div class="col-lg-5 ">
 				<div class="owl-carousel owl-theme s_Product_carousel">
@@ -92,7 +89,7 @@
 					<!-- <h2>$149.99</h2> -->
 					<ul class="list">
 						<li><a class="active" href="#"><span>Category</span>: <%= item.category.name %></a></li>
-						<li><a href="#"><span>Availibile</span>: <%= item.available_items %></a></li>
+						<li><a href="#"><span>Available</span>: <%= item.available_items %></a></li>
 					</ul>
 					<p>
 						<%= item.description %>
@@ -113,19 +110,20 @@
 
 
 						<div class="row quantity ">
+							<a class="button primary-btn cartadd" href="/claim-loan/<%= item._id %>">Apply for Loan</a>
+
 							<form action="/addto_card/<%= item._id %>" method="POST">
-								<input type="hidden" name="<%= item._id %>" value="<%= item._id %>">
-								<button class="button primary-btn cartadd" type="submit">Add to Cart</button>
+								<input type="hidden" name="<%= item._id %>"  value="<%= item._id %>">
+								<button class="ml-2 btn btn-outline-primary cartadd" type="submit">Add to Cart</button>
 							</form>
 
 						</div>
 
 
 					</div>
-					<hr>
+					
 
 
-					<a class="button primary-btn" href="/claim-loan/<%= item._id %>">Apply for Loan</a>
 
 				</div>
 			</div>

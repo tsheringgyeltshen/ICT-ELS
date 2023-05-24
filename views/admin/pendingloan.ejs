@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
   <title>Approved Loan</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="../assets/themify-icons/themify-icons.css">
 
   <link rel="shortcut icon" href="../assets/img/logo-small.png">
 
@@ -189,90 +190,92 @@
                 <div class="table-responsive">
                   <%- include('messages') %>
 
-                  <% if (typeof message !=='undefined' ) { %>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                      <%= message %>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <% } %>
+                    <% if (typeof message !=='undefined' ) { %>
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <%= message %>
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                      <% } %>
 
-                  <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
-                    <thead class="student-thread">
-                      <tr>
-                        <th>User Name</th>
-                        <th>User ID</th>
-                        <th>Department</th>
-                        <th>User Type</th>
-                        <th>Item</th>
-                        <th>Quantity</th>
-                        <th>Request Date</th>
-                        <th>Return Date</th>
-                        <!-- <th>Status</th> -->
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% loanRequests.forEach((loanRequest)=> { %>
-                        <% if (loanRequest.user_id && loanRequest.user_id.usertype==="Approval" ) { %>
+                        <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
+                          <thead class="student-thread">
+                            <tr>
+                              <th>User Name</th>
+                              <th>User ID</th>
+                              <th>Department</th>
+                              <th>User Type</th>
+                              <th>Item</th>
+                              <th>Quantity</th>
+                              <th>Request Date</th>
+                              <th>Return Date</th>
+                              <!-- <th>Status</th> -->
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% loanRequests.forEach((loanRequest)=> { %>
+                              <% if (loanRequest.user_id && loanRequest.user_id.usertype==="Approval" ) { %>
 
-                          <td>
-                            <h2 class="table-avatar">
-                              <a href="#" class="avatar avatar-sm me-2">
-                                <img class="avatar-img rounded-circle" src="/<%= loanRequest.user_id.image %>"
-                                  alt="User Image">
-                              </a>
-                              <%= loanRequest.user_id.name %>
-                            </h2>
-                          </td>
-                          <td>
-                            <%= loanRequest.user_id.userid %>
+                                <td>
+                                  <h2 class="table-avatar">
+                                    <a href="#" class="avatar avatar-sm me-2">
+                                      <img class="avatar-img rounded-circle" src="/<%= loanRequest.user_id.image %>"
+                                        alt="User Image">
+                                    </a>
+                                    <%= loanRequest.user_id.name %>
+                                  </h2>
+                                </td>
+                                <td>
+                                  <%= loanRequest.user_id.userid %>
 
-                          </td>
-                          <td>
-                            <%= loanRequest.user_id.department %>
-                          </td>
-                          <td>
-                            <%= loanRequest.user_id.usertype %>
-                          </td>
-                          <td>
-                            <%= loanRequest.item.name %>
-                          </td>
-                          <td>
-                            <%= loanRequest.quantity %>
-                          </td>
-                          <td>
-                            <%= loanRequest.request_date.toLocaleDateString()%>
-                          </td>
-                          <td>
-                            <%= loanRequest.return_date.toLocaleDateString() %>
-                          </td>
-                          <!-- <td>
+                                </td>
+                                <td>
+                                  <%= loanRequest.user_id.department %>
+                                </td>
+                                <td>
+                                  <%= loanRequest.user_id.usertype %>
+                                </td>
+                                <td>
+                                  <%= loanRequest.item.name %>
+                                </td>
+                                <td>
+                                  <%= loanRequest.quantity %>
+                                </td>
+                                <td>
+                                  <%= loanRequest.request_date.toLocaleDateString()%>
+                                </td>
+                                <td>
+                                  <%= loanRequest.return_date.toLocaleDateString() %>
+                                </td>
+                                <!-- <td>
                             <%= loanRequest.status %>
                           </td> -->
-                          <td>
-                            <div class="d-flex">
-                              <form action="/manage-loan/<%= loanRequest.id %>" method="POST">
-                                <input type="hidden" name="loan_id" value="<%= loanRequest.id %>">
-                                <button type="submit" class="btn btn-custom">
-                                  <img src="../assets/img/icons/check-mark.png" alt="">
-                                </button>
-                              </form>
-                          
-                              <form action="/reject-loan/<%= loanRequest.id %>" method="POST">
-                                <input type="hidden" name="loan_id" value="<%= loanRequest.id %>">
-                                <button type="submit" class="btn btn-custom">
-                                  <img src="../assets/img/icons/delete.png" alt="">
-                                </button>
-                              </form>
-                            </div>
-                          </td>
+                                <td>
+                                  <div class="d-flex">
+                                    <form action="/manage-loan/<%= loanRequest.id %>" method="POST">
+                                      <input type="hidden" name="loan_id" value="<%= loanRequest.id %>">
+                                      <button type="submit" class="border-0 bg-transparent" name="status"
+                                        data-toggle="tooltip" data-placement="top" title="Approve" value=" Approved"><i
+                                          class="ti-check" style="color:green"></i></button>
+
+                                    </form>
+
+                                    <form action="/reject-loan/<%= loanRequest.id %>" method="POST">
+                                      <input type="hidden" name="loan_id" value="<%= loanRequest.id %>">
+                                      <button type="submit" class="border-0 bg-transparent" name="status"
+                                        data-toggle="tooltip" data-placement="top" title="Reject" value="rejected"><i
+                                          class="ti-close" style="color:red"></i></button>
+
+                                    </form>
+                                  </div>
+                                </td>
 
 
-                          </tr>
-                          <% } %>
-                            <% }); %>
-                    </tbody>
-                  </table>
+                                </tr>
+                                <% } %>
+                                  <% }); %>
+                          </tbody>
+                        </table>
                 </div>
               </div>
             </div>

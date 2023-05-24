@@ -57,7 +57,7 @@
   <header class="header_area">
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid ml-3">
+        <div class="container">
           <a class="navbar-brand logo_h" href="/userhome"><img src="../assets/img/logo-small.png"
               style="width: 60px; height: 60px;" alt=""></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -71,7 +71,7 @@
               <li class="nav-item"><a class="nav-link" href="/userhome">Home</a></li>
               <li class="nav-item"><a class="nav-link" href="/all-items">Equipment</a></li>
               <li class="nav-item"><a class="nav-link" href="/get_loan">Loan</a></li>
-              <li class="nav-item"><a class="nav-link" href="/aboutus">About Us</a></li>
+              <li class="nav-item"><a class="nav-link" href="/aboutus">About</a></li>
 
 
             </ul>
@@ -84,14 +84,11 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false"> <img src="/<%=user.image%>" class="rounded-circle" height="30" width="30"
                     alt="User Profile" loading="lazy" /></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                  <li>
-                    <a class="dropdown-item" href="/user-profile">My profile</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                  </li>
-                </ul>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/user-profile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+
+                </div>
 
               </li>
             </ul>
@@ -103,77 +100,77 @@
   <div class="container mt-2">
     <%- include('messages') %>
 
-    <div class="cart_inner">
-      <% if (cart && cart.length) { %>
+      <div class="cart_inner">
+        <% if (cart && cart.length) { %>
 
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Product</th>
-                <th scope="col">Available</th>
-                <th scope="col">Quantity</th>
-                <!-- <th scope="col">Action</th> -->
-              </tr>
-            </thead>
-            <tbody>
-              <form action="/card" method="POST">
-                <% cart.forEach((cartItem)=> { %>
-                  <tr>
-                    <td class="col-lg-5 col-md-5">
-                      <div class="media">
-                        <img src="<%= cartItem.item.image %>" alt="" class=" img-thumbnail imgcard mr-3">
-                        <div class="media-body">
-                          <p>
-                            <%= cartItem.item.name %>
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="col-lg-2 col-md-2">
-                      <div class="media-body">
-                        <p>
-                          <%= cartItem.item.available_items %>
-                        </p>
-
-                      </div>
-                    </td>
-                    <td class="col-lg-2 col-md-2">
-                      <input type="hidden" name="item_ids[]" value="<%= cartItem.item._id %>">
-                      <div class="form-group" style="width: 30;">
-                        <input type="number" class="form-control" placeholder="1" name="quantities[]" min="1"
-                          max="<%= cartItem.available_items %>" required>
-                      </div>
-                    </td>
-                    <td class="col-lg-3 col-md-2">
-                      <input type="hidden" value="<%= cartItem.id %>">
-                      <a href="/deleteItem?id=<%= cartItem.id %>"><span class="material-symbols-outlined"
-                          style="color: gray;">
-                          cancel
-                        </span></a>
-                    </td>
-                  </tr>
-                  <% }) %>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Product</th>
+                  <th scope="col">Available</th>
+                  <th scope="col">Quantity</th>
+                  <!-- <th scope="col">Action</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <form action="/card" method="POST">
+                  <% cart.forEach((cartItem)=> { %>
                     <tr>
-                      <td colspan="3">
-                        <div class="form-group">
-                          <label for="return_date">Return Date:</label>
-                          <input type="date" class="form-control col-lg-4" name="return_date" required>
-                          <button class="button primary-btn mt-3" style="border-radius: 1vh;" type="submit">Request
-                            Loan</button>
+                      <td class="col-lg-5 col-md-5">
+                        <div class="media">
+                          <img src="<%= cartItem.item.image %>" alt="" class=" img-thumbnail imgcard mr-3">
+                          <div class="media-body">
+                            <p>
+                              <%= cartItem.item.name %>
+                            </p>
+                          </div>
                         </div>
                       </td>
+                      <td class="col-lg-2 col-md-2">
+                        <div class="media-body">
+                          <p>
+                            <%= cartItem.item.available_items %>
+                          </p>
+
+                        </div>
+                      </td>
+                      <td class="col-lg-2 col-md-2">
+                        <input type="hidden" name="item_ids[]" value="<%= cartItem.item._id %>">
+                        <div class="form-group" style="width: 30;">
+                          <input type="number" class="form-control" placeholder="1" name="quantities[]" min="1"
+                            max="<%= cartItem.available_items %>" required>
+                        </div>
+                      </td>
+                      <td class="col-lg-3 col-md-2">
+                        <input type="hidden" value="<%= cartItem.id %>">
+                        <a href="/deleteItem?id=<%= cartItem.id %>"><span class="material-symbols-outlined"
+                            style="color: gray;">
+                            cancel
+                          </span></a>
+                      </td>
                     </tr>
-              </form>
-            </tbody>
-          </table>
+                    <% }) %>
+                      <tr>
+                        <td colspan="3">
+                          <div class="form-group">
+                            <label for="return_date">Return Date:</label>
+                            <input type="date" class="form-control col-lg-4" name="return_date" required>
+                            <button class="button primary-btn mt-3" style="border-radius: 1vh;" type="submit">Request
+                              Loan</button>
+                          </div>
+                        </td>
+                      </tr>
+                </form>
+              </tbody>
+            </table>
 
-        </div>
+          </div>
 
-        <% } else { %>
-          <p>Your cart is empty.</p>
-          <% } %>
-    </div>
+          <% } else { %>
+            <p>Your cart is empty.</p>
+            <% } %>
+      </div>
   </div>
 
   <footer>

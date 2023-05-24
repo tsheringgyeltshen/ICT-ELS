@@ -24,7 +24,7 @@
   <header class="header_area">
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid ml-3">
+        <div class="container">
           <a class="navbar-brand logo_h" href="/approvalhome"><img src="assets/img/logo-small.png"
               style="width: 60px; height: 60px;" alt=""></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -38,15 +38,16 @@
               <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
               <li class="nav-item active"><a class="nav-link" href="#">Equipment</a></li>
               <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false">Loan
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">Loan
                 </a>
                 <ul class="dropdown-menu">
-                    <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
-                    <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
-                    </li>
+                  <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
+                  <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
+                  </li>
                 </ul>
-            </li>              <li class="nav-item"><a class="nav-link" href="/aboutus1">About Us</a></li>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
 
             </ul>
@@ -60,14 +61,11 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false"> <img src="/<%=user.image%>" class="rounded-circle" height="30" width="30"
                     alt="User Profile" loading="lazy" /></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                  <li>
-                    <a class="dropdown-item" href="/approval-profile">My profile</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                  </li>
-                </ul>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/approval-profile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+
+                </div>
 
               </li>
             </ul>
@@ -90,8 +88,7 @@
                   <ul>
                     <% categories.forEach(category=> { %>
 
-                      <li class="filter-list "><a href="/approvalcategoriesitems/<%= category._id %>" class="category"
-                          >
+                      <li class="filter-list "><a href="/approvalcategoriesitems/<%= category._id %>" class="category">
                           <%= category.name %>
                         </a>
                         <label for="men">
@@ -130,45 +127,46 @@
         <section class="lattest-product-area pb-40 category-list">
           <%- include('messages') %>
 
-          <div class="row" id="card-container">
-            <% if (items.length> 0) { %>
-              <% items.forEach(item=> { %>
-                <div class="col-md-6 col-lg-4">
-                  <div class="card text-center card-product">
-                    <div class="card-product__img">
-                      <img class="img-fluid item img-thumbnail" src="<%= item.image %>" alt="">
-                      <ul class="card-product__imgOverlay">
-                        <li>
-                          <form action="/addto_card1/<%= item._id %>" method="POST">
-                            <input type="hidden" name="<%= item._id %>" value="<%= item._id %>">
-                            <button type="submit"><i class="ti-shopping-cart"></i></button>
-                          </form>
-                        </li>
+            <div class="row" id="card-container">
+              <% if (items.length> 0) { %>
+                <% items.forEach(item=> { %>
+                  <div class="col-md-6 col-lg-4">
+                    <div class="card text-center card-product">
+                      <div class="card-product__img">
+                        <img class="img-fluid item img-thumbnail" src="<%= item.image %>" alt="">
+                        <ul class="card-product__imgOverlay">
+                          <li>
+                            <form action="/addto_card1/<%= item._id %>" method="POST">
+                              <input type="hidden" name="<%= item._id %>" value="<%= item._id %>">
+                              <button type="submit"><i class="ti-shopping-cart"></i></button>
+                            </form>
+                          </li>
 
-                      </ul>
-                    </div>
-                    <div>
-                      <div class="card-body">
-                        <p>
-                          <%= item.category.name %>
-                        </p>
-                        <p>Available: <%=item.available_items%>
-                        </p>
-                        <h4 class="card-product__title">
-                          <a href="/view-equipment/<%= item._id %>">
-                            <%= item.name %>
-                          </a>
-                        </h4>
+                        </ul>
+                      </div>
+                      <div>
+                        <div class="card-body">
+                          <h4 class="card-product__title">
+                            <a href="/view-equipment/<%= item._id %>">
+                              <%= item.name %>
+                            </a>
+                          </h4>
+                          <p>
+                            <%= item.category.name %>
+                          </p>
+                          <p>Available: <%=item.available_items%>
+                          </p>
+                          
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <% }) %>
-                  <% } else { %>
-                    <p>No items found.</p>
-                    <% } %>
+                  <% }) %>
+                    <% } else { %>
+                      <p>No items found.</p>
+                      <% } %>
 
-          </div>
+            </div>
         </section>
       </div>
     </div>

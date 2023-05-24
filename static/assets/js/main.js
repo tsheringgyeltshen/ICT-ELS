@@ -74,11 +74,17 @@ $(function () {
 
   //------- fixed navbar --------//  
   $(window).scroll(function () {
-    var sticky = $('.header_area'),
-      scroll = $(window).scrollTop();
+    var sticky = $('.header_area');
+    var scroll = $(window).scrollTop();
+    var windowHeight = $(window).height();
+    var threshold = windowHeight * 0.1;
 
-    if (scroll >= 100) sticky.addClass('fixed');
-    else sticky.removeClass('fixed');
+    if (scroll >= threshold){
+      sticky.addClass('fixed');
+    }
+    else{
+      sticky.removeClass('fixed');
+    }
   });
 
   //------- Price Range slider -------//
@@ -133,7 +139,7 @@ $(function () {
   });
 
   // Number of cards to display per page
-  
+
 
 
 

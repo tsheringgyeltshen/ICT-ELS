@@ -1,91 +1,89 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>About Us</title>
-  <link rel="icon" href="assets/img/logo-small.png" type="image/png">
-  <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="assets/themify-icons/themify-icons.css">
-  <link rel="stylesheet" href="assets/linericon/style.css">
-  <link rel="stylesheet" href="assets/owl-carousel/owl.theme.default.min.css">
-  <link rel="stylesheet" href="assets/owl-carousel/owl.carousel.min.css">
-  <link rel="stylesheet" href="assets/nice-select/nice-select.css">
-  <link rel="stylesheet" href="assets/nouislider/nouislider.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>About Us</title>
+    <link rel="icon" href="assets/img/logo-small.png" type="image/png">
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="assets/linericon/style.css">
+    <link rel="stylesheet" href="assets/owl-carousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="assets/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/nice-select/nice-select.css">
+    <link rel="stylesheet" href="assets/nouislider/nouislider.min.css">
 
-  <link rel="stylesheet" href="assets/css/style1.css">
+    <link rel="stylesheet" href="assets/css/style1.css">
 </head>
 
 <body>
-  <header class="header_area">
-    <div class="main_menu">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid ml-3">
-          <a class="navbar-brand logo_h" href="/approvalhome"><img src="assets/img/logo-small.png"
-              style="width: 60px; height: 60px;" alt=""></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-              <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="/all-equipment">Equipment</a></li>
-              <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false">Loan
-                </a>
-                <ul class="dropdown-menu">
-                    <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
-                    <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
-                    </li>
-                </ul>
-            </li>              <li class="nav-item active"><a class="nav-link" href="/aboutus1">About Us</a></li>
+    <header class="header_area">
+        <div class="main_menu">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container">
+                    <a class="navbar-brand logo_h" href="/approvalhome"><img src="assets/img/logo-small.png"
+                            style="width: 60px; height: 60px;" alt=""></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+                            <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/all-equipment">Equipment</a></li>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">Loan
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
+                                    <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item active"><a class="nav-link" href="/aboutus1">About</a></li>
 
 
-            </ul>
+                        </ul>
 
-            <ul class="nav-shop">
-              <!-- <li class="nav-item"><button><i class="ti-search"></i></button></li> -->
-              <li class="nav-item cartnav"><a href="/cart1"><i class="ti-shopping-cart"></i><span
-                    class="nav-shop__circle"></span> </a></li>
-              <li class="nav-item submenu dropdown">
+                        <ul class="nav-shop">
+                            <!-- <li class="nav-item"><button><i class="ti-search"></i></button></li> -->
+                            <li class="nav-item cartnav"><a href="/cart1"><i class="ti-shopping-cart"></i><span
+                                        class="nav-shop__circle"></span> </a></li>
+                            <li class="nav-item submenu dropdown">
 
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false"> <img src="/<%=users.image%>" class="rounded-circle" height="30" width="30"
-                    alt="User Profile" loading="lazy" /></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                  <li>
-                    <a class="dropdown-item" href="/approval-profile">My profile</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                  </li>
-                </ul>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false"> <img src="/<%=users.image%>"
+                                        class="rounded-circle" height="30" width="30" alt="User Profile"
+                                        loading="lazy" /></a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/approval-profile">My Profile</a>
+                                    <a class="dropdown-item" href="/logout">Logout</a>
 
-              </li>
-            </ul>
-          </div>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
-      </nav>
-    </div>
-  </header>
+    </header>
 
 
     <section>
-        <div class=" container">
+        <div class=" container mt-4">
             <div class="col-lg-12">
                 <h2>About Loan-a-Tech</h2>
 
-                <p class="mt-2">An ICT (Information and Communication Technology) equipment loan system in a college refers
+                <p class="mt-2">An ICT (Information and Communication Technology) equipment loan system in a college
+                    refers
                     to a process where students, faculty members, or staff members can borrow ICT equipment for
                     educational or administrative purposes. This system typically involves a lending process,
                     where users can request to borrow equipment such as laptops, projectors, cameras, or other
@@ -197,15 +195,15 @@
 
 
 
-  <script src="assets/jquery/jquery-3.2.1.min.js"></script>
-  <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="assets/skrollr.min.js"></script>
-  <script src="assets/owl-carousel/owl.carousel.min.js"></script>
-  <script src="assets/nice-select/jquery.nice-select.min.js"></script>
-  <script src="assets/nouislider/nouislider.min.js"></script>
-  <script src="assets/jquery.ajaxchimp.min.js"></script>
-  <script src="assets/mail-script.js"></script>
-  <script src="assets/js/main.js"></script>
+    <script src="assets/jquery/jquery-3.2.1.min.js"></script>
+    <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/skrollr.min.js"></script>
+    <script src="assets/owl-carousel/owl.carousel.min.js"></script>
+    <script src="assets/nice-select/jquery.nice-select.min.js"></script>
+    <script src="assets/nouislider/nouislider.min.js"></script>
+    <script src="assets/jquery.ajaxchimp.min.js"></script>
+    <script src="assets/mail-script.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>

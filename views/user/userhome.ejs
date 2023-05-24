@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +22,7 @@
     <header class="header_area">
         <div class="main_menu">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container-fluid ml-3">
+                <div class="container">
                     <a class="navbar-brand logo_h" href="/userhome"><img src="assets/img/logo-small.png" alt=""
                             style="width: 60px; height: 60px;"></a>
                     <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse"
@@ -38,9 +37,9 @@
                             <li class="nav-item active"><a class="nav-link" href="/userhome">Home</a></li>
                             <li class="nav-item "><a class="nav-link" href="/all-items">Equipment</a></li>
                             <li class="nav-item "><a class="nav-link" href="/get_loan">Loan</a></li>
-                            <li class="nav-item "><a class="nav-link" href="/aboutus">About Us</a></li>
+                            <li class="nav-item "><a class="nav-link" href="/aboutus">About</a></li>
 
-                            
+
 
 
 
@@ -66,14 +65,11 @@
                   <li class="nav-item"><a class="dropdown-item" href="">Logout</a></li>
 
                 </ul> -->
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                                    <li>
-                                        <a class="dropdown-item" href="/user-profile">My profile</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="/logout">Logout</a>
-                                    </li>
-                                </ul>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/user-profile">My Profile</a>
+                                    <a class="dropdown-item" href="/logout">Logout</a>
+
+                                </div>
 
                             </li>
 
@@ -114,9 +110,8 @@
                         <div class="hero-banner__content">
                             <h4>Loan Equipment</h4>
                             <h1>Browse ICT Equipment</h1>
-                            <p>Us which over of signs divide dominion deep fill bring they're meat beho upon own earth
-                                without morning
-                                over third. Their male dry. They are great appear whose land fly grass.</p>
+                            <p>Transforming Borrowing Experience: Our Advanced Equipment Loan System Connects Resources,
+                                Empowering Organizations to achieve More, Effortlessly.</p>
                             <a class="button button-hero" href="/all-items">Browse Now</a>
                         </div>
                     </div>
@@ -128,12 +123,12 @@
         <!-- ================ trending product section start ================= -->
         <section class="section-margin calc-60px">
             <div class="container">
-            
+
                 <div class="section-intro pb-60px">
                     <%- include('messages') %>
 
-                    <!-- <p>Popular Item in the market</p> -->
-                    <h2>New <span class="section-intro__style">Equipment</span></h2>
+                        <!-- <p>Popular Item in the market</p> -->
+                        <h2>New <span class="section-intro__style">Equipment</span></h2>
                 </div>
 
                 <div class="row" id="card-container">
@@ -155,16 +150,17 @@
                                     </div>
                                     <div>
                                         <div class="card-body">
-                                            <p>
-                                                <%= item.category.name %>
-                                            </p>
-                                            <p>Available: <%=item.available_items%>
-                                            </p>
                                             <h4 class="card-product__title">
                                                 <a href="/view-item/<%= item._id %>">
                                                     <%= item.name %>
                                                 </a>
                                             </h4>
+                                            <p>
+                                                <%= item.category.name %>
+                                            </p>
+                                            <p>Available: <%=item.available_items%>
+                                            </p>
+
                                         </div>
                                     </div>
 

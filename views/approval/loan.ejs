@@ -185,7 +185,7 @@
   <header class="header_area">
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid ml-3">
+        <div class="container">
           <a class="navbar-brand logo_h" href="/approvalhome"><img src="../assets/img/logo-small.png"
               style="width: 60px; height: 60px;" alt=""></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -199,15 +199,16 @@
               <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
               <li class="nav-item active"><a class="nav-link" href="/all-equipment">Equipment</a></li>
               <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false">Loan
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">Loan
                 </a>
                 <ul class="dropdown-menu">
-                    <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
-                    <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
-                    </li>
+                  <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
+                  <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
+                  </li>
                 </ul>
-            </li>              <li class="nav-item"><a class="nav-link" href="/aboutus1">About Us</a></li>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
             </ul>
 
@@ -222,14 +223,11 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false"> <img src="/<%=user.image%>" class="rounded-circle" height="30" width="30"
                     alt="User Profile" loading="lazy" /></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                  <li>
-                    <a class="dropdown-item" href="/approval-profile">My profile</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                  </li>
-                </ul>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/approval-profile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+
+                </div>
 
               </li>
             </ul>
@@ -240,7 +238,7 @@
   </header>
 
   <!-- <div class="product_image_area"> -->
-  <div class="container">
+  <div class="container mt-4">
 
     <div class="row s_product_inner mt-auto">
       <div class="col-lg-5">
@@ -258,7 +256,7 @@
           </h3>
           <ul class="list">
             <li><a class="active" href="#"><span>Category</span>: <%= item.category.name %></a></li>
-            <li><a href="#"><span>Availibile</span>: <%= item.available_items %></a></li>
+            <li><a href="#"><span>Available</span>: <%= item.available_items %></a></li>
           </ul>
           <p>
             <%= item.description %>
@@ -266,11 +264,11 @@
           <!-- <div class="row quantity "> -->
           <form action="/loan/<%=item.id%>" method="POST">
 
-            <span class="quantity" style="font-weight: bold; color: #000;">Quantity:</span>
-            <input type="number" name="quantity" placeholder="1" min="1" max="<%= item.available_items %>" required>
+            <span class="quantity" style=" color: #000;">Quantity</span>
+            <input type="number" class="form-control" name="quantity" placeholder="1" min="1" max="<%= item.available_items %>" required>
             <div class="mt-2">
 
-              <span  style="font-weight: bold; color: #000;">
+              <span style=" color: #000;">
                 Select Return Date</span>
 
               <input type="date" name="return_date" placeholder="dd-mm-yyyy" class="form-control" required>

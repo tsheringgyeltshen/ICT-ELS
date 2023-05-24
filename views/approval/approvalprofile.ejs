@@ -94,7 +94,7 @@
     <header class="header_area">
         <div class="main_menu">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container-fluid ml-3">
+                <div class="container">
                     <a class="navbar-brand logo_h" href="/approvalhome"><img src="assets/img/logo-small.png"
                             style="width: 60px; height: 60px;" alt=""></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -117,7 +117,8 @@
                                     <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
                                     </li>
                                 </ul>
-                            </li>                            <li class="nav-item"><a class="nav-link" href="/aboutus">About Us</a></li>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
 
                         </ul>
@@ -131,14 +132,11 @@
                                     aria-haspopup="true" aria-expanded="false"> <img src="<%=approval.image%>"
                                         class="rounded-circle" height="30" width="30" alt="User Profile"
                                         loading="lazy" /></a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                                    <li>
-                                        <a class="dropdown-item" href="/approval-profile">My profile</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="/logout">Logout</a>
-                                    </li>
-                                </ul>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/approval-profile">My Profile</a>
+                                    <a class="dropdown-item" href="/logout">Logout</a>
+
+                                </div>
 
                             </li>
                         </ul>
@@ -153,79 +151,81 @@
         <div class="container">
             <h2 class="mb-3"><b>User Profile</b></h2>
             <br>
-            <h4 class="mb-3">User Details</h4>  <%- include('messages') %>
+            <h4 class="mb-3">User Details</h4> <%- include('messages') %>
 
-            <hr>
-            <br>
-            <form action="/approval-profile" method="post" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-md-5">
+                <hr>
+                <br>
+                <form action="/approval-profile" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-5">
 
-                        <div class="image_container" id="image-container">
-                            <img class="img-fluid image" src="/<%=approval.image%>" alt="" width="100%" height="100%">
-                            <div class="middle">
-                                <div class="image-upload">
-                                    <label for="file-input">
-                                        <i class="ti-camera"></i>
-                                    </label>
+                            <div class="image_container" id="image-container">
+                                <img class="img-fluid image" src="/<%=approval.image%>" alt="" width="100%"
+                                    height="100%">
+                                <div class="middle">
+                                    <div class="image-upload">
+                                        <label for="file-input">
+                                            <i class="ti-camera"></i>
+                                        </label>
 
-                                    <input id="file-input" value="<%= approval.image %>" name="image" type="file" />
+                                        <input id="file-input" value="<%= approval.image %>" name="image" type="file" />
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-md-7">
-
-                        <div class="row gy-2">
-                            <div class="col-4">
-                                <div class="p-3"><b>Name</b></div>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-3">
-                                    <%=approval.name%>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="p-3"><b>User ID</b></div>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-3">
-                                    <%=approval.userid%>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="p-3"><b>Department</b></div>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-3">
-                                    <%=approval.department%>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="p-3"><b>Email</b></div>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-3">
-                                    <%=approval.email%>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="p-3"><b>Contact No</b></div>
-                            </div>
-                            <div class="col-6">
-                                <div class="p-3"><input type="number" name="mno" class="form-control"
-                                        value="<%=approval.mobilenumber %>" required></div>
-                            </div>
-                            <div class="mt-3">
-                                <button type="submit" class="btn btn-primary" style="font-size: large;">Save</button>
-                                <input type="hidden" name="id" value="<%= approval._id %>">
                             </div>
 
                         </div>
+                        <div class="col-md-7">
+
+                            <div class="row gy-2">
+                                <div class="col-4">
+                                    <div class="p-3"><b>Name</b></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3">
+                                        <%=approval.name%>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="p-3"><b>User ID</b></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3">
+                                        <%=approval.userid%>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="p-3"><b>Department</b></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3">
+                                        <%=approval.department%>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="p-3"><b>Email</b></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3">
+                                        <%=approval.email%>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="p-3"><b>Contact No</b></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3"><input type="number" name="mno" class="form-control"
+                                            value="<%=approval.mobilenumber %>" required></div>
+                                </div>
+                                <div class="mt-3">
+                                    <button type="submit" class="btn btn-primary"
+                                        style="font-size: large;">Save</button>
+                                    <input type="hidden" name="id" value="<%= approval._id %>">
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
         </div>
 
     </section>

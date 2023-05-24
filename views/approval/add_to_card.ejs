@@ -25,7 +25,7 @@
   <header class="header_area">
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid ml-3">
+        <div class="container">
           <a class="navbar-brand logo_h" href="/approvelhome"><img src="../assets/img/logo-small.png"
               style="width: 60px; height: 60px;" alt=""></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -48,7 +48,7 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-item"><a class="nav-link" href="/aboutus1">About Us</a></li>
+              <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
 
             </ul>
@@ -61,14 +61,11 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false"> <img src="/<%= users.image %>" class="rounded-circle" height="30" width="30"
                     alt="User Profile" loading="lazy" /></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                  <li>
-                    <a class="dropdown-item" href="/approval-profile">My profile</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                  </li>
-                </ul>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="/approval-profile">My Profile</a>
+                      <a class="dropdown-item" href="/logout">Logout</a>
+
+                  </div>
 
               </li>
             </ul>

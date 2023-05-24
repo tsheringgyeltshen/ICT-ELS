@@ -80,7 +80,7 @@
   <header class="header_area">
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid ml-3">
+        <div class="container">
           <a class="navbar-brand logo_h" href="/approvalhome"><img src="../assets/img/logo-small.png"
               style="width: 60px; height: 60px;" alt=""></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -94,15 +94,16 @@
               <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
               <li class="nav-item active"><a class="nav-link" href="/all-equipment">Equipment</a></li>
               <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false">Loan
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">Loan
                 </a>
                 <ul class="dropdown-menu">
-                    <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
-                    <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
-                    </li>
+                  <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
+                  <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
+                  </li>
                 </ul>
-            </li>              <li class="nav-item"><a class="nav-link" href="/aboutus1">About Us</a></li>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
 
             </ul>
@@ -116,14 +117,11 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false"> <img src="/<%=user.image%>" class="rounded-circle" height="30" width="30"
                     alt="User Profile" loading="lazy" /></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                  <li>
-                    <a class="dropdown-item" href="/approval-profile">My profile</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                  </li>
-                </ul>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/approval-profile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+
+                </div>
 
               </li>
             </ul>
@@ -144,18 +142,18 @@
                 <% if (categories.length> 0) { %>
 
                   <ul>
-                      <% categories.forEach(category=> { %>
+                    <% categories.forEach(category=> { %>
 
-                          <li class="filter-list"><a href="/approvalcategoriesitems/<%= category._id %>"
-                                  class="category" style="color: gray;">
-                                  <%= category.name %>
-                              </a>
-                              <label for="men">
+                      <li class="filter-list"><a href="/approvalcategoriesitems/<%= category._id %>" class="category"
+                          style="color: gray;">
+                          <%= category.name %>
+                        </a>
+                        <label for="men">
 
-                              </label>
-                          </li>
+                        </label>
+                      </li>
 
-                          <% }) %>
+                      <% }) %>
                   </ul>
                   <% } %>
               </form>
@@ -169,15 +167,15 @@
       <div class="col-xl-9 col-lg-8 col-md-7">
         <!-- Start Filter Bar -->
         <div class="filter-bar d-flex flex-wrap align-items-center">
-            <form class="input-group" action="/approvalcategoriesitems/<%= category._id %>" method="GET">
-                <div>
-                    <div class="input-group filter-bar-search">
-                        <input type="search" name="search" placeholder="Category/Name" class="form-control"
-                            value="<%= searchQuery %>">
-                        <button type="submit"><i class="ti-search"></i></button>
-                    </div>
-                </div>
-            </form>
+          <form class="input-group" action="/approvalcategoriesitems/<%= category._id %>" method="GET">
+            <div>
+              <div class="input-group filter-bar-search">
+                <input type="search" name="search" placeholder="Category/Name" class="form-control"
+                  value="<%= searchQuery %>">
+                <button type="submit"><i class="ti-search"></i></button>
+              </div>
+            </div>
+          </form>
         </div>
         <!-- End Filter Bar -->
         <!-- Start Best Seller -->
@@ -225,10 +223,10 @@
         <!-- End Best Seller -->
       </div>
     </div>
-    
+
   </div>
   </section>
-  
+
   <div id="pagination" class="text-center">
     <nav aria-label="Page navigation">
       <ul class="pagination justify-content-center">
@@ -238,18 +236,20 @@
             <span class="sr-only">Previous</span>
           </a>
         </li>
-        <% var numPages = Math.ceil(items.length / cardsPerPage); %>
-        <% for (var page = 1; page <= numPages; page++) { %>
-          <li class="page-item <%= page === currentPage ? 'active' : '' %>" id="page-<%= page %>">
-            <a class="page-link" href="#"><%= page %></a>
-          </li>
-        <% } %>
-        <li class="page-item" id="next-page">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-            <span class="sr-only">Next</span>
-          </a>
-        </li>
+        <% var numPages=Math.ceil(items.length / cardsPerPage); %>
+          <% for (var page=1; page <=numPages; page++) { %>
+            <li class="page-item <%= page === currentPage ? 'active' : '' %>" id="page-<%= page %>">
+              <a class="page-link" href="#">
+                <%= page %>
+              </a>
+            </li>
+            <% } %>
+              <li class="page-item" id="next-page">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
       </ul>
     </nav>
   </div>
@@ -277,12 +277,12 @@
     var cardsPerPage = 9; // Number of cards to show per page
     var cards = document.querySelectorAll('#card-container .card');
     var numPages = Math.ceil(cards.length / cardsPerPage);
-  
+
     // Function to show the cards for the current page
     function showCards(page) {
       var startIndex = (page - 1) * cardsPerPage;
       var endIndex = startIndex + cardsPerPage;
-  
+
       for (var i = 0; i < cards.length; i++) {
         if (i >= startIndex && i < endIndex) {
           cards[i].style.display = 'block';
@@ -291,44 +291,44 @@
         }
       }
     }
-  
+
     // Function to update the pagination UI
     function updatePaginationUI(page) {
       var paginationItems = document.querySelectorAll('#pagination li');
-  
+
       paginationItems.forEach(function (item) {
         item.classList.remove('active');
       });
-  
+
       var currentPageItem = document.getElementById('page-' + page);
       currentPageItem.classList.add('active');
     }
-  
+
     // Function to handle page navigation
     function goToPage(page) {
       if (page < 1 || page > numPages) {
         return;
       }
-  
+
       currentPage = page;
       showCards(currentPage);
       updatePaginationUI(currentPage);
     }
-  
+
     // Event listeners for previous and next page buttons
     document.getElementById('prev-page').addEventListener('click', function (e) {
       e.preventDefault();
       goToPage(currentPage - 1);
     });
-  
+
     document.getElementById('next-page').addEventListener('click', function (e) {
       e.preventDefault();
       goToPage(currentPage + 1);
     });
-  
+
     // Event listeners for individual page buttons
     var pageButtons = document.querySelectorAll('#pagination li[id^="page-"]');
-  
+
     pageButtons.forEach(function (button) {
       button.addEventListener('click', function (e) {
         e.preventDefault();
@@ -336,7 +336,7 @@
         goToPage(page);
       });
     });
-  
+
     // Initial setup
     showCards(currentPage);
     updatePaginationUI(currentPage);

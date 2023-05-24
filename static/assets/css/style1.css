@@ -1589,7 +1589,7 @@ a {
 }
 
 .single-recent-blog-post .thumb {
-    overflow: hidden
+    /* overflow: hidden */
 }
 
 .single-recent-blog-post .thumb img {
@@ -3884,7 +3884,7 @@ a {
     flex: 0 0 16.667%;
     max-width: 16.667%;
     display: block;
-    overflow: hidden
+    /* overflow: hidden */
 }
 
 .instagram_image a img {
@@ -4864,7 +4864,7 @@ a {
     border: 1px solid #ebebeb;
     border-radius: 50px;
     padding: 0 20px;
-    overflow: hidden;
+    /* overflow: hidden; */
     display: inline-block;
 }
 
@@ -4896,9 +4896,9 @@ a {
     padding-right: 1vw;
 }
 
-.dropdown-menu-end {
-    margin-left: -7vw;
-    z-index: 9999;
+.dropdown-menu {
+    margin-left: -1vw;
+
 }
 
 /* .dropdown-menu-end1 {

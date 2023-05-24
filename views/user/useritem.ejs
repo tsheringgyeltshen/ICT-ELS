@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,7 +24,7 @@
   <header class="header_area">
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid ml-3">
+        <div class="container">
           <a class="navbar-brand logo_h" href="/userhome"><img src="assets/img/logo-small.png"
               style="width: 60px; height: 60px;" alt=""></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -40,7 +38,7 @@
               <li class="nav-item"><a class="nav-link" href="/userhome">Home</a></li>
               <li class="nav-item active"><a class="nav-link" href="#">Equipment</a></li>
               <li class="nav-item"><a class="nav-link" href="/get_loan">Loan</a></li>
-              <li class="nav-item"><a class="nav-link" href="/aboutus">About Us</a></li>
+              <li class="nav-item"><a class="nav-link" href="/aboutus">About</a></li>
 
 
             </ul>
@@ -54,14 +52,11 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false"> <img src="/<%=user.image%>" class="rounded-circle" height="30" width="30"
                     alt="User Profile" loading="lazy" /></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                  <li>
-                    <a class="dropdown-item" href="/user-profile">My profile</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                  </li>
-                </ul>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/user-profile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+
+                </div>
 
               </li>
               <!-- <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li> -->
@@ -83,18 +78,18 @@
                 <% if (categories.length> 0) { %>
 
                   <ul>
-                      <% categories.forEach(category=> { %>
+                    <% categories.forEach(category=> { %>
 
-                          <li class="filter-list"><a href="/categoriesitems/<%= category._id %>"
-                                  class="category" style="color: gray;">
-                                  <%= category.name %>
-                              </a>
-                              <label for="men">
+                      <li class="filter-list"><a href="/categoriesitems/<%= category._id %>" class="category"
+                          style="color: gray;">
+                          <%= category.name %>
+                        </a>
+                        <label for="men">
 
-                              </label>
-                          </li>
+                        </label>
+                      </li>
 
-                          <% }) %>
+                      <% }) %>
                   </ul>
                   <% } %>
 
@@ -125,54 +120,55 @@
         <!-- Start Best Seller -->
         <section class="lattest-product-area pb-40 category-list">
           <%- include('messages') %>
- 
-          <div class="row" id="card-container">
-            <% if (items.length> 0) { %>
-              <% items.forEach(item=> { %>
-                <div class="col-md-6 col-lg-4">
-                  <div class="card text-center card-product">
-                    <div class="card-product__img">
-                      <img class="card-img item img-thumbnail" src="<%= item.image %>" alt="">
-                      <ul class="card-product__imgOverlay">
-                        <li>
-                          <form action="/addto_card/<%= item._id %>" method="POST">
-                            <input type="hidden" name="<%= item._id %>" value="<%= item._id %>">
-                            <button type="submit"><i class="ti-shopping-cart"></i></button>
-                          </form>
-                        </li>
 
-                      </ul>
+            <div class="row" id="card-container">
+              <% if (items.length> 0) { %>
+                <% items.forEach(item=> { %>
+                  <div class="col-md-6 col-lg-4">
+                    <div class="card text-center card-product">
+                      <div class="card-product__img">
+                        <img class="card-img item img-thumbnail" src="<%= item.image %>" alt="">
+                        <ul class="card-product__imgOverlay">
+                          <li>
+                            <form action="/addto_card/<%= item._id %>" method="POST">
+                              <input type="hidden" name="<%= item._id %>" value="<%= item._id %>">
+                              <button type="submit"><i class="ti-shopping-cart"></i></button>
+                            </form>
+                          </li>
 
-                    </div>
-                    <div>
-                      <div class="card-body">
-                        <p>
-                          <%= item.category.name %>
-                        </p>
-                        <p>Available: <%=item.available_items%>
-                        </p>
-                        <h4 class="card-product__title">
-                          <a href="/view-item/<%= item._id %>">
-                            <%= item.name %>
-                          </a>
-                        </h4>
-                        <!-- <p class="card-product__price">$150.00</p> -->
+                        </ul>
+
+                      </div>
+                      <div>
+                        <div class="card-body">
+                          <h4 class="card-product__title">
+                            <a href="/view-item/<%= item._id %>">
+                              <%= item.name %>
+                            </a>
+                          </h4>
+                          <p>
+                            <%= item.category.name %>
+                          </p>
+                          <p>Available: <%=item.available_items%>
+                          </p>
+
+                          <!-- <p class="card-product__price">$150.00</p> -->
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <% }) %>
-                  <% } else { %>
-                    <p>No items found.</p>
-                    <% } %>
+                  <% }) %>
+                    <% } else { %>
+                      <p>No items found.</p>
+                      <% } %>
 
-          </div>
+            </div>
         </section>
         <!-- End Best Seller -->
       </div>
-      
+
     </div>
-    
+
     <div id="pagination" class="text-center">
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
@@ -182,18 +178,20 @@
               <span class="sr-only">Previous</span>
             </a>
           </li>
-          <% var numPages = Math.ceil(items.length / cardsPerPage); %>
-          <% for (var page = 1; page <= numPages; page++) { %>
-            <li class="page-item <%= page === currentPage ? 'active' : '' %>" id="page-<%= page %>">
-              <a class="page-link" href="#"><%= page %></a>
-            </li>
-          <% } %>
-          <li class="page-item" id="next-page">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
+          <% var numPages=Math.ceil(items.length / cardsPerPage); %>
+            <% for (var page=1; page <=numPages; page++) { %>
+              <li class="page-item <%= page === currentPage ? 'active' : '' %>" id="page-<%= page %>">
+                <a class="page-link" href="#">
+                  <%= page %>
+                </a>
+              </li>
+              <% } %>
+                <li class="page-item" id="next-page">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
         </ul>
       </nav>
     </div>
@@ -222,12 +220,12 @@
     var cardsPerPage = 9; // Number of cards to show per page
     var cards = document.querySelectorAll('#card-container .card');
     var numPages = Math.ceil(cards.length / cardsPerPage);
-  
+
     // Function to show the cards for the current page
     function showCards(page) {
       var startIndex = (page - 1) * cardsPerPage;
       var endIndex = startIndex + cardsPerPage;
-  
+
       for (var i = 0; i < cards.length; i++) {
         if (i >= startIndex && i < endIndex) {
           cards[i].style.display = 'block';
@@ -236,44 +234,44 @@
         }
       }
     }
-  
+
     // Function to update the pagination UI
     function updatePaginationUI(page) {
       var paginationItems = document.querySelectorAll('#pagination li');
-  
+
       paginationItems.forEach(function (item) {
         item.classList.remove('active');
       });
-  
+
       var currentPageItem = document.getElementById('page-' + page);
       currentPageItem.classList.add('active');
     }
-  
+
     // Function to handle page navigation
     function goToPage(page) {
       if (page < 1 || page > numPages) {
         return;
       }
-  
+
       currentPage = page;
       showCards(currentPage);
       updatePaginationUI(currentPage);
     }
-  
+
     // Event listeners for previous and next page buttons
     document.getElementById('prev-page').addEventListener('click', function (e) {
       e.preventDefault();
       goToPage(currentPage - 1);
     });
-  
+
     document.getElementById('next-page').addEventListener('click', function (e) {
       e.preventDefault();
       goToPage(currentPage + 1);
     });
-  
+
     // Event listeners for individual page buttons
     var pageButtons = document.querySelectorAll('#pagination li[id^="page-"]');
-  
+
     pageButtons.forEach(function (button) {
       button.addEventListener('click', function (e) {
         e.preventDefault();
@@ -281,12 +279,12 @@
         goToPage(page);
       });
     });
-  
+
     // Initial setup
     showCards(currentPage);
     updatePaginationUI(currentPage);
   </script>
-  
+
   <script src="assets/jquery/jquery-3.2.1.min.js"></script>
   <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="assets/skrollr.min.js"></script>
