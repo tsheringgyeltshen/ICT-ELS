@@ -13,7 +13,7 @@ exports.viewItemByid = async (req, res) => {
 
         const itemId = req.params.id;
         const item = await Item.findById(itemId).populate('category');
-        return res.render('admin/itemDetails', { item, admin: adminData });
+        return res.render('admin/itemdetails', { item, admin: adminData });
 
     } catch (error) {
         console.error(error);
