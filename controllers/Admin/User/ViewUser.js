@@ -1,5 +1,7 @@
 const Users = require("../../../models/userModel");
 const fs = require('fs');
+const cloudinary = require('cloudinary').v2;
+
 
 
 const dotenv = require('dotenv')
@@ -132,10 +134,75 @@ exports.geteditUserPage = async (req, res) => {
     }
 }
 
+// exports.posteditUserPage = async (req, res) => {
+//     try {
+//         if (req.file) {
+//             const userData = await Users.findByIdAndUpdate(
+//                 { _id: req.body.id },
+//                 {
+//                     $set: {
+//                         name: req.body.name,
+//                         userid: req.body.userid,
+//                         email: req.body.email,
+//                         mobilenumber: req.body.mno,
+//                         year: req.body.year,
+//                         department: req.body.department,
+//                         image: req.file.filename
+//                     }
+//                 }
+//             );
+
+//             const path = 'images/' + userData.image;
+//             fs.unlink(path, (error) => {
+//                 if (error) {
+//                     req.flash("error_msg", "User Update Failed");
+//                 } else {
+//                     req.flash("success_msg", "User Successfully Updated");
+//                 }
+//                 req.session.save(() => {
+//                     return res.redirect(`/view-user?id=${req.body.id}`);
+//                 });
+//             });
+//         } else {
+//             await Users.findByIdAndUpdate(
+//                 { _id: req.body.id },
+//                 {
+//                     $set: {
+//                         name: req.body.name,
+//                         userid: req.body.userid,
+//                         email: req.body.email,
+//                         mobilenumber: req.body.mno,
+//                         year: req.body.year,
+//                         department: req.body.department
+//                     }
+//                 });
+
+//             req.flash("success_msg", "User Successfully Updated");
+//             req.session.save(() => {
+//                 return res.redirect(`/view-user?id=${req.body.id}`);
+//             });
+//         }
+//     } catch (error) {
+//         req.flash("error_msg", "Error while updating");
+//         req.session.save(() => {
+//             return res.redirect(`/view-user?id=${req.body.id}`);
+//         });
+//     }
+// };
+
 exports.posteditUserPage = async (req, res) => {
     try {
         if (req.file) {
-            const userData = await Users.findByIdAndUpdate(
+            const userData = await Users.findById(req.body.id);
+
+            // Upload the new image to Cloudinary
+            const result = await cloudinary.uploader.upload(req.file.path);
+
+            // Delete the original image from Cloudinary
+            const publicId = userData.image.split('/').pop().split('.')[0];
+            await cloudinary.uploader.destroy(publicId);
+
+            await Users.findByIdAndUpdate(
                 { _id: req.body.id },
                 {
                     $set: {
@@ -145,21 +212,14 @@ exports.posteditUserPage = async (req, res) => {
                         mobilenumber: req.body.mno,
                         year: req.body.year,
                         department: req.body.department,
-                        image: req.file.filename
-                    }
+                        image: result.secure_url, // Update the Cloudinary URL in the MongoDB document
+                    },
                 }
             );
 
-            const path = 'images/' + userData.image;
-            fs.unlink(path, (error) => {
-                if (error) {
-                    req.flash("error_msg", "User Update Failed");
-                } else {
-                    req.flash("success_msg", "User Successfully Updated");
-                }
-                req.session.save(() => {
-                    return res.redirect(`/view-user?id=${req.body.id}`);
-                });
+            req.flash('success_msg', 'User Successfully Updated');
+            req.session.save(() => {
+                res.redirect(`/view-user?id=${req.body.id}`);
             });
         } else {
             await Users.findByIdAndUpdate(
@@ -172,23 +232,21 @@ exports.posteditUserPage = async (req, res) => {
                         mobilenumber: req.body.mno,
                         year: req.body.year,
                         department: req.body.department
-                    }
-                });
-
-            req.flash("success_msg", "User Successfully Updated");
+                    },
+                }
+            );
+            req.flash('success_msg', 'User Successfully Updated');
             req.session.save(() => {
-                return res.redirect(`/view-user?id=${req.body.id}`);
+                res.redirect(`/view-user?id=${req.body.id}`);
             });
         }
     } catch (error) {
-        req.flash("error_msg", "Error while updating");
+        req.flash('error_msg', 'Error while updating');
         req.session.save(() => {
-            return res.redirect(`/view-user?id=${req.body.id}`);
+            res.redirect(`/view-user?id=${req.body.id}`);
         });
     }
 };
-
-
 
 // admin edit staff load
 exports.geteditstaffPage = async (req, res) => {
@@ -214,65 +272,123 @@ exports.geteditstaffPage = async (req, res) => {
 }
 
 
+// exports.posteditstaffPage = async (req, res) => {
+//   try {
+//     if (req.file) {
+//       const userData = await Users.findByIdAndUpdate(
+//         { _id: req.body.id },
+//         {
+//           $set: {
+//             name: req.body.name,
+//             userid: req.body.userid,
+//             email: req.body.email,
+//             mobilenumber: req.body.mno,
+//             year: req.body.year,
+//             usertype: req.body.usertype,
+//             department: req.body.department,
+//             image: req.file.filename,
+//           },
+//         }
+//       );
+
+//       const path = 'images/' + userData.image;
+//       fs.unlink(path, (error) => {
+//         if (error) {
+//           req.flash('error_msg', "User Successfully Updated");
+//         } else {
+//           req.flash('success_msg', 'User Successfully Updated');
+//         }
+//         req.session.save(() => {
+//           res.redirect(`/view-onestaff?id=${req.body.id}`);
+//         });
+//       });
+//     } else {
+//       await Users.findByIdAndUpdate(
+//         { _id: req.body.id },
+//         {
+//           $set: {
+//             name: req.body.name,
+//             userid: req.body.userid,
+//             email: req.body.email,
+//             mobilenumber: req.body.mno,
+//             year: req.body.year,
+//             usertype: req.body.usertype,
+//             department: req.body.department,
+//           },
+//         }
+//       );
+//       req.flash('success_msg', "User Successfully Updated");
+//       req.session.save(() => {
+//         res.redirect(`/view-onestaff?id=${req.body.id}`);
+//       });
+//     }
+//   } catch (error) {
+//     req.flash('error_msg', 'Error while updating');
+//     req.session.save(() => {
+//       res.redirect(`/view-onestaff?id=${req.body.id}`);
+//     });
+//   }
+// };
+
 exports.posteditstaffPage = async (req, res) => {
-  try {
-    if (req.file) {
-      const userData = await Users.findByIdAndUpdate(
-        { _id: req.body.id },
-        {
-          $set: {
-            name: req.body.name,
-            userid: req.body.userid,
-            email: req.body.email,
-            mobilenumber: req.body.mno,
-            year: req.body.year,
-            usertype: req.body.usertype,
-            department: req.body.department,
-            image: req.file.filename,
-          },
-        }
-      );
+    try {
+        if (req.file) {
+            const userData = await Users.findById(req.body.id);
 
-      const path = 'images/' + userData.image;
-      fs.unlink(path, (error) => {
-        if (error) {
-          req.flash('error_msg', "User Successfully Updated");
+            // Upload the new image to Cloudinary
+            const result = await cloudinary.uploader.upload(req.file.path);
+
+            // Delete the original image from Cloudinary
+            const publicId = userData.image.split('/').pop().split('.')[0];
+            await cloudinary.uploader.destroy(publicId);
+
+            await Users.findByIdAndUpdate(
+                { _id: req.body.id },
+                {
+                    $set: {
+                        name: req.body.name,
+                        userid: req.body.userid,
+                        email: req.body.email,
+                        mobilenumber: req.body.mno,
+                        year: req.body.year,
+                        usertype: req.body.usertype,
+                        department: req.body.department,
+                        image: result.secure_url, // Update the Cloudinary URL in the MongoDB document
+                    },
+                }
+            );
+
+            req.flash('success_msg', 'User Successfully Updated');
+            req.session.save(() => {
+                res.redirect(`/view-onestaff?id=${req.body.id}`);
+            });
         } else {
-          req.flash('success_msg', 'User Successfully Updated');
+            await Users.findByIdAndUpdate(
+                { _id: req.body.id },
+                {
+                    $set: {
+                        name: req.body.name,
+                        userid: req.body.userid,
+                        email: req.body.email,
+                        mobilenumber: req.body.mno,
+                        year: req.body.year,
+                        usertype: req.body.usertype,
+                        department: req.body.department,
+                    },
+                }
+            );
+            req.flash('success_msg', 'User Successfully Updated');
+            req.session.save(() => {
+                res.redirect(`/view-onestaff?id=${req.body.id}`);
+            });
         }
+    } catch (error) {
+        req.flash('error_msg', 'Error while updating');
         req.session.save(() => {
-          res.redirect(`/view-onestaff?id=${req.body.id}`);
+            res.redirect(`/view-onestaff?id=${req.body.id}`);
         });
-      });
-    } else {
-      await Users.findByIdAndUpdate(
-        { _id: req.body.id },
-        {
-          $set: {
-            name: req.body.name,
-            userid: req.body.userid,
-            email: req.body.email,
-            mobilenumber: req.body.mno,
-            year: req.body.year,
-            usertype: req.body.usertype,
-            department: req.body.department,
-          },
-        }
-      );
-      req.flash('success_msg', "User Successfully Updated");
-      req.session.save(() => {
-        res.redirect(`/view-onestaff?id=${req.body.id}`);
-      });
     }
-  } catch (error) {
-    req.flash('error_msg', 'Error while updating');
-    req.session.save(() => {
-      res.redirect(`/view-onestaff?id=${req.body.id}`);
-    });
-  }
 };
-
-
 
 
 

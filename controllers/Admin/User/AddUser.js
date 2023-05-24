@@ -2,6 +2,8 @@ const Users = require("../../../models/userModel");
 const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
 const nodemailer = require('nodemailer');
+const cloudinary = require('cloudinary').v2;
+
 
 const csv = require('csv-parser');
 const fs = require('fs');
@@ -111,75 +113,133 @@ exports.getRegister1 = async (req, res) => {
     }
 }
 
+// exports.postRegister1 = async (req, res) => {
+//     try {
+//         // Retrieve the user ID from the JWT token
+//         const userId = req.user.userData._id;
+
+//         // Query the database for the user with the matching ID
+//         const adminData = await Users.findById(userId);
+
+//         const name = req.body.name;
+//         const userid = req.body.userid;
+//         const email = req.body.email;
+//         const mobilenumber = req.body.mobilenumber;
+//         const usertype = req.body.usertype;
+//         const year = req.body.year;
+//         const department = req.body.department;
+//         const studentorstaff = req.body.studentorstaff;
+//         const image = req.file.filename;
+//         const password = randomstring.generate(8);
+
+
+
+//         const finduser = await Users.findOne({ userid: userid });
+//         const finduser1 = await Users.findOne({ email: email });
+
+//         if (finduser || finduser1) {
+
+//             res.render('admin/addnewuser', { message: "Email or userid has already taken.", admin: adminData });
+//         }
+
+
+
+//         else {
+//             const spassword = await securePassword(password);
+//             const user = new Users({
+//                 name: name,
+//                 userid: userid,
+//                 email: email,
+//                 mobilenumber: mobilenumber,
+//                 usertype: usertype,
+//                 studentorstaff: studentorstaff,
+//                 year: year,
+//                 department: department,
+//                 image: image,
+//                 password: spassword,
+
+//             });
+//             const userData = await user.save();
+
+//             if (userData) {
+//                 addUserMail(name, email, password, userData._id);
+//                 res.render('admin/addnewuser', { message1: "User has been successfully added", admin: adminData });
+
+//             }
+
+//             else {
+
+//                 res.render('admin/addnewuser', { message: "Something wrong", admin: adminData });
+//             }
+
+//         }
+
+
+
+//     } catch (error) {
+
+//         console.log(error.message)
+
+//     }
+// }
+
+
 exports.postRegister1 = async (req, res) => {
     try {
-        // Retrieve the user ID from the JWT token
-        const userId = req.user.userData._id;
-
-        // Query the database for the user with the matching ID
-        const adminData = await Users.findById(userId);
-
-        const name = req.body.name;
-        const userid = req.body.userid;
-        const email = req.body.email;
-        const mobilenumber = req.body.mobilenumber;
-        const usertype = req.body.usertype;
-        const year = req.body.year;
-        const department = req.body.department;
-        const studentorstaff = req.body.studentorstaff;
-        const image = req.file.filename;
-        const password = randomstring.generate(8);
-
-
-
-        const finduser = await Users.findOne({ userid: userid });
-        const finduser1 = await Users.findOne({ email: email });
-
-        if (finduser || finduser1) {
-
-            res.render('admin/addnewuser', { message: "Email or userid has already taken.", admin: adminData });
+      // Retrieve the user ID from the JWT token
+      const userId = req.user.userData._id;
+  
+      // Query the database for the user with the matching ID
+      const adminData = await Users.findById(userId);
+  
+      const name = req.body.name;
+      const userid = req.body.userid;
+      const email = req.body.email;
+      const mobilenumber = req.body.mobilenumber;
+      const usertype = req.body.usertype;
+      const year = req.body.year;
+      const department = req.body.department;
+      const studentorstaff = req.body.studentorstaff;
+      const password = randomstring.generate(8);
+  
+      const finduser = await Users.findOne({ userid: userid });
+      const finduser1 = await Users.findOne({ email: email });
+  
+      if (finduser || finduser1) {
+        res.render('admin/addnewuser', { message: 'Email or userid has already taken.', admin: adminData });
+      } else {
+        const spassword = await securePassword(password);
+  
+        // Upload the image to Cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path);
+  
+        const user = new Users({
+          name: name,
+          userid: userid,
+          email: email,
+          mobilenumber: mobilenumber,
+          usertype: usertype,
+          studentorstaff: studentorstaff,
+          year: year,
+          department: department,
+          image: result.secure_url, // Store the Cloudinary URL in the MongoDB document
+          password: spassword,
+        });
+  
+        const userData = await user.save();
+  
+        if (userData) {
+          addUserMail(name, email, password, userData._id);
+          res.render('admin/addnewuser', { message1: 'User has been successfully added', admin: adminData });
+        } else {
+          res.render('admin/addnewuser', { message: 'Something went wrong', admin: adminData });
         }
-
-
-
-        else {
-            const spassword = await securePassword(password);
-            const user = new Users({
-                name: name,
-                userid: userid,
-                email: email,
-                mobilenumber: mobilenumber,
-                usertype: usertype,
-                studentorstaff: studentorstaff,
-                year: year,
-                department: department,
-                image: image,
-                password: spassword,
-
-            });
-            const userData = await user.save();
-
-            if (userData) {
-                addUserMail(name, email, password, userData._id);
-                res.render('admin/addnewuser', { message1: "User has been successfully added", admin: adminData });
-
-            }
-
-            else {
-
-                res.render('admin/addnewuser', { message: "Something wrong", admin: adminData });
-            }
-
-        }
-
-
-
+      }
     } catch (error) {
-
-        console.log(error.message)
-
+      console.log(error.message);
     }
-}
+  };
+  
 
 exports.getVerify = async (req, res) => {
     try {

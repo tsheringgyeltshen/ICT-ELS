@@ -2,6 +2,8 @@ const { request } = require("http");
 const Category = require("../../../models/Category");
 const Item = require("../../../models/item");
 const Users = require("../../../models/userModel");
+const cloudinary = require('cloudinary').v2;
+
 const fs = require('fs');
 
 
@@ -20,7 +22,10 @@ exports.getAddCategoryItem = async (req, res) => {
     // }
     // return res.send('not authorized');
     // Pass categories to view
+
 }
+
+
 exports.postaddItem = async (req, res) => {
     try {
         const userId = req.user.userData._id;
@@ -31,13 +36,13 @@ exports.postaddItem = async (req, res) => {
         const adminData = await Users.findById(userId);
         // Use isLogin middleware to check if user is authenticated
         // if (req.user.usertype === 'admin') { 
+        const result = await cloudinary.uploader.upload(req.file.path);
 
         const name = req.body.name;
         const category = req.body.category;
         const description = req.body.description;
         const available_items = req.body.available_items;
-        const image = req.file.filename;
-        const newItem = await Item({ name, category, description, image, available_items });
+        const newItem = await Item({ name, category, description, image: result.secure_url, available_items });
         await newItem.save();
         //     return res.send(newItem);
         return res.render('admin/add-item', { message1: "Equipment Successfully Added", admin: adminData, categories: categories });
@@ -50,6 +55,37 @@ exports.postaddItem = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+// exports.postaddItem = async (req, res) => {
+//     try {
+//         const userId = req.user.userData._id;
+//         const categories = await Category.find();
+
+
+//         // Query the database for the user with the matching ID
+//         const adminData = await Users.findById(userId);
+//         // Use isLogin middleware to check if user is authenticated
+//         // if (req.user.usertype === 'admin') { 
+
+//         const name = req.body.name;
+//         const category = req.body.category;
+//         const description = req.body.description;
+//         const available_items = req.body.available_items;
+//         const image = req.file.filename;
+//         const newItem = await Item({ name, category, description, image, available_items });
+//         await newItem.save();
+//         //     return res.send(newItem);
+//         return res.render('admin/add-item', { message1: "Equipment Successfully Added", admin: adminData, categories: categories });
+//         // }
+//         // return res.send('not authorized')
+
+
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('Server Error');
+//     }
+// };
+
 exports.getEditCategoryItem = async (req, res) => {
     const userId = req.user.userData._id;
 
@@ -84,43 +120,72 @@ exports.getEditItemLoad = async (req, res) => {
     }
 };
 
+//edit item
+// exports.postUpdateItem = async (req, res) => {
+//     try {
+//         if (req.file) {
+
+//             const name = req.body.name;
+//             const category = req.body.category;
+//             const description = req.body.description;
+//             const available_items = req.body.available_items;
+//             const image = req.file.filename;
+
+//             const data = await Item.findByIdAndUpdate(req.params.id, { name, category, description, available_items, image });
+
+//             const path = 'images/' + data.image;
+//             fs.unlink(path, (error) => {
+//                 if (error) {
+//                     req.flash("error_msg", "Failed to update equipment '" + name + "'");
+//                 } else {
+//                     req.flash("success_msg", "Equipment ' " + name + "' Successfully Updated");
+//                 }
+//                 res.redirect(`/view-items/${req.params.id}`);
+//             });
+//         } else {
+//             const name = req.body.name;
+//             const category = req.body.category;
+//             const description = req.body.description;
+//             const available_items = req.body.available_items;
+//             await Item.findByIdAndUpdate(req.params.id, { name, category, description, available_items });
+//             req.flash("success_msg", "Equipment ' " + name + "' Successfully Updated");
+//             res.redirect(`/view-items/${req.params.id}`);
+//         }
+//     } catch (error) {
+//         console.log(error.message);
+//         req.flash("error_msg", "Update failed");
+//         res.redirect(`/view-items/${req.params.id}`);
+//     }
+// };
 
 exports.postUpdateItem = async (req, res) => {
     try {
+        const name = req.body.name;
+        const category = req.body.category;
+        const description = req.body.description;
+        const available_items = req.body.available_items;
+        const data = await Item.findById(req.params.id);
+
         if (req.file) {
-            const name = req.body.name;
-            const category = req.body.category;
-            const description = req.body.description;
-            const available_items = req.body.available_items;
-            const image = req.file.filename;
-
-            const data = await Item.findByIdAndUpdate(req.params.id, { name, category, description, available_items, image });
-
-            const path = 'images/' + data.image;
-            fs.unlink(path, (error) => {
-                if (error) {
-                    req.flash("error_msg", "Failed to update equipment '" + name + "'");
-                } else {
-                    req.flash("success_msg", "Equipment ' " + name + "' Successfully Updated");
-                }
-                res.redirect(`/view-items/${req.params.id}`);
-            });
+            const result = await cloudinary.uploader.upload(req.file.path);
+            const image = result.secure_url;
+            await cloudinary.uploader.destroy(data.image.public_id); // deleting the original image from Cloudinary
         } else {
-            const name = req.body.name;
-            const category = req.body.category;
-            const description = req.body.description;
-            const available_items = req.body.available_items;
-            await Item.findByIdAndUpdate(req.params.id, { name, category, description, available_items });
-            req.flash("success_msg", "Equipment ' " + name + "' Successfully Updated");
-            res.redirect(`/view-items/${req.params.id}`);
+            const image = data.image;
         }
+
+        await Item.findByIdAndUpdate(req.params.id, { name, category, description, available_items, image });
+
+        req.flash("success_msg", "Equipment ' " + name + "' Successfully Updated");
+        res.redirect(`/view-items/${req.params.id}`);
+
     } catch (error) {
         console.log(error.message);
         req.flash("error_msg", "Update failed");
         res.redirect(`/view-items/${req.params.id}`);
     }
 };
-
+  
 
 exports.deleteItemLoad = async (req, res) => {
     try {
@@ -140,10 +205,10 @@ exports.deleteItem = async (req, res) => {
         req.flash("success_msg", "Equipment Successfully Deleted");
         req.session.save(() => {
             res.redirect('/all-item');
-            
+
         });
     } catch (error) {
-        req.flash("error_msg","Failed to Delete Equipment");
+        req.flash("error_msg", "Failed to Delete Equipment");
         req.session.save(() => {
             res.redirect('/all-item');
         });

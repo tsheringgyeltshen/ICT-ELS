@@ -4,7 +4,7 @@ const express = require("express");
 const path = require("path");
 const multer = require("multer");
 const flash = require('connect-flash');
-
+const cloudinary = require('cloudinary').v2;
 const jwt = require('jsonwebtoken')
 
 
@@ -26,6 +26,11 @@ const user_router = require("./routes/User/userRouter");
 const admin_router = require("./routes/Admin/admin");
 const approval_router = require("./routes/Approval/Approval");
 
+cloudinary.config({
+    cloud_name: 'dzfz6ljuy',
+    api_key: '896239687242672',
+    api_secret: 'mwbjhupVIyvn3flQgz_WbFcSGW4'
+  });
 
 
 
@@ -33,19 +38,45 @@ dotenv.config();
 const app = express();
 
 var ejs = require('ejs');
-app.use(express.static("images"))
+// app.use(express.static("images"))
 // app.use(express.static("excel"));
 
 app.set("view engine", "ejs");
 
 //@des middlewares
-const storageEngine = multer.diskStorage({
-    destination: "./images",
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}--${file.originalname}`);
-    },
-});
+// const storageEngine = multer.diskStorage({
+//     destination: "./images",
+//     filename: (req, file, cb) => {
+//         cb(null, `${Date.now()}--${file.originalname}`);
+//     },
+// });
 
+// const fileFilter = (req, file, cb) => {
+//     if (
+//         file.mimetype === 'image/png' ||
+//         file.mimetype === 'image/jpg' ||
+//         file.mimetype === 'image/jpeg'
+//     ) {
+//         cb(null, true);
+//     } else {
+//         cb(null, false);
+//     }
+// };
+
+// Multer middleware to handle file upload
+// const storage1 = multer.diskStorage({
+//     destination: "./excel",
+
+//     filename: (req, file, cb) => {
+//         cb(null, `${Date.now()}-${file.originalname}`);
+//     }
+// });
+const storageEngine = multer.diskStorage({
+    filename: (req, file, cb) => {
+      cb(null, `${Date.now()}--${file.originalname}`);
+    }
+  });
+  
 const fileFilter = (req, file, cb) => {
     if (
         file.mimetype === 'image/png' ||
@@ -57,15 +88,7 @@ const fileFilter = (req, file, cb) => {
         cb(null, false);
     }
 };
-
-// Multer middleware to handle file upload
-// const storage1 = multer.diskStorage({
-//     destination: "./excel",
-
-//     filename: (req, file, cb) => {
-//         cb(null, `${Date.now()}-${file.originalname}`);
-//     }
-// });
+  
 
 
 

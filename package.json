@@ -6,12 +6,13 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
- },
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "cloudinary": "^1.37.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
     "cross-env": "^7.0.3",

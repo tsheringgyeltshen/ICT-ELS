@@ -67,7 +67,7 @@
         <li class="nav-item dropdown has-arrow new-user-menus">
           <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
             <span class="user-img">
-              <img class="rounded-circle" src="/<%=admin.image%>" width="31" alt="Soeng Souy">
+              <img class="rounded-circle" src="<%=admin.image%>" width="31" alt="Soeng Souy">
               <div class="user-text">
                 <h6>
                   <%=admin.name%>
@@ -182,7 +182,7 @@
                       <label for="image-upload" style="position: relative; display: inline-block;">
                         <i class="fas fa-camera"
                           style="position: absolute; bottom: 0; right: 0; font-size: 2rem; filter: brightness(120%);"></i>
-                        <img src="/<%=item.image%>" alt="Original Image" class="img-fluid mt-5" width="300px"
+                        <img src="<%=item.image%>" alt="Original Image" class="img-fluid mt-5" width="300px"
                           height="250px">
                       </label>
                       <input id="image-upload" value="<%= item.image %>" name="image" type="file"
