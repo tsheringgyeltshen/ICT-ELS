@@ -1,6 +1,7 @@
-const Users = require("../../../models/userModel");
 const Item = require("../../../models/item");
+const Users = require("../../../models/userModel");
 const Category = require("../../../models/Category");
+const cloudinary = require('cloudinary').v2;
 const mongoose = require('mongoose');
 const fs = require('fs');
 const { request } = require("http");
@@ -9,6 +10,7 @@ const { request } = require("http");
 exports.getapprovalHome = async (req, res) => {
     try {
         const userId = req.user.userData._id;
+        console.log(req.user.userData._id)
         const cardsPerPage = 12;
         const currentPage = 1;
 
@@ -41,36 +43,87 @@ exports.getUserProfileLoad = async (req, res) => {
     }
 }
 
+// exports.postEditProfile = async (req, res) => {
+//     try {
+//         const userId = req.user.userData._id;
+
+//         if (req.file) {
+//             const userData = await Users.findByIdAndUpdate({ _id: userId }, {
+//                 $set: {
+//                     mobilenumber: req.body.mno,
+//                     image: req.file.filename
+//                 }
+//             });
+
+//             const path = 'images/' + userData.image;
+//             fs.unlink(path, (error) => {
+//                 if (error) {
+//                     req.flash("error_msg", "Error Updating Profile");
+//                 } else {
+//                     req.flash("success_msg", "Your profile has been updated");
+//                 }
+
+//                 req.session.save(() => {
+//                     res.redirect(`/approval-profile?id=${req.body.id}`);
+//                 });
+//             });
+//         } else {
+//             await Users.findByIdAndUpdate({ _id: userId }, {
+//                 $set: {
+//                     mobilenumber: req.body.mno
+//                 }
+//             });
+
+//             req.flash("success_msg", "Your profile has been updated");
+//             req.session.save(() => {
+//                 res.redirect(`/approval-profile?id=${req.body.id}`);
+//             });
+//         }
+//     } catch (error) {
+//         req.flash("error_msg", "Error while updating");
+//         req.session.save(() => {
+//             res.redirect(`/approval-profile?id=${req.body.id}`);
+//         });
+//     }
+// };
+
 exports.postEditProfile = async (req, res) => {
     try {
         const userId = req.user.userData._id;
 
         if (req.file) {
-            const userData = await Users.findByIdAndUpdate({ _id: userId }, {
-                $set: {
-                    mobilenumber: req.body.mno,
-                    image: req.file.filename
-                }
-            });
+            const userData = await Users.findById(userId);
 
-            const path = 'images/' + userData.image;
-            fs.unlink(path, (error) => {
-                if (error) {
-                    req.flash("error_msg", "Error Updating Profile");
-                } else {
-                    req.flash("success_msg", "Your profile has been updated");
-                }
+            // Upload the new image to Cloudinary
+            const result = await cloudinary.uploader.upload(req.file.path);
 
-                req.session.save(() => {
-                    res.redirect(`/approval-profile?id=${req.body.id}`);
-                });
+            // Delete the original image from Cloudinary
+            const publicId = userData.image.split('/').pop().split('.')[0];
+            await cloudinary.uploader.destroy(publicId);
+
+            await Users.findByIdAndUpdate(
+                { _id: userId },
+                {
+                    $set: {
+                        mobilenumber: req.body.mno,
+                        image: result.secure_url // Update the Cloudinary URL in the MongoDB document
+                    }
+                }
+            );
+
+            req.flash("success_msg", "Your profile has been updated");
+            req.session.save(() => {
+                res.redirect(`/approval-profile?id=${req.body.id}`);
             });
         } else {
-            await Users.findByIdAndUpdate({ _id: userId }, {
-                $set: {
-                    mobilenumber: req.body.mno
+            await Users.findByIdAndUpdate(
+                { _id: userId },
+                {
+                    $set: {
+                        mobilenumber: req.body.mno
+                    }
                 }
-            });
+            );
 
             req.flash("success_msg", "Your profile has been updated");
             req.session.save(() => {
@@ -84,6 +137,7 @@ exports.postEditProfile = async (req, res) => {
         });
     }
 };
+
 
 
 exports.viewaboutus = async (req, res) => {
