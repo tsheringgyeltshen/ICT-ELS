@@ -7,27 +7,46 @@ const fs = require('fs');
 const { request } = require("http");
 
 
+// exports.getapprovalHome = async (req, res) => {
+//     try {
+//         const userId = req.user.userData._id;
+//         console.log(req.user.userData._id)
+//         const cardsPerPage = 12;
+//         const currentPage = 1;
+
+//         const user = await Users.findById(userId);
+//         const items = await Item.find({ isDeleted: false }).populate('category', 'name');
+
+
+//         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+//         res.render('../views/approval/approvalhome', { cardsPerPage: cardsPerPage, currentPage: currentPage, user, items });
+//         // res.send(req.user)
+
+//     } catch (error) {
+
+//         console.log(error.message);
+
+//     }
+// }
+
 exports.getapprovalHome = async (req, res) => {
     try {
         const userId = req.user.userData._id;
-        console.log(req.user.userData._id)
+        console.log(req.user.userData._id);
         const cardsPerPage = 12;
         const currentPage = 1;
 
         const user = await Users.findById(userId);
-        const items = await Item.find({ isDeleted: false }).populate('category', 'name');
-
+        const items = await Item.find({ isDeleted: false }).sort({ added_date: -1 }).populate('category', 'name');
 
         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
         res.render('../views/approval/approvalhome', { cardsPerPage: cardsPerPage, currentPage: currentPage, user, items });
         // res.send(req.user)
-
     } catch (error) {
-
         console.log(error.message);
-
     }
-}
+};
+
 //@des user details 
 exports.getUserProfileLoad = async (req, res) => {
     try {
