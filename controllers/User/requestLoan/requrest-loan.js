@@ -125,7 +125,7 @@ exports.addToCart = async (req, res) => {
     }
     await cart.save();
 
-    req.flash("success_msg",+ "Equipment '"+item.name + "' successfully added to cart");
+    req.flash("success_msg","added to cart");
     req.session.save(() => {
       res.redirect('/all-items');
     });  } catch (error) {
@@ -163,7 +163,7 @@ exports.addToCartuserhome = async (req, res) => {
       }
     }
     await cart.save();
-    req.flash("success_msg", "Equipment ' " + item.name + "' successfully added to cart");
+    req.flash("success_msg", "Added to cart");
     req.session.save(() => {
       res.redirect('/userhome');
     });
@@ -180,6 +180,8 @@ exports.addToCartuserhome = async (req, res) => {
 exports.getCart = async (req, res) => {
   try {
     const userId = req.user.userData._id;
+    const userData = await User.findById(userId);
+
     const cart = await Cart.findOne({ user: userId }).populate('items.item');
 
 
@@ -202,7 +204,7 @@ exports.getCart = async (req, res) => {
 
     return res.render('user/add_to_card', {
       cart: cartData,
-      user: req.user.userData,
+      user: userData,
       message: 'Item successfully added to cart'
     });
   } catch (error) {

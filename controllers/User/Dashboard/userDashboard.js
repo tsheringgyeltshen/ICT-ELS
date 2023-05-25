@@ -40,34 +40,85 @@ exports.getUserProfileLoad = async (req, res) => {
     }
 }
 
+// exports.postEditProfile = async (req, res) => {
+//     try {
+//         if (req.file) {
+//             const userData = await Users.findByIdAndUpdate(
+//                 { _id: req.body.id },
+//                 {
+//                     $set: {
+//                         mobilenumber: req.body.mno,
+//                         image: req.file.filename
+//                     }
+//                 }
+//             );
+
+//             const path = 'images/' + userData.image;
+//             fs.unlink(path, (error) => {
+//                 if (error) {
+//                     req.flash("error_msg", "Error Updating Profile");
+//                 } else {
+//                     req.flash("success_msg", "Your profile has been updated");
+//                 }
+
+//                 req.session.save(() => {
+//                     res.redirect(`/user-profile?id=${req.body.id}`);
+//                 });
+//             });
+//         } else {
+//             await Users.findByIdAndUpdate(
+//                 { _id: req.body.id },
+//                 {
+//                     $set: {
+//                         mobilenumber: req.body.mno
+//                     }
+//                 }
+//             );
+
+//             req.flash("success_msg", "Your profile has been updated");
+//             req.session.save(() => {
+//                 res.redirect(`/user-profile?id=${req.body.id}`);
+//             });
+//         }
+//     } catch (error) {
+//         req.flash("error_msg", "Error while updating");
+//         req.session.save(() => {
+//             res.redirect(`/user-profile?id=${req.body.id}`);
+//         });
+//     }
+// };
+
 exports.postEditProfile = async (req, res) => {
     try {
+        const userId = req.user.userData._id;
+
         if (req.file) {
-            const userData = await Users.findByIdAndUpdate(
-                { _id: req.body.id },
+            const userData = await Users.findById(userId);
+
+            // Upload the new image to Cloudinary
+            const result = await cloudinary.uploader.upload(req.file.path);
+
+            // Delete the original image from Cloudinary
+            const publicId = userData.image.split('/').pop().split('.')[0];
+            await cloudinary.uploader.destroy(publicId);
+
+            await Users.findByIdAndUpdate(
+                { _id: userId },
                 {
                     $set: {
                         mobilenumber: req.body.mno,
-                        image: req.file.filename
+                        image: result.secure_url // Update the Cloudinary URL in the MongoDB document
                     }
                 }
             );
 
-            const path = 'images/' + userData.image;
-            fs.unlink(path, (error) => {
-                if (error) {
-                    req.flash("error_msg", "Error Updating Profile");
-                } else {
-                    req.flash("success_msg", "Your profile has been updated");
-                }
-
-                req.session.save(() => {
-                    res.redirect(`/user-profile?id=${req.body.id}`);
-                });
+            req.flash("success_msg", "Your profile has been updated");
+            req.session.save(() => {
+                res.redirect(`/user-profile?id=${req.body.id}`);
             });
         } else {
             await Users.findByIdAndUpdate(
-                { _id: req.body.id },
+                { _id: userId },
                 {
                     $set: {
                         mobilenumber: req.body.mno
@@ -87,8 +138,6 @@ exports.postEditProfile = async (req, res) => {
         });
     }
 };
-
-
 
 exports.viewAboutuspage = async (req, res) => {
     try {
