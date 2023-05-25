@@ -14,7 +14,7 @@ exports.getUserHome = async (req, res) => {
         const currentPage = 1;
 
         const userData = await Users.findById(userId);
-        const items = await Item.find({ isDeleted: false }).populate('category', 'name');
+        const items = await Item.find({ isDeleted: false }).sort({ added_date: -1 }).populate('category', 'name');
 
         res.render('../views/user/userhome', { items, cardsPerPage:cardsPerPage,currentPage:currentPage,user: userData });
         // res.send(req.user)
