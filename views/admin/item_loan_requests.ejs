@@ -189,6 +189,7 @@
                                         <thead class="student-thread">
                                             <tr>
                                                 <th>Name</th>
+                                                <th>UserID</th>
                                                 <th>Quantity</th>
                                                 <th>Status</th>
                                                 <th>Request Date</th>
@@ -202,6 +203,10 @@
                                                     <td>
                                                         <%= loan.borrowerName %>
                                                     </td>
+                                                    <td>
+                                                    <%=loan.userid%>
+                                                    </td>
+                                                    
                                                     <td>
                                                         <%= loan.quantity %>
                                                     </td>
