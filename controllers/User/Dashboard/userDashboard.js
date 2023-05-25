@@ -2,6 +2,7 @@ const Users = require("../../../models/userModel");
 const Item = require("../../../models/item");
 const Category = require("../../../models/Category");
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 
 
