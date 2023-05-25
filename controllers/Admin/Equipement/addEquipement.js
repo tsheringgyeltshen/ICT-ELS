@@ -110,7 +110,7 @@ exports.postUpdateItem = async (req, res) => {
                 }
             );
 
-            req.flash('success_msg', "Equipment '" + req.body.name + "' Successfully Updated");
+            req.flash('success_msg', "Equipment '" + req.body.name + "' Updated");
             res.redirect(`/view-items/${req.params.id}`);
         } else {
             await Item.findByIdAndUpdate(

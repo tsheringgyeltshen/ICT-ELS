@@ -92,7 +92,7 @@ exports.updateloan = async (req, res) => {
         var mailOptions = {
           from: process.env.USER_MAIL,
           to: await data.user_id.email,
-          subject: "GCIT LOAN_A_TECH",
+          subject: "ICT Equipment Loan System",
           text: "Dear user, your loan for " + Item.name+", which has been approved, the admin has given the collection dates that is on:"  +updatedLoan.admin_collection_date+",kindly come for collection before the given date",
         };
         console.log(updatedLoan.admin_collection_date);

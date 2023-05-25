@@ -79,7 +79,7 @@ const sendVerifyMail = async (name, email, user_id) => {
         const mailOptions = {
             from: process.env.USER_MAIL,
             to: email,
-            subject: 'Verification mail',
+            subject: 'ICT Equipment Loan System-Verification mail',
             html: '<p>Hii ' + name + ', You has been added to ICT Equipment Loan System <a href="http://127.0.0.1:5000/verify?id=' + user_id + '"></a></p>'
         }
         transporter.sendMail(mailOptions, function (error, info) {

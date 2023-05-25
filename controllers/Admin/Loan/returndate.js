@@ -76,7 +76,7 @@ exports.sendLoanReminderEmail = async (req, res) => {
             const mailOptions = {
                 from: process.env.USER_MAIL,
                 to: loan.user_id.email,
-                subject: `Reminder: Please return ${loan.quantity} ${loan.item.name}(s)`,
+                subject: `ICT Equipment Loan System-Reminder: Please return ${loan.quantity} ${loan.item.name}(s)`,
                 html: ` 
           <p>Hi ${loan.user_id.name},</p>
           <p>This is a friendly reminder that you borrowed ${loan.quantity} ${loan.item.name}(s) from our inventory and they are due back today (${loan.return_date.toDateString()}). Please return them as soon as possible so we can make them available for other users.</p>
@@ -149,7 +149,7 @@ exports.updateReturnDate = async (req, res) => {
                 var mailOptions = {
                     from: process.env.USER_MAIL,
                     to: await data.user_id.email,
-                    subject: "GCIT LOAN_A_TECH",
+                    subject: "ICT Equipment Loan System",
                     text: "Dear user, your loan for the item: " + Item.name + ", which date of return was today, you have submitted it on time, thank you for the service.",
                 };
 

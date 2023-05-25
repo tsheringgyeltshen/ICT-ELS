@@ -112,7 +112,7 @@ exports.manageLoanRequest = async (req, res) => {
       {
         from: process.env.USER_MAIL,
         to: Loan.user_id.email,
-        subject: "GCIT LOAN_A_TECH",
+        subject: "ICT Equipment Loan System",
         text: `Dear user, your loan for the item: ${Item.name}, has been gone with insufficient stock, it might be beacause other user had applied for more amount which might had been accepted earlier. Please try to look at items quantity again, and submit your request based on the avaialble item quantity, thank you.`,
       },
       function (error, info) {

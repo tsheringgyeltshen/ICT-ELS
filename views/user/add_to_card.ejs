@@ -103,6 +103,21 @@
       <div class="cart_inner">
         <% if (cart && cart.length) { %>
 
+          <!-- <div class="container">
+            <div class="row">
+              <div class="col-lg-4">
+                <label for="">Product</label>
+              </div>
+              <div class="col-lg-4">
+                <label for="">Available</label>
+              </div>
+              <div class="col-lg-4">
+                <label for="">Quantity</label>
+              </div>
+            </div>
+
+          </div> -->
+
           <div class="table-responsive">
             <table class="table">
               <thead>
@@ -116,8 +131,8 @@
               <tbody>
                 <form action="/card" method="POST">
                   <% cart.forEach((cartItem)=> { %>
-                    <tr>
-                      <td class="col-lg-5 col-md-5">
+                    <tr class="">
+                      <td class="col-lg-5 col-md-5 col-6">
                         <div class="media">
                           <img src="<%= cartItem.item.image %>" alt="" class=" img-thumbnail imgcard mr-3">
                           <div class="media-body">
@@ -127,7 +142,7 @@
                           </div>
                         </div>
                       </td>
-                      <td class="col-lg-2 col-md-2">
+                      <td class="col-lg-2 col-md-2 col-2">
                         <div class="media-body">
                           <p>
                             <%= cartItem.item.available_items %>
@@ -135,18 +150,18 @@
 
                         </div>
                       </td>
-                      <td class="col-lg-2 col-md-2">
+                      <td class="col-lg-2 col-md-2 col-2">
                         <input type="hidden" name="item_ids[]" value="<%= cartItem.item._id %>">
                         <div class="form-group" style="width: 30;">
                           <input type="number" class="form-control" placeholder="1" name="quantities[]" min="1"
                             max="<%= cartItem.available_items %>" required>
                         </div>
                       </td>
-                      <td class="col-lg-3 col-md-2">
+                      <td class="col-lg-3 col-md-3 col-2">
                         <input type="hidden" value="<%= cartItem.id %>">
                         <a href="/deleteItem?id=<%= cartItem.id %>"><span class="material-symbols-outlined"
                             style="color: gray;">
-                            cancel
+                            close
                           </span></a>
                       </td>
                     </tr>
