@@ -125,7 +125,7 @@ exports.addToCart = async (req, res) => {
     }
     await cart.save();
 
-    req.flash("success_msg","added to cart");
+    req.flash("success_msg","Added to cart");
     req.session.save(() => {
       res.redirect('/all-items');
     });  } catch (error) {
@@ -226,7 +226,7 @@ exports.deleteCart = async (req, res) => {
 
     await cart.save(); // Save the updated cart
 
-    req.flash("success_msg", "Equipment successfully removed from cart")
+    req.flash("success_msg", "Equipment removed from cart")
     req.session.save(() => {
       res.redirect('/cart');
     });

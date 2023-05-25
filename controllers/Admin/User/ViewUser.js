@@ -217,7 +217,7 @@ exports.posteditUserPage = async (req, res) => {
                 }
             );
 
-            req.flash('success_msg', 'User Successfully Updated');
+            req.flash('success_msg', "User Updated");
             req.session.save(() => {
                 res.redirect(`/view-user?id=${req.body.id}`);
             });
@@ -358,7 +358,7 @@ exports.posteditstaffPage = async (req, res) => {
                 }
             );
 
-            req.flash('success_msg', 'User Successfully Updated');
+            req.flash('success_msg', 'User Updated');
             req.session.save(() => {
                 res.redirect(`/view-onestaff?id=${req.body.id}`);
             });

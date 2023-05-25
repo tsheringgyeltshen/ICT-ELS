@@ -85,6 +85,54 @@ exports.postaddItem = async (req, res) => {
 //         res.status(500).send('Server Error');
 //     }
 // };
+exports.postUpdateItem = async (req, res) => {
+    try {
+        if (req.file) {
+            const itemData = await Item.findById(req.params.id);
+
+            // Upload the new image to Cloudinary
+            const result = await cloudinary.uploader.upload(req.file.path);
+
+            // Delete the original image from Cloudinary
+            const publicId = itemData.image.split('/').pop().split('.')[0];
+            await cloudinary.uploader.destroy(publicId);
+
+            await Item.findByIdAndUpdate(
+                req.params.id,
+                {
+                    $set: {
+                        name: req.body.name,
+                        category: req.body.category,
+                        description: req.body.description,
+                        available_items: req.body.available_items,
+                        image: result.secure_url, // Update the Cloudinary URL in the MongoDB document
+                    },
+                }
+            );
+
+            req.flash('success_msg', "Equipment '" + req.body.name + "' Successfully Updated");
+            res.redirect(`/view-items/${req.params.id}`);
+        } else {
+            await Item.findByIdAndUpdate(
+                req.params.id,
+                {
+                    $set: {
+                        name: req.body.name,
+                        category: req.body.category,
+                        description: req.body.description,
+                        available_items: req.body.available_items
+                    },
+                }
+            );
+            req.flash('success_msg', "Equipment '" + req.body.name + "' Updated");
+            res.redirect(`/view-items/${req.params.id}`);
+        }
+    } catch (error) {
+        console.log(error.message);
+        req.flash('error_msg', 'Update failed');
+        res.redirect(`/view-items/${req.params.id}`);
+    }
+};
 
 exports.getEditCategoryItem = async (req, res) => {
     const userId = req.user.userData._id;
@@ -120,7 +168,7 @@ exports.getEditItemLoad = async (req, res) => {
     }
 };
 
-//edit item
+// edit item
 // exports.postUpdateItem = async (req, res) => {
 //     try {
 //         if (req.file) {
@@ -158,33 +206,7 @@ exports.getEditItemLoad = async (req, res) => {
 //     }
 // };
 
-exports.postUpdateItem = async (req, res) => {
-    try {
-        const name = req.body.name;
-        const category = req.body.category;
-        const description = req.body.description;
-        const available_items = req.body.available_items;
-        const data = await Item.findById(req.params.id);
 
-        if (req.file) {
-            const result = await cloudinary.uploader.upload(req.file.path);
-            const image = result.secure_url;
-            await cloudinary.uploader.destroy(data.image.public_id); // deleting the original image from Cloudinary
-        } else {
-            const image = data.image;
-        }
-
-        await Item.findByIdAndUpdate(req.params.id, { name, category, description, available_items, image });
-
-        req.flash("success_msg", "Equipment ' " + name + "' Successfully Updated");
-        res.redirect(`/view-items/${req.params.id}`);
-
-    } catch (error) {
-        console.log(error.message);
-        req.flash("error_msg", "Update failed");
-        res.redirect(`/view-items/${req.params.id}`);
-    }
-};
   
 
 exports.deleteItemLoad = async (req, res) => {

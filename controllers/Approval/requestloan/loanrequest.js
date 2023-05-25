@@ -124,7 +124,7 @@ exports.addToCart = async (req, res) => {
       }
     }
     await cart.save();
-    req.flash("success_msg", "Equipment '" + item.name + "'added to cart");
+    req.flash("success_msg", "Added to cart");
     req.session.save(() => {
       res.redirect('/all-equipment');
     });
@@ -163,7 +163,7 @@ exports.addToCartapprovalhome = async (req, res) => {
       }
     }
     await cart.save();
-    req.flash("success_msg", "Equipment ' " + item.name + " ' added to cart");
+    req.flash("success_msg", "Added to cart");
     req.session.save(() => {
       res.redirect('/approvalhome');
     });
@@ -223,7 +223,7 @@ exports.deleteCart = async (req, res) => {
     cart.items = cart.items.filter(item => !item._id.equals(itemIdToRemove));
 
     await cart.save();
-    req.flash("success_msg", "Equipment successfully removed from cart")
+    req.flash("success_msg", "Equipment removed from cart")
     req.session.save(() => {
       res.redirect('/cart1')
 

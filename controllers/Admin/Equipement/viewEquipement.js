@@ -33,7 +33,7 @@ exports.getLoanRequestsForItem = async (req, res) => {
     const loans = await Loan.find({ item: itemID }).populate("user_id");
 
     const loanObjects = loans.map((loan) => {
-        const { name } = loan.user_id;
+        const { name,userid } = loan.user_id;
         const {
             quantity,
             return_date,
@@ -43,6 +43,7 @@ exports.getLoanRequestsForItem = async (req, res) => {
         } = loan;
         return {
             borrowerName: name,
+            userid:userid,
             quantity,
             requestDate: request_date, // Add request_date
             returnDate: return_date,
