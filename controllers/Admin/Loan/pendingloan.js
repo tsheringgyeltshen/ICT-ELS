@@ -35,12 +35,6 @@ exports.viewLoanRequests = async (req, res) => {
     // Add this line to set the currentUserData variable
     const currentUserData = req.user.userData;
 
-    loanRequests.forEach((loanRequest) => {
-      if (loanRequest.user_id && loanRequest.user_id.name) {
-        //console.log(loanRequest.user_id.name);
-      }
-    });
-
     return res.render("admin/pendingloan", {
       loanRequests,
       currentUserData, admin: adminData

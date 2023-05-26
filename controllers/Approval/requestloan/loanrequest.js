@@ -174,45 +174,6 @@ exports.addToCartapprovalhome = async (req, res) => {
   }
 };
 
-
-
-
-exports.getCart = async (req, res) => {
-  try {
-    const userId = req.user.userData._id;
-    const users = await Users.findById(userId);
-
-    const cart = await Cart.findOne({ user: userId }).populate('items.item');
-
-    if (!cart) {
-      return res.render('approval/add_to_card', {
-        cart,
-        users,
-        user: req.user.userData,
-        message: 'Item successfully added to cart'
-      });
-    }
-
-    const cartData = cart.items.map((cartItem) => ({
-      id: cartItem._id,
-      item: cartItem.item,
-      quantity: cartItem.quantity,
-      available_items: cartItem.item.available_items
-    }));
-
-    return res.render('approval/add_to_card', {
-      cart: cartData,
-      users,
-      user: req.user.userData,
-      message: 'Item successfully added to cart'
-    });
-  } catch (error) {
-    console.error(error.message);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
-
-
 exports.deleteCart = async (req, res) => {
   try {
     const userId = req.user.userData._id;
@@ -223,17 +184,121 @@ exports.deleteCart = async (req, res) => {
     cart.items = cart.items.filter(item => !item._id.equals(itemIdToRemove));
 
     await cart.save();
-    req.flash("success_msg", "Equipment removed from cart")
+
+    const cartItemCount = cart.items.length;
+
+    req.flash("success_msg", "Equipment removed from cart");
+    req.session.cartItemCount = cartItemCount; // Set the cart item count in the session
     req.session.save(() => {
-      res.redirect('/cart1')
-
+      res.redirect('/cart1');
     });
-
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: 'Server error' });
   }
 };
+
+
+exports.getCart = async (req, res) => {
+  try {
+    const userId = req.user.userData._id;
+    const users = await Users.findById(userId);
+
+    const cart = await Cart.findOne({ user: userId }).populate('items.item');
+
+    if (!cart) {
+      const cartItemCount = req.session.cartItemCount || 0;
+
+      return res.render('approval/add_to_card', {
+        cart,
+        users,
+        user: req.user.userData,
+        message: 'Item successfully added to cart',
+        cartItemCount: cartItemCount
+      });
+    }
+
+    const cartData = cart.items.map((cartItem) => ({
+      id: cartItem._id,
+      item: cartItem.item,
+      quantity: cartItem.quantity,
+      available_items: cartItem.item.available_items
+    }));
+
+    const cartItemCount = req.session.cartItemCount || cartData.length;
+
+    return res.render('approval/add_to_card', {
+      cart: cartData,
+      users,
+      user: req.user.userData,
+      message: 'Item successfully added to cart',
+      cartItemCount: cartItemCount
+    });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+
+// exports.getCart = async (req, res) => {
+//   try {
+//     const userId = req.user.userData._id;
+//     const users = await Users.findById(userId);
+
+//     const cart = await Cart.findOne({ user: userId }).populate('items.item');
+
+//     if (!cart) {
+//       return res.render('approval/add_to_card', {
+//         cart,
+//         users,
+//         user: req.user.userData,
+//         message: 'Item successfully added to cart'
+//       });
+//     }
+
+//     const cartData = cart.items.map((cartItem) => ({
+//       id: cartItem._id,
+//       item: cartItem.item,
+//       quantity: cartItem.quantity,
+//       available_items: cartItem.item.available_items
+//     }));
+
+//     return res.render('approval/add_to_card', {
+//       cart: cartData,
+//       users,
+//       user: req.user.userData,
+//       message: 'Item successfully added to cart'
+//     });
+//   } catch (error) {
+//     console.error(error.message);
+//     return res.status(500).json({ message: 'Server error' });
+//   }
+// };
+
+
+// exports.deleteCart = async (req, res) => {
+//   try {
+//     const userId = req.user.userData._id;
+//     const cart_id = req.query.id;
+//     const cart = await Cart.findOne({ user: userId }).populate('items.item');
+
+//     const itemIdToRemove = new ObjectId(cart_id);
+//     cart.items = cart.items.filter(item => !item._id.equals(itemIdToRemove));
+
+//     await cart.save();
+//     req.flash("success_msg", "Equipment removed from cart")
+//     req.session.save(() => {
+//       res.redirect('/cart1')
+
+//     });
+
+//   } catch (error) {
+//     console.error(error.message);
+//     return res.status(500).json({ message: 'Server error' });
+//   }
+// };
 
 exports.request_Loan = async (req, res) => {
   try {

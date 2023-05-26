@@ -92,6 +92,7 @@ const fileFilter = (req, file, cb) => {
 
 
 
+
 //@des render static files 
 app.use(express.static(path.join(__dirname, "static")));
 mongoose.connect(process.env.URI);
