@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ICT - Pending Loan</title>
+
+    <link rel="icon" href="../assets/img/logo-small.png" type="image/png">
+    <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../assets/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="../assets/linericon/style.css">
+    <link rel="stylesheet" href="../assets/nice-select/nice-select.css">
+    <link rel="stylesheet" href="../assets/owl-carousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="../assets/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="../assets/css/style1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.3.2/css/fixedHeader.bootstrap4.min.css">
+</head>
+
+<body>
+    <!--================ Start Header Menu Area =================-->
+    <header class="header_area">
+        <div class="main_menu">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container">
+                    <a class="navbar-brand logo_h" href="/approvalhome"><img src="../assets/img/logo-small.png"
+                            style="width: 60px; height: 60px;" alt=""></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+                            <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/all-equipment">Equipment</a></li>
+                            <li class="nav-item active submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">Loan
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a href="/personalloan" class="nav-link">Your Loan</a></li>
+                                    <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
+
+                        </ul>
+
+                        <ul class="nav-shop">
+                            <li class="nav-item cartnav"><a href="/cart1"><i class="ti-shopping-cart"></i><span
+                                        class="nav-shop__circle"></span></a></li>
+                            <!-- <li class="nav-item"><button><i class="ti-search"></i></button></li> -->
+
+                            <!-- <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li> -->
+                            <li class="nav-item submenu dropdown">
+
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false"> <img src="<%=users.image%>"
+                                        class="rounded-circle" height="30" width="30" alt="User Profile"
+                                        loading="lazy" /></a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/approval-profile">My Profile</a>
+                                    <a class="dropdown-item" href="/logout">Logout</a>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- <div class="product_image_area"> -->
+    <div class="container">
+        <%- include('messages') %>
+
+            <% if (typeof message !=='undefined' ) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <%= message %>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <% } %>
+
+                    <div class="table-responsive mt-3">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="d-flex align-items-center mb-4">
+                                    <img class="avatar-img rounded-circle" src="<%= loanDetails.user_id.image %>"
+                                        alt="User Image">
+                                    <div class="ms-3">
+                                        <h2>
+                                            <%= loanDetails.user_id.name %>
+                                        </h2>
+                                        <p>User ID: <%= loanDetails.user_id.userid %>
+                                        </p>
+                                        <p>Department: <%= loanDetails.user_id.department %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Display loaned items details -->
+                        <h3>Loaned Items:</h3>
+                        <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
+                            <thead class="student-thread">
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Item Tag</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% loanDetails.items.forEach((item)=> { %>
+                                    <tr>
+
+                                        <td class="d-flex align-items-center">
+                                            <div class="avatar avatar-sm me-2">
+                                              <img class="rounded-circle img-thumbnail img-fluid" src="<%= item.item.image %>" alt="User Image" style="max-width: 50px; max-height: 50px;">
+                                            </div>
+                                            
+                                              <%= item.item.name %>
+                                            
+                                          </td>
+                                                                    
+                                        <td>
+                                            <%=item.item.itemtag %>
+                                        </td>
+                                        <td>
+                                            <% if (item.item.available_items===1) { %>
+                                                Available
+                                                <% } else { %>
+                                                    On Loan
+                                                    <% } %>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+
+
+    </div>
+
+
+    <footer>
+
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row d-flex">
+                    <p class="col-lg-12 footer-text text-center">
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | ICT-ELS
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--================ End footer Area  =================-->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script src="../assets/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../assets/skrollr.min.js"></script>
+    <script src="../assets/owl-carousel/owl.carousel.min.js"></script>
+    <script src="../assets/nice-select/jquery.nice-select.min.js"></script>
+    <script src="../assets/jquery.ajaxchimp.min.js"></script>
+    <script src="../assets/mail-script.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.3.2/js/dataTables.fixedHeader.min.js"></script>
+    <script>
+        // Get the input element
+        const datepicker = document.getElementById("datepicker");
+
+        // Initialize the datepicker
+        flatpickr(datepicker, {
+            // Set the format of the date
+            dateFormat: "d-m-Y",
+            // Set the default date to today's date
+            defaultDate: "today",
+            // Set the minimum selectable date to today's date
+            minDate: "today",
+        });
+
+
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#example').DataTable({
+                fixedHeader: true
+            });
+        });
+    </script>
+
+
+
+</body>
+
+</html>

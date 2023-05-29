@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-  <title>Approved Loan</title>
+  <title>Ready For Collection Loan</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <link rel="shortcut icon" href="assets/img/logo-small.png">
@@ -134,8 +134,8 @@
               <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span class="menu-arrow"></span></a>
 
               <ul>
-                <li><a href="/view-approved-loan" class="active">Approved Loan</a></li>
-                <li><a href="/ready-forcollect">Collect Loan</a></li>
+                <li><a href="/view-approved-loan">Approved Loan</a></li>
+                <li><a class="active" href="/ready-forcollect">Collect Loan</a></li>
                 <li><a href="/on_loanview">On Loan</a></li>
                 <li><a href="/returnedloan_view">Returned Loan</a></li>
 
@@ -161,7 +161,7 @@
                 <h3 class="page-title">Manage Loan</h3>
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item"><a href="#">Loan</a></li>
-                  <li class="breadcrumb-item active">Approved Loan</li>
+                  <li class="breadcrumb-item active">Collect Loan</li>
                 </ul>
               </div>
             </div>
@@ -178,7 +178,7 @@
                   <div class="page-header">
                     <div class="row align-items-center">
                       <div class="col">
-                        <h3 class="page-title">Loan Details</h3>
+                        <h3 class="page-title">Collection Loan Details</h3>
                       </div>
                       <div class="col-lg-2">
 
@@ -188,11 +188,8 @@
                     </div>
                   </div>
 
-
-
-
                   <div class="table-responsive">
-                    <% if(loanApproved.length> 0) { %>
+                    <% if (collectloan.length> 0) { %>
                       <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
                         <thead class="student-thread">
                           <tr>
@@ -202,11 +199,12 @@
                             <th>Status</th>
                             <th>Return Date</th>
                             <th>Collection Date</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <% loanApproved.forEach(function(loan) { %>
-                            <% if(loan.status==='approved' && !loan.admin_collection_date) { %>
+                          <% collectloan.forEach(function(loan) { %>
+                            <% if (loan.status==='approved' && loan.admin_collection_date !==null) { %>
                               <tr>
                                 <td>
                                   <h2 class="table-avatar">
@@ -217,13 +215,12 @@
                                     <%= loan.user_id.name %>
                                   </h2>
                                 </td>
-                                <th>
+                                <td>
                                   <%= loan.user_id.userid %>
-                                </th>
+                                </td>
                                 <td>
                                   <%= loan.user_id.department %>
                                 </td>
-
                                 <td>
                                   <%= loan.status %>
                                 </td>
@@ -233,24 +230,34 @@
                                       <% } %>
                                 </td>
                                 <td>
-                                  <form class="collection-form" action="/update_loan/<%= loan.id %>" method="POST">
-                                    <input type="date" class="form-control" name="admin_collection_date"
-                                      value="Enter the collection date" required />
-
-
-                                    <button type="submit" class="mt-2 btn btn-primary">Update</button>
-                                  </form>
+                                  <% if (loan.admin_collection_date) { %>
+                                    <%= loan.admin_collection_date.toDateString() %>
+                                      <% } %>
                                 </td>
-
+                                <td>
+                                  <% if (new Date(loan.admin_collection_date).toDateString()===new
+                                    Date().toDateString()) { %>
+                                    <form class="collection-form" action="/on_loan/<%= loan.id %>" method="POST">
+                                      <button type="submit" class="mt-2 btn btn-primary">Collected</button>
+                                    </form>
+                                    <% } else { const currentDate=new Date(); const adminCollectionDate=new
+                                      Date(loan.admin_collection_date); const
+                                      timeDiff=Math.abs(adminCollectionDate.getTime() - currentDate.getTime()); const
+                                      diffDays=Math.ceil(timeDiff / (1000 * 3600 * 24)); %>
+                                      <%= `${diffDays} day${diffDays===1 ? '' : 's' } left` %>
+                                        <% } %>
+                                </td>
                               </tr>
                               <% } %>
                                 <% }); %>
                         </tbody>
                       </table>
                       <% } else { %>
-                        <p>No approved loan found.</p>
+                        <p>No Ready for collection loan found.</p>
                         <% } %>
                   </div>
+
+
               </div>
             </div>
           </div>

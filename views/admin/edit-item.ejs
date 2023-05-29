@@ -135,8 +135,9 @@
 
               <ul>
                 <li><a href="/view-approved-loan">Approved Loan</a></li>
-                <li><a href="/viewreq-loan">Pending Loan</a></li>
-                <li><a href="/return-date">Return Loan</a></li>
+                <li><a href="/ready-forcollect">Collect Loan</a></li>
+                <li><a href="/on_loanview">On Loan</a></li>
+                <li><a href="/returnedloan_view">Returned Loan</a></li>
 
 
 
@@ -227,13 +228,16 @@
                     class="form-control" rows="3"><%=item.description%></textarea>
                 </div>
                 <hr>
-                <div class="col-sm-3">
+                <!-- <div class="col-sm-3">
                   <p class="mb-2">Quantity</p>
+                </div> -->
+                <!-- <input type="number" style="font-size: 1em ; color: gray;" class="form-control" name="available_items"
+                  id="available_items" min="1" value="<%=item.available_items%>"> -->
+                <div class="col-sm-3">
+                  <p class="mb-2">Item Tag</p>
                 </div>
-                <input type="number" style="font-size: 1em ; color: gray;" class="form-control" name="available_items"
-                  id="available_items" min="1" value="<%=item.available_items%>">
-                <!-- <hr> -->
-                <!-- <input type="file" name="image" value="<%= item.image %>" class="form-control" id="fileInput" /> -->
+                <input type="text" style="font-size: 1em ; color: gray;" class="form-control" name="itemtag"
+                  id="itemtag" value="<%=item.itemtag%>">
 
               </div>
               <div class="buttons d-flex flex-row  gap-3 p-3">

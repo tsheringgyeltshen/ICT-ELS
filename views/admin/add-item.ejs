@@ -140,8 +140,9 @@
                                 
                                 <ul>
                                     <li><a href="/view-approved-loan">Approved Loan</a></li>
-                                    <li><a href="/viewreq-loan">Pending Loan</a></li>
-                                    <li><a href="/return-date">Return Loan</a></li>
+                                    <li><a href="/ready-forcollect">Collect Loan</a></li>
+                                    <li><a href="/on_loanview">On Loan</a></li>
+                                    <li><a href="/returnedloan_view">Returned Loan</a></li>
 
     
     
@@ -208,10 +209,18 @@
                                         </div>
                                        
                                         
-                                        <div class="col-12 col-sm-4">
+                                        <!-- <div class="col-12 col-sm-4">
                                             <div class="form-group local-forms">
                                                 <label>Quantity<span class="login-danger">*</span> </label>
                                                 <input class="form-control" min="1" name="available_items" id="available_items" type="number" placeholder="Enter Quantity"
+                                                    required>
+                                            </div>
+                                        </div> -->
+                                        
+                                        <div class="col-12 col-sm-4">
+                                            <div class="form-group local-forms">
+                                                <label>Item Tag<span class="login-danger">*</span> </label>
+                                                <input class="form-control" name="itemtag" id="itemtag" type="text" placeholder="Enter Item Tag"
                                                     required>
                                             </div>
                                         </div>

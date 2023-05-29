@@ -44,7 +44,7 @@
                   aria-expanded="false">Loan
                 </a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
+                  <li class="nav-item"><a href="/personalloan" class="nav-link">Your Loan</a></li>
                   <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
                   </li>
                 </ul>
@@ -76,61 +76,61 @@
     </div>
   </header>
   <!-- <div class="product_image_area"> -->
-  <div class="container">
-    <div class="table-responsive mt-3">
-
-      <table id="example" class="table table-striped table-bordered" style="width: 100%;">
-        <thead class="student-thread">
-          <tr>
-
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Request Date</th>
-            <th>Return Date</th>
-            <th>Status</th>
-            <th>Collection Date</th>
-
-          </tr>
-        </thead>
-        <tbody>
-
-          <% loans.forEach(loan=> { %>
-            <tr>
-              <td>
-                <%= loan.itemName %>
-              </td>
-              <td>
-                <%= loan.quantity %>
-              </td>
-              <td>
-                <%= loan.requestDate.toDateString() %>
-              </td> <!-- New column -->
-              <td>
-                <%= loan.returnDate.toDateString() %>
-              </td>
-              <td>
-                <span
-                  class="badge <%= loan.status === 'pending' ? 'badge badge-warning' : loan.status === 'approved' ? 'badge-success' : 'badge-danger' %>">
-                  <%= loan.status %>
-                </span>
-              </td>
-              <td>
-                <% if (loan.collectionDate instanceof Date) { %>
-                  <%= loan.collectionDate.toDateString() %>
-                    <% } else { %>
-                      <%= loan.collectionDate %>
+    <div class="container">
+      <div class="table-responsive">
+        <% if (userLoan.length> 0) { %>
+          <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
+            <thead class="student-thread">
+              <tr>
+                <th>User</th>
+                <th>User ID</th>
+                <th>Request Date</th>
+                <th>Status</th>
+                <th>Return Date</th>
+                <th>Collection Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% userLoan.sort((a, b)=> b.request_date - a.request_date).forEach(function(loan) { %>
+                <tr>
+                  <td>
+                    <div class="media align-items-center">
+                      <a href="/loan-detailsapproval/<%= loan._id %>" class="avatar avatar-sm mr-2">
+                        <img class="rounded-circle img-thumbnail img-fluid" src="<%= loan.user_id.image %>"
+                          alt="User Image" style="max-width: 50px;">
+                      </a>
+                    </div>
+                  </td>
+                  <td>
+                    <%= loan.user_id.userid %>
+                  </td>
+                  <td>
+                    <% if (loan.request_date) { %>
+                      <%= loan.request_date.toDateString() %>
                         <% } %>
-              </td>
-            </tr>
-            <% }); %>
-
-        </tbody>
-      </table>
-
+                  </td>
+                  <td>
+                    <%= loan.status %>
+                  </td>
+                  <td>
+                    <% if (loan.return_date) { %>
+                      <%= loan.return_date.toDateString() %>
+                        <% } %>
+                  </td>
+                  <td>
+                    <% if (loan.admin_collection_date) { %>
+                      <%= loan.admin_collection_date.toDateString() %>
+                        <% } %>
+                  </td>
+                </tr>
+                <% }); %>
+            </tbody>
+          </table>
+          <% } else { %>
+            <p>No loan found.</p>
+            <% } %>
+      </div>
     </div>
-
-
-  </div>
 
 
   <footer>

@@ -21,22 +21,20 @@ exports.viewApprovedloan = async (req, res) => {
         path: "user_id",
         select: "name department studentorstaff image userid",
       })
-      .populate("item", "name available_items")
-      .select("item quantity status return_date admin_collection_date ")
+      .populate({
+        path: "items.item",
+        select: "name available_items"
+      }
+      )
+      .select("items status return_date admin_collection_date ")
       .exec();
 
     // Add this line to set the currentUserData variable
     const currentUserData = req.user.userData;
 
-    loanApproved.forEach((loanApproved) => {
-      if (loanApproved.user_id && loanApproved.user_id.name) {
-        //console.log(loanRequest.user_id.name);
-      }
-    });
-
     return res.render("admin/Approvedloan", {
       loanApproved,
-      currentUserData,admin:adminData
+      currentUserData, admin: adminData
     });
   } catch (error) {
     console.error(error);
@@ -44,9 +42,41 @@ exports.viewApprovedloan = async (req, res) => {
   }
 };
 
+
+exports.viewuserapprovalloandetail = async (req, res) => {
+  try {
+    const loanId = req.params.loanId;
+    const userId = req.user.userData._id;
+    const users = await Users.findById(userId);
+
+    // Retrieve the loan details using the loanId
+    const loanDetails = await loan.findById(loanId)
+      .populate("user_id", "name department usertype userid image")
+      .populate({
+        path: "items.item",
+        select: "name available_items image itemtag category", // Include the 'category' field from the item schema
+        populate: { path: "category", select: "name" } // Populate the 'category' field from the item schema
+      });
+
+    console.log(loanDetails);
+
+    if (!loanDetails) {
+      // Handle loan not found
+      return res.status(404).render('error', { message: 'Loan not found' });
+    }
+
+    // Render the loan details page with the loanDetails data
+    return res.render('admin/loan-detailsuserapproval', { loanDetails, admin: users });
+  } catch (error) {
+    // Handle errors
+    return res.status(500).render('error', { message: 'Server Error' });
+  }
+};
+
 exports.updateloan = async (req, res) => {
   //@dde
 
+  // Create a nodemailer transporter using Gmail SMTP settings
   var transporter = nodemailer.createTransport({
     service: "gmail",
     port: 587,
@@ -57,28 +87,44 @@ exports.updateloan = async (req, res) => {
       pass: process.env.USER_PASS,
     },
   });
+
+  // Get the loan ID from the request parameters
   const loan_id = req.params.id;
-  const Loan = await loan.findById(loan_id).populate("user_id", "email").populate("item");
-  //const returndate = Loan.return_date;
-  //const quantity = Loan.quantity;
-  const itemId = Loan.item._id;
-  const Item = await item.findOne({_id: itemId});
+
+  // Find the loan by ID, populate the associated user's email and item details
+  const Loan = await loan
+    .findById(loan_id)
+    .populate("user_id", "email")
+    .populate("items.item");
+
+  // Convert the collection date from the request body to a Date object
+  const collectionDate = new Date(req.body.admin_collection_date);
 
   try {
-    console.log(req.body.admin_collection_date);
-    // Find the loan request by ID
-    // const Loan = await loan.findByIdAndUpdate({id:loan_id},{status:'approved'},{new:true});
+    // Find the loan to check the return_date
+    const loanToUpdate = await loan.findById(loan_id);
+
+    if (collectionDate > loanToUpdate.return_date) {
+      // If the collection date is later than the return date, display a flash message
+      req.flash("error_msg", "Collection Date cannot be later than the Return Date");
+      req.session.save(() => {
+        res.redirect("/view-approved-loan");
+      });
+      return;
+    }
+
+    // Update the loan with the new collection date
     const updatedLoan = await loan.findByIdAndUpdate(
       { _id: loan_id },
       {
         $set: {
-          admin_collection_date: req.body.admin_collection_date,
+          admin_collection_date: collectionDate,
         },
       },
       { new: true }
     );
-    // Use the updated value of admin_collection_date 
-   // retrieved from the updated loan document
+
+    // Find all loans with the same collection date and populate user emails
     const approve = await loan
       .find({
         admin_collection_date: updatedLoan.admin_collection_date,
@@ -87,15 +133,20 @@ exports.updateloan = async (req, res) => {
 
     //@des extract email
     if (approve) {
+      // Send emails to all approved loan users
       approve.map(async (data) => {
-        // console.log(data.user_id.email )
+        // Extract the item names from the loan and join them into a comma-separated string
+        const itemNames = Loan.items.map((item) => item.item.name).join(", ");
+
+        // Compose the email options
         var mailOptions = {
           from: process.env.USER_MAIL,
           to: await data.user_id.email,
           subject: "ICT Equipment Loan System",
-          text: "Dear user, your loan for " + Item.name+", which has been approved, the admin has given the collection dates that is on:"  +updatedLoan.admin_collection_date.toDateString()+",kindly come for collection before the given date",
+          text: `Dear user, your loan for ${itemNames}, which has been approved, has been given with a collection date on ${collectionDate.toDateString()}. Kindly come for collection on the given day.`,
         };
-        console.log(updatedLoan.admin_collection_date);
+
+        // Send the email
         transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
             console.log(error);
@@ -104,24 +155,20 @@ exports.updateloan = async (req, res) => {
           }
         });
       });
-      // const currentDate = new Date();
-      // if (currentDate.getTime() === returndate.getTime()) {
-      //     // Update item availability in database
-      //     Item.available_items += quantity;
-      //     await Item.save();
-      // }
-      req.flash("success_msg","Collection Date Successfully Added");
-      req.session.save(()=>{
+
+      // Set a flash message indicating successful addition of collection date
+      req.flash("success_msg", "Collection Date Successfully Added");
+      req.session.save(() => {
         res.redirect("/view-approved-loan");
       });
-       
     }
-
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Server error" });
   }
 };
+
+
 
 
 

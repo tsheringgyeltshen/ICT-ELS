@@ -1,84 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Item Detail</title>
-    <link rel="stylesheet" href="/css/styles.css" type="text/css" />
-  </head>
-
-<% if (message) { %>
-  <div class="alert alert-success" role="alert">
-    <%= message %>
-  </div> 
-<% } %>
-
-<div class="container mt-5">
-  <form action="/claim-loan/<%=item.id%>" method="POST">
-    <div id="layoutSidenav_content">
-      <div class="container-fluid mt-3 mb-4 p-2">
-        <div>
-          <h2 style="color: #2a3f5a">Loan</h2>
-        </div>
-        <div class="card">
-          <div class="row g-0">
-            <div class="col-md-6 border-end">
-              <div class="d-flex justify-content-center">
-                <div class="main_image">
-                  <img
-                    src="/<%= item.image %>"
-                    width="500px"
-                    height="300px"
-                    class="img-fluid mt-4"
-                    alt="<%= item.image %>"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="p-3 right-side">
-                <div class="d-flex justify-content-between align-items-center">
-                  <h3><%= item.name %></h3>
-                </div>
-                <div class="mt-1">
-                  <p style="font-size: 0.8em; color: gray">
-                    <%= item.category.name %>
-                  </p>
-                </div>
-
-                <hr />
-
-                <div class="mt-2 pr-3 content">
-                  <p><%= item.description %></p>
-                </div>
-                <hr />
-                <span> Available : <%= item.available_items %> </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    <div class="form-group">
-      <label for="quantity">Quantity:</label>
-      <input type="number" name="quantity" id="quantity" class="form-control" min="1" max="<%= item.available_items %>" required>
-    </div>
-    <div class="form-group">
-      <label for="return_date">Return Date:</label>
-      <input type="date" name="return_date" id="return_date" class="form-control" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit Loan Request</button>
-  </form>
-</div>
- -->
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -169,24 +88,30 @@
 					<h3>
 						<%= item.name %>
 					</h3>
+					<p>Tag: <%=item.itemtag%>
+					</p>
 					<ul class="list">
-						<li><a class="active" href="#"><span>Category</span>: <%= item.category.name %></a></li>
-						<li><a href="#"><span>Availibile</span>: <%= item.available_items %></a></li>
+						<li><a class="active" href="#"><span>Category:</span> <%= item.category.name %></a></li>
 					</ul>
+					<p
+					class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-danger<% } %>">
+					<% if (item.available_items===1) { %>
+						Available
+						<% } else if (item.available_items===0) { %>
+							On Loan
+							<% } %>
+				</p>
 					<p>
 						<%= item.description %>
 					</p>
-					<!-- <div class="container"> -->
 
 					<form action="/claim-loan/<%=item.id%>" method="POST">
-						<span class="quantity" style="color: #000;">Quantity</span>
-						<input type="number" class="form-control" name="quantity" min="1" max="<%= item.available_items %>" required>
-						<div class="mt-2">
-
 							<span style=" color: #000;">
 								Select Return Date
 							</span>
-							<input type="date" name="return_date" placeholder="dd-mm-yyyy" class="form-control"
+							<% const today = new Date().toISOString().split('T')[0]; %>
+                            
+							<input type="date" name="return_date" placeholder="dd-mm-yyyy" class="form-control" min="<%= today%>"
 								required>
 							<button type="submit" class="button primary-btn applyl">
 								Request Loan

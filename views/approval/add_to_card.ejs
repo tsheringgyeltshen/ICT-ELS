@@ -43,7 +43,7 @@
                   aria-expanded="false">Loan
                 </a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
+                  <li class="nav-item"><a href="/personalloan" class="nav-link">Your Loan</a></li>
                   <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
                   </li>
                 </ul>
@@ -62,7 +62,7 @@
                   </span>
                 </a>
               </li>
-              
+
               <li class="nav-item submenu dropdown">
 
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -93,8 +93,9 @@
               <thead>
                 <tr>
                   <th scope="col">Product</th>
-                  <th scope="col">Available</th>
-                  <th scope="col">Quantity</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Item Tag</th>
+
                   <th></th>
                 </tr>
               </thead>
@@ -112,19 +113,19 @@
                           </div>
                         </div>
                       </td>
+
                       <td class="col-lg-2">
                         <div class="media-body">
                           <p>
-                            <%= cartItem.item.available_items %>
+                            <%= cartItem.categoryName %>
                           </p>
                         </div>
                       </td>
-                      <td class="col-lg-2">
-                        <input type="hidden" name="item_ids[]" value="<%= cartItem.item._id %>">
-                        <div class="form-group" style="width: 30;">
-                          <input type="number" class="form-control" placeholder="1" name="quantities[]" min="1"
-                            max="<%= cartItem.available_items %>" required>
-                        </div>
+
+                      <td>
+                        <p>
+                          <%=cartItem.item.itemtag%>
+                        </p>
                       </td>
                       <td class="col-lg-3">
                         <input type="hidden" value="<%= cartItem.id %>">
@@ -136,18 +137,32 @@
                     </tr>
                     <% }) %>
                       <tr>
+
                         <td colspan="3">
                           <div class="form-group">
+                            <% const today = new Date().toISOString().split('T')[0]; %>
+                            
                             <label for="return_date">Return Date:</label>
-                            <input type="date" class="form-control col-lg-4" name="return_date" required>
+                            <input type="date" class="form-control col-lg-4" name="return_date" min="<%= today%>" required>
                           </div>
                         </td>
+
 
                       </tr>
 
 
               </tbody>
             </table>
+            <div class="form-group">
+              <label for="approval">Select Approval</label>
+              <select class="form-control" name="approval" required>
+                <% approvals.forEach((approval)=> { %>
+                  <option value="<%= approval._id %>">
+                    <%= approval.name %>
+                  </option>
+                  <% }) %>
+              </select>
+            </div>
             <div class="form-group mt-3">
               <button class="btn btn-primary" style="border-radius: 1vh;" type="submit">Request
                 Loan</button>

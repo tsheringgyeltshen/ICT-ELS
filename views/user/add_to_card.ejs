@@ -1,35 +1,3 @@
-<!-- views/User/cart.ejs
-
-<h1>Cart</h1>
-<% if (cart && cart.length) { %>
-  <table>
-    <thead>
-      <tr>
-        <th>Item Name</th>
-        <th>Quantity</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% cart.forEach(cartItem => { %>
-        <tr>
-          <td><%= cartItem.item.name %></td>
-          <td><%= cartItem.quantity %></td>
-        </tr>
-      <% }); %>
-    </tbody>
-  </table>
-  
-  <form action="/card" method="POST">
-    <label for="return_date">Return Date:</label>
-    <input type="date" name="return_date" required>
-    <button type="submit">Request Loan</button>
-  </form>
-<% } else { %>
-  <p>Your cart is empty.</p>
-<% } %>
- -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -117,24 +85,24 @@
             </div>
 
           </div> -->
+          
 
           <div class="table-responsive">
             <table class="table">
               <thead>
                 <tr>
                   <th scope="col">Product</th>
-                  <th scope="col">Available</th>
-                  <th scope="col">Quantity</th>
-                  <!-- <th scope="col">Action</th> -->
+                  <th scope="col">Category</th>
+                  <th scope="col">Item Tag</th>
                 </tr>
               </thead>
               <tbody>
                 <form action="/card" method="POST">
                   <% cart.forEach((cartItem)=> { %>
                     <tr class="">
-                      <td class="col-lg-5 col-md-5 col-6">
+                      <td class="col-lg-5">
                         <div class="media">
-                          <img src="<%= cartItem.item.image %>" alt="" class=" img-thumbnail imgcard mr-3">
+                          <img src="<%= cartItem.item.image %>" alt="" class="img-fluid img-thumbnail imgcard mr-3">
                           <div class="media-body">
                             <p>
                               <%= cartItem.item.name %>
@@ -142,26 +110,26 @@
                           </div>
                         </div>
                       </td>
-                      <td class="col-lg-2 col-md-2 col-2">
+
+                      <td class="col-lg-2">
                         <div class="media-body">
                           <p>
-                            <%= cartItem.item.available_items %>
+                            <%= cartItem.categoryName %>
                           </p>
+                        </div>
+                      </td>
 
-                        </div>
+                      <td>
+                        <p>
+                          <%=cartItem.item.itemtag%>
+                        </p>
                       </td>
-                      <td class="col-lg-2 col-md-2 col-2">
-                        <input type="hidden" name="item_ids[]" value="<%= cartItem.item._id %>">
-                        <div class="form-group" style="width: 30;">
-                          <input type="number" class="form-control" placeholder="1" name="quantities[]" min="1"
-                            max="<%= cartItem.available_items %>" required>
-                        </div>
-                      </td>
+
                       <td class="col-lg-3 col-md-3 col-2">
                         <input type="hidden" value="<%= cartItem.id %>">
                         <a href="/deleteItem?id=<%= cartItem.id %>"><span class="material-symbols-outlined"
                             style="color: gray;">
-                            close
+                            cancel
                           </span></a>
                       </td>
                     </tr>
@@ -170,7 +138,10 @@
                         <td colspan="3">
                           <div class="form-group">
                             <label for="return_date">Return Date:</label>
-                            <input type="date" class="form-control col-lg-4" name="return_date" required>
+                            <% const today = new Date().toISOString().split('T')[0]; %>
+                            
+                            <input type="date" class="form-control col-lg-4" name="return_date"min="<%= today%>"
+                               required>
                             <button class="button primary-btn mt-3" style="border-radius: 1vh;" type="submit">Request
                               Loan</button>
                           </div>
@@ -210,6 +181,8 @@
       document.forms[0].submit();
     }
   </Script>
+
+
 
 
   <script src="../assets/jquery/jquery-3.2.1.min.js"></script>

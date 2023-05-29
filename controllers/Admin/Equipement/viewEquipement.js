@@ -8,7 +8,7 @@ exports.viewItemByid = async (req, res) => {
     try {
         const userId = req.user.userData._id;
 
-    
+
         const adminData = await Users.findById(userId);
 
         const itemId = req.params.id;
@@ -30,21 +30,21 @@ exports.getLoanRequestsForItem = async (req, res) => {
     // Query the database for the user with the matching ID
     const admin = await Users.findById(userId);
     const item = await Item.findById(itemID);
-    const loans = await Loan.find({ item: itemID }).populate("user_id");
+    const loans = await Loan.find({ "items.item": itemID }).populate("user_id");
 
     const loanObjects = loans.map((loan) => {
-        const { name,userid } = loan.user_id;
+        const { name, userid, department, image } = loan.user_id;
         const {
-            quantity,
             return_date,
             status,
             admin_collection_date,
             request_date,
         } = loan;
         return {
-            borrowerName: name,
-            userid:userid,
-            quantity,
+            name: name,
+            image:image,
+            userid: userid,
+            department:department,
             requestDate: request_date, // Add request_date
             returnDate: return_date,
             status,
@@ -54,7 +54,8 @@ exports.getLoanRequestsForItem = async (req, res) => {
 
     res.render("admin/item_loan_requests", {
         loanRequests: loanObjects,
-        item,admin
+        item,
+        admin
     });
 };
 

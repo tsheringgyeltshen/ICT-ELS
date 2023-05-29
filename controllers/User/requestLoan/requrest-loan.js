@@ -32,29 +32,31 @@ exports.requestLoan = async (req, res) => {
     const item_id = req.params.id;
     const user_id = req.user.userData;
     const item = await Item.findById(item_id).populate('category', 'name');
-    const { quantity, return_date } = req.body;
+    const { return_date } = req.body;
 
     // Check if user has proper permissions
     if (req.user.userData.usertype !== 'User' && req.user.userData.usertype !== 'Approval') {
       const message = "Unauthorized"
       return res.render('user/loan', { message });
     }
-    // Check if enough items are available for loan
-    if (item.available_items < quantity || quantity === 0) {
-      const message = "only Only ${item.available_items} items are available for this loan "
-      return res.render('user/loan', { message });
+
+    if (item.available_items === 0) {
+      req.flash("error_msg", "The item is on loan and you cannot loan it.");
+      return res.redirect('/claim-loan');
     }
+
     // Create new loan object and save to the database
     const loan = new Loan({
       user_id: req.user.userData,
-      item: item,
-      quantity,
-      return_date,
-      request_date: Date.now(), // Add new property with the current date/time
+      return_date: req.body.return_date,
+      request_date: Date.now(),
+      items: [{
+        item: item
+
+      }]
     });
 
     await loan.save();
-    const message = 'Loan successfully submitted';
 
     req.flash("success_msg", "Loan request successfully submitted. Check your loan section for more information");
     req.session.save(() => {
@@ -63,49 +65,109 @@ exports.requestLoan = async (req, res) => {
     });
   } catch (error) {
     console.error(error.message);
-    const message = 'Server error';
-  }
-};
-
-
-exports.getLoanRequests = async (req, res) => {
-  try {
-    const user_id = req.user.userData._id;
-    const users = await User.findById(user_id);
-
-    const loans = await Loan.find({ user_id }).populate('item').sort({ request_date: -1 });
-
-    const loanObjects = loans.map(loan => {
-      const { name } = loan.item;
-      const { quantity, return_date, status, admin_collection_date, request_date } = loan;
-      return {
-        itemName: name,
-        quantity,
-        requestDate: request_date,
-        returnDate: return_date,
-        status,
-        collectionDate: admin_collection_date || "To be determined",
-      };
-    });
-
-    return res.render('user/personalloan', { loans: loanObjects, users });
-
-  } catch (error) {
-    console.error(error.message);
     return res.status(500).json({ message: "Server error" });
   }
 };
 
+
+// exports.getLoanRequests = async (req, res) => {
+//   try {
+//     const user_id = req.user.userData._id;
+//     const users = await User.findById(user_id);
+
+//     const loans = await Loan.find({ user_id }).populate('item').sort({ request_date: -1 });
+
+//     const loanObjects = loans.map(loan => {
+//       const { name } = loan.item;
+//       const { quantity, return_date, status, admin_collection_date, request_date } = loan;
+//       return {
+//         itemName: name,
+//         quantity,
+//         requestDate: request_date,
+//         returnDate: return_date,
+//         status,
+//         collectionDate: admin_collection_date || "To be determined",
+//       };
+//     });
+
+//     return res.render('user/personalloan', { loans: loanObjects, users });
+
+//   } catch (error) {
+//     console.error(error.message);
+//     return res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+
+exports.getLoanRequests = async (req, res) => {
+  try {
+    const userId = req.user.userData._id;
+    const users = await User.findById(userId);
+
+    const userLoan = await Loan
+      .find({
+        user_id: userId
+      })
+      .populate("user_id", "name department studentorstaff image userid")
+      .populate({
+        path: "items.item",
+        select: "name available_items"
+      })
+      .select("items status return_date request_date admin_collection_date")
+      .exec();
+
+    // Add this line to set the currentUserData variable
+    const currentUserData = req.user.userData;
+
+    return res.render("user/personalloan", {
+      userLoan,users,
+      currentUserData
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Server error" });
+  }
+};
+
+exports.viewuserloandetail = async (req, res) => {
+  try {
+    const loanId = req.params.loanId;
+    const userId = req.user.userData._id;
+    const users = await User.findById(userId);
+
+    // Retrieve the loan details using the loanId
+    const loanDetails = await Loan.findById(loanId)
+      .populate("user_id", "name department usertype userid image")
+      .populate({
+        path: "items.item",
+        select: "name available_items image itemtag category", // Include the 'category' field from the item schema
+        populate: { path: "category", select: "name" } // Populate the 'category' field from the item schema
+      });
+
+    console.log(loanDetails);
+
+    if (!loanDetails) {
+      // Handle loan not found
+      return res.status(404).render('error', { message: 'Loan not found' });
+    }
+
+    // Render the loan details page with the loanDetails data
+    return res.render('user/loandetail', { loanDetails, users });
+  } catch (error) {
+    // Handle errors
+    return res.status(500).render('error', { message: 'Server Error' });
+  }
+};
 
 exports.addToCart = async (req, res) => {
   try {
     const userId = req.user.userData._id;
     const itemId = req.params.id;
 
-    // Check if enough items are available for loan
     const item = await Item.findById(itemId);
     if (item.available_items === 0) {
-      return res.status(400).json({ message: 'Item is not available for loan' });
+      req.flash('error_msg', "Equipment is on loan");
+      return res.redirect('/all-items');
     }
 
     // Save cart item to the database
@@ -118,22 +180,21 @@ exports.addToCart = async (req, res) => {
     } else {
       const existingItem = cart.items.find(item => item.item.toString() === itemId);
       if (existingItem) {
-        existingItem.quantity += 1;
+        req.flash('error_msg', 'Item already exists in cart');
+        return res.redirect('/all-items');
       } else {
         cart.items.push({ item: itemId, quantity: 1 });
       }
     }
     await cart.save();
+    req.flash("success_msg", "Added to cart");
+    res.redirect('/all-items');
 
-    req.flash("success_msg","Added to cart");
-    req.session.save(() => {
-      res.redirect('/all-items');
-    });  } catch (error) {
+  } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: 'Server error' });
   }
 };
-
 
 exports.addToCartuserhome = async (req, res) => {
   try {
@@ -142,10 +203,11 @@ exports.addToCartuserhome = async (req, res) => {
 
     const item = await Item.findById(itemId);
     if (item.available_items === 0) {
-      req.flash('error_msg', "Equipment is not available for loan");
+      req.flash('error_msg', "Equipment is on loan");
       req.session.save(() => {
-        return res.redirect('/userhome');
+        return res.redirect('/userlhome');
       });
+      return; // Stop further execution
     }
 
     let cart = await Cart.findOne({ user: userId });
@@ -157,15 +219,20 @@ exports.addToCartuserhome = async (req, res) => {
     } else {
       const existingItem = cart.items.find(item => item.item.toString() === itemId);
       if (existingItem) {
-        existingItem.quantity += 1;
+        req.flash('error_msg', 'Item already exists in cart');
+        req.session.save(() => {
+          return res.redirect('/userhome');
+        });
+        return; // Stop further execution
       } else {
         cart.items.push({ item: itemId, quantity: 1 });
       }
     }
+
     await cart.save();
     req.flash("success_msg", "Added to cart");
     req.session.save(() => {
-      res.redirect('/userhome');
+      return res.redirect('/userhome');
     });
 
   } catch (error) {
@@ -173,47 +240,60 @@ exports.addToCartuserhome = async (req, res) => {
     return res.status(500).json({ message: 'Server error' });
   }
 };
-
 
 
 
 exports.getCart = async (req, res) => {
   try {
     const userId = req.user.userData._id;
-    const userData = await User.findById(userId);
+    const users = await User.findById(userId);
+    const approvals = await User.find({ usertype: 'Approval' });
 
-    const cart = await Cart.findOne({ user: userId }).populate('items.item');
 
-
+    const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
     if (!cart) {
+      const cartItemCount = req.session.cartItemCount || 0;
+
       return res.render('user/add_to_card', {
+        approvals,
         cart,
+        users,
         user: req.user.userData,
-        message: 'Item successfully added to cart'
+        message: 'Item successfully added to cart',
+        cartItemCount: cartItemCount
       });
     }
 
+    const cartData = [];
+    for (const cartItem of cart.items) {
+      const itemId = cartItem.item._id;
+      const itemCategory = await Item.findById(itemId).populate('category', 'name');
+      const categoryName = itemCategory.category.name;
 
+      cartData.push({
+        id: cartItem._id,
+        item: cartItem.item,
+        quantity: cartItem.quantity,
+        available_items: cartItem.item.available_items,
+        categoryName: categoryName
+      });
+    }
 
-    const cartData = cart.items.map((cartItem) => ({
-      id: cartItem._id,
-      item: cartItem.item,
-      quantity: cartItem.quantity,
-      available_items: cartItem.item.available_items
-    }));
+    const cartItemCount = req.session.cartItemCount || cartData.length;
 
     return res.render('user/add_to_card', {
+      approvals,
       cart: cartData,
-      user: userData,
-      message: 'Item successfully added to cart'
+      users,
+      user: req.user.userData,
+      message: 'Item successfully added to cart',
+      cartItemCount: cartItemCount
     });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: 'Server error' });
   }
 };
-
-
 
 exports.deleteCart = async (req, res) => {
   try {
@@ -224,7 +304,7 @@ exports.deleteCart = async (req, res) => {
     const itemIdToRemove = new ObjectId(cart_id);
     cart.items = cart.items.filter(item => !item._id.equals(itemIdToRemove));
 
-    await cart.save(); // Save the updated cart
+    await cart.save();
 
     req.flash("success_msg", "Equipment removed from cart")
     req.session.save(() => {
@@ -236,62 +316,42 @@ exports.deleteCart = async (req, res) => {
   }
 };
 
-
-
-
 exports.request_Loan = async (req, res) => {
   try {
     const userId = req.user.userData._id;
+    const users = await User.findById(userId);
 
-    // Check if user has proper permissions
-    if (req.user.userData.usertype !== 'User' && req.user.userData.usertype !== 'Approval') {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-
-    const cart = await Cart.findOne({ user: userId }).populate('items.item');
+    const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
     if (!cart) {
       return res.status(400).json({ message: 'Cart is empty' });
     }
 
-    const itemIds = req.body.item_ids;
-    const quantities = req.body.quantities;
-    const loanRequests = [];
+    const loanRequest = {
+      user_id: userId,
+      return_date: req.body.return_date,
+      items: [],
+    };
 
-    for (let i = 0; i < itemIds.length; i++) {
-      const itemId = itemIds[i];
-      const quantity = parseInt(quantities[i]);
+    for (const cartItem of cart.items) {
+      const itemId = cartItem.item._id;
+      const itemCategory = await Item.findById(itemId).populate('category', 'name');
+      const categoryName = itemCategory.category.name;
 
-      const cartItem = cart.items.find((item) => item.item._id.toString() === itemId);
-      if (!cartItem || quantity <= 0 || quantity > cartItem.item.available_items) {
-        req.flash('error_msg', 'Invalid quantity');
-        req.session.save(() => {
-          res.redirect('/cart');
-        });      }
-
-      cartItem.item.available_items -= quantity;
-
-      loanRequests.push(
-        new Loan({
-          user_id: userId,
-          item: cartItem.item,
-          quantity,
-          return_date: req.body.return_date,
-          request_date: Date.now(),
-        })
-      );
+      loanRequest.items.push({
+        item: itemId,
+        return_date: req.body.return_date,
+        request_date: Date.now(),
+      });
     }
 
-    const savedLoans = await Loan.create(loanRequests);
-
+    const savedLoanRequest = await Loan.create(loanRequest);
     await Cart.deleteOne({ user: userId }); // Remove cart after loan request
-
-    req.flash('success_msg', "Loan requested successfully submitted. Check your loan section for more information");
+    req.flash('success_msg', "Loan requested successfully submitted. Check your loan section for more information.");
     req.session.save(() => {
       res.redirect('/all-items');
-      
     });
-      
-      } catch (error) {
+
+  } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: 'Server error' });
   }

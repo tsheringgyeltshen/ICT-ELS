@@ -158,7 +158,15 @@
                                             <p>
                                                 <%= item.category.name %>
                                             </p>
-                                            <p>Available: <%=item.available_items%>
+                                            <p
+                                                class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-danger<% } %>">
+                                                <% if (item.available_items===1) { %>
+                                                    Available
+                                                    <% } else if (item.available_items===0) { %>
+                                                        On Loan
+                                                        <% } %>
+                                            </p>
+                                            <p>Tag: <%=item.itemtag%>
                                             </p>
 
                                         </div>

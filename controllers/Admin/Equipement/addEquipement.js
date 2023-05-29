@@ -41,8 +41,9 @@ exports.postaddItem = async (req, res) => {
         const name = req.body.name;
         const category = req.body.category;
         const description = req.body.description;
-        const available_items = req.body.available_items;
-        const newItem = await Item({ name, category, description, image: result.secure_url, available_items });
+        const itemtag = req.body.itemtag;
+        // const available_items = req.body.available_items;
+        const newItem = await Item({ name, category, description, image: result.secure_url, itemtag });
         await newItem.save();
         //     return res.send(newItem);
         return res.render('admin/add-item', { message1: "Equipment Successfully Added", admin: adminData, categories: categories });
@@ -104,7 +105,8 @@ exports.postUpdateItem = async (req, res) => {
                         name: req.body.name,
                         category: req.body.category,
                         description: req.body.description,
-                        available_items: req.body.available_items,
+                        itemtag:req.body.itemtag,
+                        // available_items: req.body.available_items,
                         image: result.secure_url, // Update the Cloudinary URL in the MongoDB document
                     },
                 }
@@ -120,7 +122,8 @@ exports.postUpdateItem = async (req, res) => {
                         name: req.body.name,
                         category: req.body.category,
                         description: req.body.description,
-                        available_items: req.body.available_items
+                        // available_items: req.body.available_items
+                        itemtag: req.body.itemtag,
                     },
                 }
             );

@@ -139,8 +139,9 @@
 
               <ul>
                 <li><a href="/view-approved-loan">Approved Loan</a></li>
-                <li><a href="/viewreq-loan">Pending Loan</a></li>
-                <li><a href="/return-date">Return Loan</a></li>
+                <li><a href="/ready-forcollect">Collect Loan</a></li>
+                <li><a href="/on_loanview">On Loan</a></li>
+                <li><a href="/returnedloan_view">Returned Loan</a></li>
 
 
 
@@ -167,159 +168,158 @@
                   <li class="breadcrumb-item active">Add Users</li> -->
 
                 </ul>
-                
+
 
               </div>
             </div>
             <div་ class="col-sm-3">
 
-                  <a href="/bulkadd" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> Bulk Add</a>
-                </div>
+              <a href="/bulkadd" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> Bulk Add</a>
           </div>
         </div>
-        <% if (typeof message1 !=='undefined' ) { %>
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <%= message1 %>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          <% } %>
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="card comman-shadow">
-                  <div class="card-body">
-                    <form action="new-user" id="myForm" method="post" enctype="multipart/form-data">
-                      <div class="row">
-                        <div class="col-12">
-                          <h5 class="form-title student-info">User Information</h5>
+      </div>
+      <% if (typeof message1 !=='undefined' ) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= message1 %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } %>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card comman-shadow">
+                <div class="card-body">
+                  <form action="new-user" id="myForm" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                      <div class="col-12">
+                        <h5 class="form-title student-info">User Information</h5>
 
-                        </div>
-                        <div class="col-12 col-sm-4">
-                          <div class="form-group local-forms">
-                            <label>Name <span class="login-danger">*</span></label>
-                            <input class="form-control" type="text" name="name" placeholder="Enter Full Name"
-                              required="required">
-                          </div>
-                        </div>
-
-                        <div class="col-12 col-sm-4">
-                          <div class="form-group local-forms">
-                            <label>User ID <span class="login-danger">*</span> </label>
-                            <input class="form-control" min="0" type="number" name="userid" placeholder="Enter User ID"
-                              required="required">
-                          </div>
-                        </div>
-                        <div class="col-12 col-sm-4">
-                          <div class="form-group local-forms">
-                            <label>E-Mail <span class="login-danger">*</span></label>
-                            <input class="form-control" type="email" name="email" placeholder="Enter Email Address"
-                              required="required">
-                          </div>
-                        </div>
-
-
-                        <div class="col-12 col-sm-4">
-                          <div class="form-group local-forms">
-                            <label>Mobile Number <span class="login-danger">*</span></label>
-                            <input class="form-control" type="number" name="mobilenumber"
-                              placeholder="Enter Mobile Number" required="required">
-                          </div>
-                        </div>
-                        <div class="col-12 col-sm-4">
-                          <div class="form-group local-forms">
-                            <label>Role<span class="login-danger">*</span></label>
-                            <select class="form-control select" name="usertype" required>
-                              <option>Please Select Role </option>
-                              <option value="User">User</option>
-                              <option value="Admin">Admin</option>
-                              <option value="Approval">Approval</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-12 col-sm-4">
-                          <div class="form-group local-forms">
-                            <label>Department <span class="login-danger">*</span></label>
-                            <select id="mySelect" class="form-control select" name="department" required>
-                              <option value="null">Please Select Department </option>
-                              <option value="BScIT">BScIT</option>
-                              <option value="SIDD">SIDD</option>
-                              <option value="Blockchain">Blockchain</option>
-                              <option value="Fullstack">Fullstack</option>
-                              <option value="SOC">SOC</option>
-                              <option value="BScCS">BScCS</option>
-                              <option value="AI&DS">AI&DS</option>
-                              <option value="ICT">ICT</option>
-                              <option value="cyberelective">Cyber Elective</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-12 col-sm-4">
-                          <label for="">Student or Staff</label>
-
-                          <div class="form-check ">
-
-                            <input type="radio" class="form-check-input" id="radio1" name="studentorstaff"
-                              value="student" required="required" onclick="showDropdown('student')">Student
-                            <label class="form-check-label" for="radio1"></label>
-                          </div>
-                          <div class="form-check ">
-                            <input type="radio" class="form-check-input" id="radio2" name="studentorstaff" value="staff"
-                              required="required" onclick="showDropdown('tutor')">Staff
-                            <label class="form-check-label" for="radio2"></label>
-                          </div>
-                        </div>
-
-
-                        <div class="col-12 col-sm-4" id="student" style="display: none;">
-
-                          <div class="form-group local-forms">
-                            <label>Year <span class="login-danger">*</span></label>
-                            <select class="form-control select" name="year" aria-label="Default select example"
-                              required="required">
-                              <option value="0" selected>Select Year</option>
-                              <option value="1">Year I</option>
-                              <option value="2">Year II</option>
-                              <option value="3">Year III</option>
-                              <option value="3">Year IV</option>
-                            </select>
-                          </div>
-                        </div>
-
-
-
-
-
-                        <div class="col-12">
-                          <div class="form-group ">
-                            <input type="file" name="image" class="form-control" id="fileInput" required="required" />
-                            <label class="form-label" for="customFile">(Accepted file: jpg, jpeg, png)</label>
-
-                          </div>
-                        </div>
-                        <% if (typeof message !=='undefined' ) { %>
-                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <%= message %>
-                              <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                aria-label="Close"></button>
-                          </div>
-                          <% } %>
-                            <div class="col-12">
-                              <div class="student-submit">
-                                <button type="submit" class="btn btn-primary">Add</button>
-                                <input type="button" onclick="clearForm()" class="btn btn-secondary"
-                                  data-dismiss="modal" value="Cancel">
-
-
-
-                              </div>
-                            </div>
                       </div>
-                    </form>
-                  </div>
+                      <div class="col-12 col-sm-4">
+                        <div class="form-group local-forms">
+                          <label>Name <span class="login-danger">*</span></label>
+                          <input class="form-control" type="text" name="name" placeholder="Enter Full Name"
+                            required="required">
+                        </div>
+                      </div>
+
+                      <div class="col-12 col-sm-4">
+                        <div class="form-group local-forms">
+                          <label>User ID <span class="login-danger">*</span> </label>
+                          <input class="form-control" min="0" type="number" name="userid" placeholder="Enter User ID"
+                            required="required">
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <div class="form-group local-forms">
+                          <label>E-Mail <span class="login-danger">*</span></label>
+                          <input class="form-control" type="email" name="email" placeholder="Enter Email Address"
+                            required="required">
+                        </div>
+                      </div>
+
+
+                      <div class="col-12 col-sm-4">
+                        <div class="form-group local-forms">
+                          <label>Mobile Number <span class="login-danger">*</span></label>
+                          <input class="form-control" type="number" name="mobilenumber"
+                            placeholder="Enter Mobile Number" required="required">
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <div class="form-group local-forms">
+                          <label>Role<span class="login-danger">*</span></label>
+                          <select class="form-control select" name="usertype" required>
+                            <option>Please Select Role </option>
+                            <option value="User">User</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Approval">Approval</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <div class="form-group local-forms">
+                          <label>Department <span class="login-danger">*</span></label>
+                          <select id="mySelect" class="form-control select" name="department" required>
+                            <option value="null">Please Select Department </option>
+                            <option value="BScIT">BScIT</option>
+                            <option value="SIDD">SIDD</option>
+                            <option value="Blockchain">Blockchain</option>
+                            <option value="Fullstack">Fullstack</option>
+                            <option value="SOC">SOC</option>
+                            <option value="BScCS">BScCS</option>
+                            <option value="AI&DS">AI&DS</option>
+                            <option value="ICT">ICT</option>
+                            <option value="cyberelective">Cyber Elective</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <label for="">Student or Staff</label>
+
+                        <div class="form-check ">
+
+                          <input type="radio" class="form-check-input" id="radio1" name="studentorstaff" value="student"
+                            required="required" onclick="showDropdown('student')">Student
+                          <label class="form-check-label" for="radio1"></label>
+                        </div>
+                        <div class="form-check ">
+                          <input type="radio" class="form-check-input" id="radio2" name="studentorstaff" value="staff"
+                            required="required" onclick="showDropdown('tutor')">Staff
+                          <label class="form-check-label" for="radio2"></label>
+                        </div>
+                      </div>
+
+
+                      <div class="col-12 col-sm-4" id="student" style="display: none;">
+
+                        <div class="form-group local-forms">
+                          <label>Year <span class="login-danger">*</span></label>
+                          <select class="form-control select" name="year" aria-label="Default select example"
+                            required="required">
+                            <option value="0" selected>Select Year</option>
+                            <option value="1">Year I</option>
+                            <option value="2">Year II</option>
+                            <option value="3">Year III</option>
+                            <option value="3">Year IV</option>
+                          </select>
+                        </div>
+                      </div>
+
+
+
+
+
+                      <div class="col-12">
+                        <div class="form-group ">
+                          <input type="file" name="image" class="form-control" id="fileInput" required="required" />
+                          <label class="form-label" for="customFile">(Accepted file: jpg, jpeg, png)</label>
+
+                        </div>
+                      </div>
+                      <% if (typeof message !=='undefined' ) { %>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                          <%= message %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <% } %>
+                          <div class="col-12">
+                            <div class="student-submit">
+                              <button type="submit" class="btn btn-primary">Add</button>
+                              <input type="button" onclick="clearForm()" class="btn btn-secondary" data-dismiss="modal"
+                                value="Cancel">
+
+
+
+                            </div>
+                          </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
-      </div>
+          </div>
     </div>
+  </div>
 
   </div>
 

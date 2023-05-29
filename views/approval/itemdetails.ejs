@@ -44,7 +44,7 @@
 									aria-haspopup="true" aria-expanded="false">Loan
 								</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
+									<li class="nav-item"><a href="/personalloan" class="nav-link">Your Loan</a></li>
 									<li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
 									</li>
 								</ul>
@@ -94,11 +94,23 @@
 					<h3>
 						<%= item.name %>
 					</h3>
-					<!-- <h2>$149.99</h2> -->
+					<p>Tag: <%=item.itemtag%>
+					</p>
 					<ul class="list">
-						<li><a class="active" href="#"><span>Category</span>: <%= item.category.name %></a></li>
-						<li><a href="#"><span>Available</span>: <%= item.available_items %></a></li>
+						<li><a class="active" href="#"><span>Category:</span>
+								<%= item.category.name %>
+							</a></li>
+						<!-- <li><a href="#"><span>Available</span>: <%= item.available_items %></a></li> -->
+
 					</ul>
+					<p
+						class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-danger<% } %>">
+						<% if (item.available_items===1) { %>
+							Available
+							<% } else if (item.available_items===0) { %>
+								On Loan
+								<% } %>
+					</p>
 					<p>
 						<%= item.description %>
 					</p>

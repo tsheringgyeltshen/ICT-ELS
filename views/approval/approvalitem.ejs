@@ -42,7 +42,7 @@
                   aria-expanded="false">Loan
                 </a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
+                  <li class="nav-item"><a href="/personalloan" class="nav-link">Your Loan</a></li>
                   <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
                   </li>
                 </ul>
@@ -154,9 +154,19 @@
                           <p>
                             <%= item.category.name %>
                           </p>
-                          <p>Available: <%=item.available_items%>
+                          <!-- <p>Available: <%=item.available_items%>
+                          </p> -->
+                          <p
+                            class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-danger<% } %>">
+                            <% if (item.available_items===1) { %>
+                              Available
+                              <% } else if (item.available_items===0) { %>
+                                On Loan
+                                <% } %>
                           </p>
-                          
+                          <p>Tag: <%=item.itemtag%>
+                          </p>
+
                         </div>
                       </div>
                     </div>

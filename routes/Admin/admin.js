@@ -38,12 +38,15 @@ const {getAdminProfilePage,
     confirmDeleteAdmin,
     adminlogout} = require("../../controllers/Admin/profile/adminprofile");
     
-const {viewLoanRequests, manageLoanRequest, rejectLoanRequest} = require("../../controllers/Admin/Loan/pendingloan");
 
 const {viewPresentCollectionDates} = require("../../controllers/Admin/Loan/todayscollection");
 
-const {viewApprovedloan, updateloan} = require("../../controllers/Admin/Loan/loan")
-const {viewPresentReturnDates, sendLoanReminderEmail,updateReturnDate } = require("../../controllers/Admin/Loan/returndate")
+const {viewApprovedloan, updateloan, viewuserapprovalloandetail} = require("../../controllers/Admin/Loan/loan")
+const {readyforcollection,collected} = require("../../controllers/Admin/Loan/collection_date")
+const {onloanview,returnloan} = require("../../controllers/Admin/Loan/onloan")
+
+
+const {returnedloan } = require("../../controllers/Admin/Loan/returnedloan")
 
 const admin_router = express.Router();
 
@@ -111,7 +114,8 @@ admin_router.route('/all-item')
 admin_router.route('/view-items/:id')
     .get(currentUser, viewItemByid)
 
-
+// admin_router.route('/loan-details/:loanId')
+//     .get(currentUser, viewloandetail)
     
 admin_router.route('/edit-item/:id')
     .get(currentUser, getEditCategoryItem)
@@ -148,18 +152,29 @@ admin_router.route('/delete-admin')
 admin_router.route('/view-approved-loan')
     .get(currentUser, viewApprovedloan)
     
+admin_router.route('/view-approvaluserdetail/:loanId')
+    .get(currentUser, viewuserapprovalloandetail)
+    
+admin_router.route('/ready-forcollect')
+    .get(currentUser, readyforcollection)
+    
+admin_router.route('/on_loan/:id')
+    .post(currentUser, collected)
+    
+admin_router.route('/on_loanview')
+    .get(currentUser, onloanview)
+    
+admin_router.route('/returnloan/:id')
+    .post(currentUser, returnloan)
+    
+admin_router.route('/returnedloan_view')
+    .get(currentUser, returnedloan)
+    
 admin_router.route('/update_loan/:id')
     .post(currentUser, updateloan)
     
-//@des viewapproval loan
-admin_router.route('/viewreq-loan')
-    .get(currentUser, viewLoanRequests)
+
     
-admin_router.route('/manage-loan/:id')
-    .post(currentUser, manageLoanRequest)
-    
-admin_router.route('/reject-loan/:id')
-    .post(currentUser, rejectLoanRequest )
     
 //@des bulk add
 admin_router.route('/bulkadd')
@@ -171,18 +186,18 @@ admin_router.route('/logout')
     .get(currentUser, adminlogout)
     
     
-admin_router.route('/Collection-date')
-    .get(currentUser, viewPresentCollectionDates ) 
+// admin_router.route('/Collection-date')
+//     .get(currentUser, viewPresentCollectionDates ) 
 
 
-admin_router.route('/return-date')
-    .get(currentUser, viewPresentReturnDates ) 
+// admin_router.route('/return-date')
+//     .get(currentUser, viewPresentReturnDates ) 
     
-admin_router.route('/loan-reminder')
-    .post(currentUser, sendLoanReminderEmail )
+// admin_router.route('/loan-reminder')
+//     .post(currentUser, sendLoanReminderEmail )
     
-admin_router.route('/update_returndate/:id')
-        .post(currentUser, updateReturnDate)
+// admin_router.route('/update_returndate/:id')
+//         .post(currentUser, updateReturnDate)
         
 admin_router.route('/view_loan_for_item/:id')
         .get(currentUser, getLoanRequestsForItem)

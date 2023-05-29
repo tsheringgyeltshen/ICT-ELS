@@ -141,8 +141,9 @@
 
               <ul>
                 <li><a href="/view-approved-loan">Approved Loan</a></li>
-                <li><a href="/viewreq-loan">Pending Loan</a></li>
-                <li><a href="/return-date">Return Loan</a></li>
+                <li><a href="/ready-forcollect">Collect Loan</a></li>
+                <li><a href="/on_loanview">On Loan</a></li>
+                <li><a href="/returnedloan_view">Returned Loan</a></li>
 
 
 
@@ -213,86 +214,86 @@
               <div class="card-body">
                 <%- include('messages') %>
 
-                <div class="page-header">
-                  <div class="row align-items-center">
-                    <div class="col">
-                      <h3 class="page-title">Manage Category</h3>
+                  <div class="page-header">
+                    <div class="row align-items-center">
+                      <div class="col">
+                        <h3 class="page-title">Manage Category</h3>
+                      </div>
+
                     </div>
-
                   </div>
-                </div>
 
-                <div class="table-responsive">
-                  <table class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
-                    <thead class="student-thread">
-                      <tr class=>
-
-
-                        <th>Category Name</th>
-                        <th class="col-1">Action</th>
+                  <div class="table-responsive">
+                    <table class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
+                      <thead class="student-thread">
+                        <tr class=>
 
 
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% categories.forEach(category=> { %>
+                          <th>Category Name</th>
+                          <th class="col-1">Action</th>
 
 
-                        <td>
-                          <%=category.name%>
-                        </td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% categories.forEach(category=> { %>
 
 
-                        <td class="text-end">
-                          <div>
-                            <a href="/edit-category/<%= category.id %>" class="btn btn-sm bg-success-light me-2">
-                              <i class="feather-edit"></i>
-                            </a>
+                          <td>
+                            <%=category.name%>
+                          </td>
 
-                            <!-- <a href="#" type="submit" data-bs-toggle="modal"
+
+                          <td class="text-end">
+                            <div>
+                              <a href="/edit-category/<%= category.id %>" class="btn btn-sm bg-success-light me-2">
+                                <i class="feather-edit"></i>
+                              </a>
+
+                              <!-- <a href="#" type="submit" data-bs-toggle="modal"
                                                         data-bs-target="#deleteUserModal"
                                                         class="btn btn-sm bg-danger-light">
                                                         <i class="feather-trash" style="color: red;"></i></a> -->
 
 
 
-                          </div>
-                          <!-- Modal -->
-                          <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog"
-                            aria-labelledby="deleteUserModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="deleteUserModalLabel">
-                                    Confirm Delete</h5>
-                                  <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
-                                  <!-- <span aria-hidden="true">&times;</span> -->
-                                  </button>
-                                </div>
-                                <div class="modal-header">
-                                  Are you sure you want to delete Category <%=category.name%>?
-                                </div>
-                                <div class="modal-footer">
-                                  <!-- <button type="button" class="btn btn-secondary"
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog"
+                              aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteUserModalLabel">
+                                      Confirm Delete</h5>
+                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+                                    <!-- <span aria-hidden="true">&times;</span> -->
+                                    </button>
+                                  </div>
+                                  <div class="modal-header">
+                                    Are you sure you want to delete Category <%=category.name%>?
+                                  </div>
+                                  <div class="modal-footer">
+                                    <!-- <button type="button" class="btn btn-secondary"
                              data-dismiss="modal">Cancel</button> -->
-                                  <form action="/delete-category/<%= category.id %>" method="POST">
-                                    <input type="hidden" name="id" value="<%= category.id %>">
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                  </form>
+                                    <form action="/delete-category/<%= category.id %>" method="POST">
+                                      <input type="hidden" name="id" value="<%= category.id %>">
+                                      <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
-                        </td>
+                          </td>
 
-                        </tr>
-                        <% }); %>
+                          </tr>
+                          <% }); %>
 
 
-                    </tbody>
-                  </table>
-                </div>
+                      </tbody>
+                    </table>
+                  </div>
               </div>
             </div>
           </div>

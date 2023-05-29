@@ -86,27 +86,23 @@
 					<h3>
 						<%= item.name %>
 					</h3>
-					<!-- <h2>$149.99</h2> -->
+					<p>Tag: <%=item.itemtag%>
+					</p>
 					<ul class="list">
-						<li><a class="active" href="#"><span>Category</span>: <%= item.category.name %></a></li>
-						<li><a href="#"><span>Available</span>: <%= item.available_items %></a></li>
+						<li><a class="active" href="#"><span>Category :</span> <%= item.category.name %></a></li>
 					</ul>
+					<p
+						class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-danger<% } %>">
+						<% if (item.available_items===1) { %>
+							Available
+							<% } else if (item.available_items===0) { %>
+								On Loan
+								<% } %>
+					</p>
 					<p>
 						<%= item.description %>
 					</p>
 					<div class="container">
-
-
-
-						<!-- <div class="row quantity ">
-							<span>Quantity:</span>
-							<div class=" pro-qty">
-								<input type="text" minlength="1" value="1">
-							</div>
-							<div class="col ">
-								<a class="button primary-btn" href="#">Add to Cart</a>
-							</div>
-						</div> -->
 
 
 						<div class="row quantity ">

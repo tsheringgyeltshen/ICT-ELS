@@ -36,16 +36,27 @@
                         <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
                             <li class="nav-item active"><a class="nav-link" href="/approvalhome">Home</a></li>
                             <li class="nav-item "><a class="nav-link" href="/all-equipment">Equipment</a></li>
-                            <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                    aria-haspopup="true" aria-expanded="false">Loan
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="loanDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Loan
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="/view_loans" class="nav-link">Your Loan</a></li>
-                                    <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
-                                    </li>
-                                </ul>
+                                <div class="dropdown-menu" aria-labelledby="loanDropdown">
+                                    <a class="dropdown-item" href="/personalloan">Your Loan</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item dropdown-toggle" href="#" id="pendingLoanDropdown"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Pending Loan
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="pendingLoanDropdown">
+                                        <a class="dropdown-item" href="/view-req-loan">User</a>
+                                        <a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
+                                    </div>
+                                </div>
                             </li>
+
+
+
                             <li class="nav-item "><a class="nav-link" href="/aboutus1">About</a></li>
 
 
@@ -162,8 +173,19 @@
                                             <p>
                                                 <%= item.category.name %>
                                             </p>
-                                            <p>Available: <%=item.available_items%>
+                                            <!-- <p>Available: <%=item.available_items%>
+                                            </p> -->
+                                            <p
+                                                class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-danger<% } %>">
+                                                <% if (item.available_items===1) { %>
+                                                    Available
+                                                    <% } else if (item.available_items===0) { %>
+                                                        On Loan
+                                                        <% } %>
                                             </p>
+                                            <p>Tag: <%=item.itemtag%>
+                                            </p>
+
 
                                         </div>
                                     </div>

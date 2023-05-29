@@ -137,8 +137,9 @@
 
                             <ul>
                                 <li><a href="/view-approved-loan">Approved Loan</a></li>
-                                <li><a href="/viewreq-loan">Pending Loan</a></li>
-                                <li><a href="/return-date">Return Loan</a></li>
+                                <li><a href="/ready-forcollect">Collect Loan</a></li>
+                                <li><a href="/on_loanview">On Loan</a></li>
+                                <li><a href="/returnedloan_view">Returned Loan</a></li>
 
 
 
@@ -185,12 +186,13 @@
 
 
                                 <div class="table-responsive">
-                                    <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
+                                    <table id="datatablesSimple" class="table table-striped table-bordered"
+                                        style="width: 100%;">
                                         <thead class="student-thread">
                                             <tr>
                                                 <th>Name</th>
                                                 <th>UserID</th>
-                                                <th>Quantity</th>
+                                                <th>department</th>
                                                 <th>Status</th>
                                                 <th>Request Date</th>
                                                 <th>Return Date</th>
@@ -198,18 +200,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% loanRequests.forEach((loan) => { %>
+                                            <% loanRequests.sort((a, b)=> (a.requestDate > b.requestDate ? -1 :
+                                                1)).forEach((loan) => { %>
                                                 <tr>
                                                     <td>
-                                                        <%= loan.borrowerName %>
+                                                        <h2 class="table-avatar">
+                                                            <a href="#" class="avatar avatar-sm me-2">
+                                                                <img class="avatar-img rounded-circle"
+                                                                    src="<%= loan.image %>" alt="User Image">
+                                                            </a>
+                                                            <%= loan.name %>
+                                                        </h2>
                                                     </td>
                                                     <td>
                                                         <%= loan.userid %>
-
                                                     </td>
-
                                                     <td>
-                                                        <%= loan.quantity %>
+                                                        <%= loan.department %>
                                                     </td>
                                                     <td>
                                                         <%= loan.status %>
@@ -221,21 +228,23 @@
                                                         <%= loan.returnDate.toLocaleDateString() %>
                                                     </td>
                                                     <td>
-                                                        <% if (loan.status === "rejected") { %>
+                                                        <% if (loan.status==="rejected" ) { %>
                                                             rejected
-                                                        <% } else if (loan.collectionDate instanceof Date) { %>
-                                                            <%= loan.collectionDate.toDateString() %>
-                                                        <% } else { %>
-                                                            <%= loan.collectionDate %>
-                                                        <% } %>
+                                                            <% } else if (loan.collectionDate instanceof Date) { %>
+                                                                <%= loan.collectionDate.toDateString() %>
+                                                                    <% } else { %>
+                                                                        <%= loan.collectionDate %>
+                                                                            <% } %>
                                                     </td>
                                                 </tr>
-                                            <% }); %>
+                                                <% }); %>
                                         </tbody>
                                     </table>
                                 </div>
-                                
-                                
+
+
+
+
 
 
                             </div>

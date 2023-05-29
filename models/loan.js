@@ -3,22 +3,21 @@ const Users = require('./userModel');
 const Item = require('./item');
 
 const loanSchema = new mongoose.Schema({
-
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  item: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Item",
-    required: true,
-  },
-  quantity: {
-    type: Number,
-    required: true,
-  },
-  request_date: { 
+  items: [{
+    item: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Item",
+      required: true,
+    },
+
+  }],
+
+  request_date: {
     type: Date,
     default: Date.now(),
   },
@@ -28,21 +27,17 @@ const loanSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["pending", "approved", "rejected"],
+    enum: ["pending", "approved", "rejected", "onloan", "returned"],
     default: "pending",
   },
   admin_collection_date: {
     type: Date,
   },
-  return_date_status: {
-    type: String,
-    enum: ["not_returned", "returned"],
-    default: "not_returned",
-
+  approval: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", 
   }
 });
-
-
 
 const loan = mongoose.model('loans', loanSchema);
 

@@ -9,16 +9,23 @@ const itemSchema = new mongoose.Schema({
   
   name: {
     type: String,
+    required: true,
+  },
+  itemtag:{
+  type: String,
+  required: true,
   },
   description: {
     type: String,
+    required: true,
   },
   image: {
     type: String,
+    required:true,
   },
   available_items: {
     type: Number,
-    default: 0,
+    default: 1,
   },
   add_date: { 
     type: Date,

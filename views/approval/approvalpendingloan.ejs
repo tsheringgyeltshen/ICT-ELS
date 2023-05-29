@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>ICT - Pending Loan</title>
+  <title>ICT - Approval Pending Loan</title>
 
   <link rel="icon" href="../assets/img/logo-small.png" type="image/png">
   <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
@@ -91,7 +91,7 @@
         <% } %>
 
           <div class="table-responsive mt-3">
-            <p>User Pending Loan</p>
+            <p>Approval Pending Loan</p>
             <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
               <thead class="student-thread">
                 <tr>
@@ -142,14 +142,14 @@
                         </td>
                         <td>
                           <div class="d-flex">
-                            <form action="/manage_loan/<%= loanRequest._id %>" method="POST">
+                            <form action="/manageapproval_loan/<%= loanRequest._id %>" method="POST">
                               <input type="hidden" name="loan_id" value="<%= loanRequest._id %>">
                               <button type="submit" class="border-0 bg-transparent" name="status" data-toggle="tooltip"
                                 data-placement="top" title="Approve" value="Approved">
                                 <i class="ti-check" style="color:green"></i>
                               </button>
                             </form>
-                            <form action="/reject_loan/<%= loanRequest._id %>" method="POST">
+                            <form action="/rejectapproval_loan/<%= loanRequest._id %>" method="POST">
                               <input type="hidden" name="loan_id" value="<%= loanRequest._id %>">
                               <button type="submit" class="border-0 bg-transparent" name="status" data-toggle="tooltip"
                                 data-placement="top" title="Reject" value="rejected">

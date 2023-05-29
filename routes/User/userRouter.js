@@ -4,7 +4,7 @@ const { getUserProfileLoad,postEditProfile, getUserHome,viewAboutuspage } = requ
 const { viewAllitems, viewItemByid,viewItemsByCategory} = require("../../controllers/User/Dashboard/userDashboard");
 
 const currentUser = require("../../middlewares/currentUser");
-const { requestLoan,loanRequestPage, getLoanRequests, addToCart, getCart, request_Loan,deleteCart,addToCartuserhome} = require("../../controllers/User/requestLoan/requrest-loan");
+const { requestLoan,loanRequestPage, getLoanRequests, addToCart, getCart, request_Loan,deleteCart,addToCartuserhome, viewuserloandetail} = require("../../controllers/User/requestLoan/requrest-loan");
 // const { requestLoan } = require("../../controllers/User/requestLoan/requrest-loan");
 
 
@@ -32,6 +32,9 @@ user_router.route('/view-item/:id')
 user_router.route('/claim-loan/:id')
     .get(currentUser, loanRequestPage)
     .post(currentUser,requestLoan)
+    
+user_router.route('/view-userloandetail/:loanId')
+    .get(currentUser, viewuserloandetail)
 
 user_router.route('/addto_card/:id')
    .post(currentUser, addToCart)
