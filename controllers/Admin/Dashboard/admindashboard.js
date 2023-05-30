@@ -8,6 +8,8 @@ exports.getAdminHome = async (req, res) => {
     try {
         const pendingLoanCount = await Loan.countDocuments({ status: 'pending' });
         const approvedLoanCount = await Loan.countDocuments({ status: 'approved'});
+        const onLoanCount = await Loan.countDocuments({ status: 'onloan'});
+
         const itemcount = await Item.countDocuments({isDeleted:false,});
         const userId = req.user.userData._id;
         
@@ -28,7 +30,7 @@ exports.getAdminHome = async (req, res) => {
 
         const image1 = (adminData.image).split('\\')[1];
 
-        res.render('../views/admin/adminhome', { itemcount,approvedLoanCount, pendingLoanCount,admin: adminData, userCount, image1, collectionCount });
+        res.render('../views/admin/adminhome', { itemcount,approvedLoanCount, pendingLoanCount,admin: adminData, userCount, image1, collectionCount,onLoanCount });
 
     } catch (error) {
 
