@@ -82,7 +82,7 @@
             </tr>
           </thead>
           <tbody>
-            <% userLoan.sort((a, b) => b.request_date - a.request_date).forEach(function(loan) { %>
+            <% userLoan.sort((a, b) => new Date(b.request_date) - new Date(a.request_date)).forEach(function(loan) { %>
             <tr>
               <td>
                 <div class="media align-items-center">
@@ -123,6 +123,7 @@
         <p>No loan found.</p>
         <% } %>
       </div>
+      
     </div>
     
   </div>
