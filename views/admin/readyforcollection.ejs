@@ -131,19 +131,20 @@
             </li>
 
             <li class="submenu active">
-              <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span class="menu-arrow"></span></a>
+              <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span
+                  class="menu-arrow"></span></a>
+                  
+                  <ul>
+                    <li><a href="/view-approved-loan">Approved Loan</a></li>
+                    <li><a class="active" href="/ready-forcollect">Collect Loan</a></li>
+                    <li><a href="/on_loanview">On Loan</a></li>
+                    <li><a href="/returnedloan_view">Returned Loan</a></li>
 
-              <ul>
-                <li><a href="/view-approved-loan">Approved Loan</a></li>
-                <li><a class="active" href="/ready-forcollect">Collect Loan</a></li>
-                <li><a href="/on_loanview">On Loan</a></li>
-                <li><a href="/returnedloan_view">Returned Loan</a></li>
 
 
+                  </ul>
 
-              </ul>
-
-            </li>
+          </li>
 
           </ul>
         </div>
@@ -175,89 +176,97 @@
               <div class="card-body">
                 <%- include('messages') %>
 
-                  <div class="page-header">
-                    <div class="row align-items-center">
-                      <div class="col">
-                        <h3 class="page-title">Collection Loan Details</h3>
-                      </div>
-                      <div class="col-lg-2">
+                <div class="page-header">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <h3 class="page-title">Collection Loan Details</h3>
+                    </div>
+                    <div class="col-lg-2">
 
-                        <div class="search-student-btn">
-                        </div>
+                      <div class="search-student-btn">
                       </div>
                     </div>
                   </div>
-
-                  <div class="table-responsive">
-                    <% if (collectloan.length> 0) { %>
-                      <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
-                        <thead class="student-thread">
-                          <tr>
-                            <th>User</th>
-                            <th>User ID</th>
-                            <th>Department</th>
-                            <th>Status</th>
-                            <th>Return Date</th>
-                            <th>Collection Date</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <% collectloan.forEach(function(loan) { %>
-                            <% if (loan.status==='approved' && loan.admin_collection_date !==null) { %>
-                              <tr>
-                                <td>
-                                  <h2 class="table-avatar">
-                                    <a href="/view-approvaluserdetail/<%= loan._id %>" class="avatar avatar-sm me-2">
-                                      <img class="avatar-img rounded-circle" src="<%= loan.user_id.image %>"
-                                        alt="User Image">
-                                    </a>
-                                    <%= loan.user_id.name %>
-                                  </h2>
-                                </td>
-                                <td>
-                                  <%= loan.user_id.userid %>
-                                </td>
-                                <td>
-                                  <%= loan.user_id.department %>
-                                </td>
-                                <td>
-                                  <%= loan.status %>
-                                </td>
-                                <td>
-                                  <% if (loan.return_date) { %>
-                                    <%= loan.return_date.toDateString() %>
-                                      <% } %>
-                                </td>
-                                <td>
-                                  <% if (loan.admin_collection_date) { %>
-                                    <%= loan.admin_collection_date.toDateString() %>
-                                      <% } %>
-                                </td>
-                                <td>
-                                  <% if (new Date(loan.admin_collection_date).toDateString()===new
-                                    Date().toDateString()) { %>
-                                    <form class="collection-form" action="/on_loan/<%= loan.id %>" method="POST">
-                                      <button type="submit" class="mt-2 btn btn-primary">Collected</button>
-                                    </form>
-                                    <% } else { const currentDate=new Date(); const adminCollectionDate=new
-                                      Date(loan.admin_collection_date); const
-                                      timeDiff=Math.abs(adminCollectionDate.getTime() - currentDate.getTime()); const
-                                      diffDays=Math.ceil(timeDiff / (1000 * 3600 * 24)); %>
-                                      <%= `${diffDays} day${diffDays===1 ? '' : 's' } left` %>
-                                        <% } %>
-                                </td>
-                              </tr>
-                              <% } %>
-                                <% }); %>
-                        </tbody>
-                      </table>
-                      <% } else { %>
-                        <p>No Ready for collection loan found.</p>
-                        <% } %>
-                  </div>
-
-
+                </div>
+                <div class="table-responsive">
+                  <% if (collectloan.length > 0) { %>
+                    <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
+                      <thead class="student-thread">
+                        <tr>
+                          <th>User</th>
+                          <th>User ID</th>
+                          <th>Department</th>
+                          <th>Status</th>
+                          <th>Collection Date</th>
+                          <th>Return Date</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% collectloan.forEach(function(loan) { %>
+                          <% if (loan.status === 'approved' && loan.admin_collection_date !== null) { %>
+                            <tr>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a href="/view-approvaluserdetail/<%= loan._id %>" class="avatar avatar-sm me-2">
+                                    <img class="avatar-img rounded-circle" src="<%= loan.user_id.image %>" alt="User Image">
+                                  </a>
+                                  <%= loan.user_id.name %>
+                                </h2>
+                              </td>
+                              <td>
+                                <%= loan.user_id.userid %>
+                              </td>
+                              <td>
+                                <%= loan.user_id.department %>
+                              </td>
+                              <td>
+                                <%= loan.status %>
+                              </td>
+                              <td>
+                                <% if (loan.admin_collection_date) { %>
+                                  <%= loan.admin_collection_date.toDateString() %>
+                                <% } %>
+                              </td>
+                              <td>
+                                <% if (loan.return_date) { %>
+                                  <%= loan.return_date.toDateString() %>
+                                <% } %>
+                              </td>
+                              
+                              <td>
+                                <% if (new Date(loan.admin_collection_date).toDateString() === new Date().toDateString()) { %>
+                                  <form class="collection-form" action="/on_loan/<%= loan.id %>" method="POST">
+                                    <button type="submit" class="mt-2 btn btn-primary">Collected</button>
+                                  </form>
+                                <% } else if (new Date(loan.admin_collection_date) < new Date() && loan.status !== 'collected') { %>
+                                  <form class="rejection-form" action="/collectionoverdue_loan/<%= loan.id %>" method="POST">
+                                    <button type="submit" class="mt-2 btn btn-danger">Reject</button>
+                                  </form>
+                                  <form class="rejection-form" action="/collectoverdue_loan/<%= loan.id %>" method="POST">
+                                    <button type="submit" class="mt-2 btn btn-primary">Collected</button>
+                                  </form>
+                                <% } else { 
+                                  const currentDate = new Date();
+                                  const adminCollectionDate = new Date(loan.admin_collection_date);
+                                  const timeDiff = Math.abs(adminCollectionDate.getTime() - currentDate.getTime());
+                                  const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                                %>
+                                  <%= `${diffDays} day${diffDays === 1 ? '' : 's'} left` %>
+                                <% } %>
+                              </td>
+                            </tr>
+                          <% } %>
+                        <% }); %>
+                      </tbody>
+                    </table>
+                  <% } else { %>
+                    <p>No Ready for collection loans found.</p>
+                  <% } %>
+                </div>
+                
+              
+                  
               </div>
             </div>
           </div>

@@ -219,8 +219,8 @@
                                                         <th>User ID</th>
                                                         <th>Department</th>
                                                         <th>Status</th>
-                                                        <th>Return Date</th>
                                                         <th>Collection Date</th>
+                                                        <th>Return Date</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -249,15 +249,16 @@
                                                                     <%= loan.status %>
                                                                 </td>
                                                                 <td>
-                                                                    <% if (loan.return_date) { %>
-                                                                        <%= loan.return_date.toDateString() %>
-                                                                            <% } %>
-                                                                </td>
-                                                                <td>
                                                                     <% if (loan.admin_collection_date) { %>
                                                                         <%= loan.admin_collection_date.toDateString() %>
                                                                             <% } %>
                                                                 </td>
+                                                                <td>
+                                                                    <% if (loan.return_date) { %>
+                                                                        <%= loan.return_date.toDateString() %>
+                                                                            <% } %>
+                                                                </td>
+
                                                                 <td>
                                                                     <% if (loan.return_date) { %>
                                                                         <% const today=new Date().getTime(); const

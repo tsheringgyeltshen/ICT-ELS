@@ -42,7 +42,7 @@ const {getAdminProfilePage,
 const {viewPresentCollectionDates} = require("../../controllers/Admin/Loan/todayscollection");
 
 const {viewApprovedloan, updateloan, viewuserapprovalloandetail} = require("../../controllers/Admin/Loan/loan")
-const {readyforcollection,collected} = require("../../controllers/Admin/Loan/collection_date")
+const {readyforcollection,collected,Collectedoverdueloan,collectionoverdue} = require("../../controllers/Admin/Loan/collection_date")
 const {onloanview,returnloan} = require("../../controllers/Admin/Loan/onloan")
 
 
@@ -128,8 +128,6 @@ admin_router.route('/delete-item/:id')
     .post(currentUser, deleteItem)
 
     
-
-    
 // @des admin profile
 admin_router.route('/adminprofile')
     .get(currentUser, getAdminProfilePage)
@@ -161,6 +159,13 @@ admin_router.route('/ready-forcollect')
 admin_router.route('/on_loan/:id')
     .post(currentUser, collected)
     
+admin_router.route('/collectoverdue_loan/:id')
+    .post(currentUser,Collectedoverdueloan)
+
+admin_router.route('/collectionoverdue_loan/:id')
+    .post(currentUser,collectionoverdue) 
+    
+    
 admin_router.route('/on_loanview')
     .get(currentUser, onloanview)
     
@@ -172,8 +177,6 @@ admin_router.route('/returnedloan_view')
     
 admin_router.route('/update_loan/:id')
     .post(currentUser, updateloan)
-    
-
     
     
 //@des bulk add
