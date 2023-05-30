@@ -208,40 +208,43 @@
                                             </thead>
                                             <tbody>
                                                 <% if (collectloan && collectloan.length) { %>
-                                                    <% collectloan.filter(function(loan) { return loan.status === 'returned'; }).sort(function(a, b) { return new Date(b.return_date) - new Date(a.return_date); }).forEach(function(loan) { %>
-                                                        <tr>
-                                                            <td>
-                                                                <h2 class="table-avatar">
-                                                                    <a href="/view-approvaluserdetail/<%= loan._id %>" class="avatar avatar-sm me-2">
-                                                                        <img class="avatar-img rounded-circle" src="<%= loan.user_id.image %>" alt="User Image" />
-                                                                    </a>
-                                                                    <%= loan.user_id.name %>
-                                                                </h2>
-                                                            </td>
-                                                            <td>
-                                                                <%= loan.user_id.userid %>
-                                                            </td>
-                                                            <td>
-                                                                <%= loan.user_id.department %>
-                                                            </td>
-                                                            <td>
-                                                                <%= loan.status %>
-                                                            </td>
-                                                            <td>
-                                                                <% if (loan.admin_collection_date) { %>
-                                                                    <%= loan.admin_collection_date.toDateString() %>
-                                                                <% } %>
-                                                            </td>
-                                                            <td>
-                                                                <% if (loan.return_date) { %>
-                                                                    <%= loan.return_date.toDateString() %>
-                                                                <% } %>
-                                                            </td>
-                                                        </tr>
+                                                    <% collectloan.filter(function(loan) { return loan.status === 'returned'; })
+                                                      .sort(function(a, b) { return new Date(b.return_date) - new Date(a.return_date); })
+                                                      .forEach(function(loan) { %>
+                                                      <tr>
+                                                        <td>
+                                                            <h2 class="table-avatar">
+                                                                <a href="/view-approvaluserdetail/<%= loan._id %>" class="avatar avatar-sm me-2">
+                                                                    <img class="avatar-img rounded-circle" src="<%= loan.user_id.image %>" alt="User Image" />
+                                                                </a>
+                                                                <%= loan.user_id.name %>
+                                                            </h2>
+                                                        </td>
+                                                        <td>
+                                                            <%= loan.user_id.userid %>
+                                                        </td>
+                                                        <td>
+                                                            <%= loan.user_id.department %>
+                                                        </td>
+                                                        <td>
+                                                            <%= loan.status %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (loan.admin_collection_date) { %>
+                                                                <%= loan.admin_collection_date.toDateString() %>
+                                                            <% } %>
+                                                        </td>
+                                                        <td>
+                                                            <% if (loan.return_date) { %>
+                                                                <%= loan.return_date.toDateString() %>
+                                                            <% } %>
+                                                        </td>
+                                                      </tr>
                                                     <% }); %>
-                                                <% } else { %>
+                                                  <% } else { %>
                                                     <p>No returned loans found.</p>
-                                                <% } %>
+                                                  <% } %>
+                                                                                
                                             </tbody>
                                         </table>
                                     </div>

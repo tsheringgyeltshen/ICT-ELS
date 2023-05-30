@@ -233,9 +233,11 @@
                                       <% } %>
                                 </td>
                                 <td>
+                                  <% const today = new Date().toISOString().split('T')[0]; %>
+
                                   <form class="collection-form" action="/update_loan/<%= loan.id %>" method="POST">
                                     <input type="date" class="form-control" name="admin_collection_date"
-                                      value="Enter the collection date" required />
+                                      value="Enter the collection date" min="<%= today%>" required />
 
 
                                     <button type="submit" class="mt-2 btn btn-primary">Update</button>

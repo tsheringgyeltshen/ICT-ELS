@@ -85,13 +85,13 @@
                 <th>User</th>
                 <th>User ID</th>
                 <th>Request Date</th>
-                <th>Status</th>
                 <th>Return Date</th>
                 <th>Collection Date</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
-              <% userLoan.sort((a, b)=> b.request_date - a.request_date).forEach(function(loan) { %>
+              <% userLoan.sort((a, b)=> new Date(b.request_date) - new Date(a.request_date)).forEach(function(loan) { %>
                 <tr>
                   <td>
                     <div class="media align-items-center">
@@ -109,9 +109,7 @@
                       <%= loan.request_date.toDateString() %>
                         <% } %>
                   </td>
-                  <td>
-                    <%= loan.status %>
-                  </td>
+                  
                   <td>
                     <% if (loan.return_date) { %>
                       <%= loan.return_date.toDateString() %>
@@ -120,7 +118,22 @@
                   <td>
                     <% if (loan.admin_collection_date) { %>
                       <%= loan.admin_collection_date.toDateString() %>
-                        <% } %>
+                        <% } else if (loan.status==='pending' || loan.status==='approved' ) { %>
+                          To be determined
+                          <% } %>
+                  </td>
+                  <td>
+                    <% if (loan.status==='pending' ) { %>
+                      <p class="btn btn-warning">Pending</p>
+                      <% } else if (loan.status==='approved' ) { %>
+                        <p class="btn btn-success">Approved</p>
+                        <% } else if (loan.status==='rejected' ) { %>
+                          <p class="btn btn-danger">Rejected</p>
+                          <% } else if (loan.status==='onloan' ) { %>
+                            <p class="btn btn-success">On Loan</p>
+                            <% } else if (loan.status==='returned' ) { %>
+                              <p class="btn btn-success">Returned</p>
+                              <% } %>
                   </td>
                 </tr>
                 <% }); %>
