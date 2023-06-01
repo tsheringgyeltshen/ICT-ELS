@@ -1,18 +1,26 @@
 const Users = require("../../../models/userModel");
 const Loan = require("../../../models/loan");
 const Item = require("../../../models/item");
+const Chart = require('chart.js');
 
 
 
 exports.getAdminHome = async (req, res) => {
     try {
         const pendingLoanCount = await Loan.countDocuments({ status: 'pending' });
-        const approvedLoanCount = await Loan.countDocuments({ status: 'approved'});
-        const onLoanCount = await Loan.countDocuments({ status: 'onloan'});
+        const approvedLoanCount = await Loan.countDocuments({ status: 'approved' });
+        const onLoanCount = await Loan.countDocuments({ status: 'onloan' });
+        const usercount = await Users.countDocuments({ usertype: 'User' });
+        const approvalcount = await Users.countDocuments({ usertype: 'Approval' });
+        const admincount = await Users.countDocuments({ usertype: 'Admin' });
 
-        const itemcount = await Item.countDocuments({isDeleted:false,});
+        const itemonloancount = await Item.countDocuments({ available_items:'0', isDeleted: false });
+        const availableitem = await Item.countDocuments({ available_items:'1', isDeleted: false });
+
+        const itemcount = await Item.countDocuments({ isDeleted: false, });
+
         const userId = req.user.userData._id;
-        
+
 
         // Query the database for the user with the matching ID
         const adminData = await Users.findById(userId);
@@ -30,7 +38,12 @@ exports.getAdminHome = async (req, res) => {
 
         const image1 = (adminData.image).split('\\')[1];
 
-        res.render('../views/admin/adminhome', { itemcount,approvedLoanCount, pendingLoanCount,admin: adminData, userCount, image1, collectionCount,onLoanCount });
+        res.render('../views/admin/adminhome', { itemcount,
+        approvedLoanCount, pendingLoanCount,
+        admin: adminData, userCount, image1,
+        collectionCount,
+        onLoanCount, usercount, approvalcount, admincount,
+        availableitem,itemonloancount});
 
     } catch (error) {
 

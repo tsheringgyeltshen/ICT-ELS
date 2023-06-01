@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
@@ -47,7 +49,7 @@
             <ul class="nav user-menu">
 
 
-               
+
 
                 <li class="nav-item dropdown has-arrow new-user-menus">
                     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
@@ -223,26 +225,134 @@
                                     </div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
 
-
-
                                         <h3>
                                             <%= itemcount %>
                                         </h3>
 
-
                                     </div>
                                 </div>
                             </a>
+
                         </div>
 
+
                 </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-5">
+
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        <h5 class="card-title">Number of Users</h5>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="myChart"></canvas>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 col-lg-5">
+
+                        <div class="card card-chart" >
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        <h5 class="card-title">Item overview</h5>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="piechart"></canvas>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-lg-6 card card-body">
+                        <div class="card-header">
+                            <label for="">User Details</label>
+                        </div>
+                        <div class="card-body">
+
+
+                            <canvas id="myChart"></canvas>
+
+                        </div>
+
+
+                    </div>
+                </div> -->
 
             </div>
-
         </div>
 
     </div>
 
+    </div>
+    <script>
+
+        var xValues = ["Available Item", "On Loan Item"];
+        var yValues = ['<%-availableitem%>', '<%-itemonloancount %>'];
+        var barColors = [
+            "#b91d47",
+            "#00aba9",
+           
+
+        ];
+
+        new Chart("piechart", {
+            type: "doughnut",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Total number of items"
+                }
+            }
+        });
+
+    </script>
+    <script>
+
+        var xValues = ["User", "Approval", "Admin"];
+        var yValues = ['<%-usercount%>', '<%- approvalcount %>', ' <%- admincount %>'];
+        var barColors = [
+            "#b91d47",
+            "#00aba9",
+            "#2b5797",
+
+        ];
+
+        new Chart("myChart", {
+            type: "doughnut",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Total Number of Users"
+                }
+            }
+        });
+
+    </script>
 
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -251,6 +361,7 @@
     <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
     <script src="assets/plugins/apexchart/chart-data.js"></script>
     <script src="assets/js/script.js"></script>
+
 </body>
 
 </html>
