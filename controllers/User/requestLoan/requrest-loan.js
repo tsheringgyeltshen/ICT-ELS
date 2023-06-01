@@ -13,10 +13,11 @@ exports.loanRequestPage = async (req, res) => {
 
     // Query the database for the user with the matching ID
     const userDatas = await User.findById(userId);
+    const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
     const item_id = req.params.id;
     const item = await Item.findById(item_id).populate('category', 'name');
-    return res.render('user/loan', { user: userDatas, item, message: null });
+    return res.render('user/loan', { user: userDatas, item, message: null,cartItemCount: cart.items.length });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: "Server error" });
@@ -28,6 +29,8 @@ exports.requestLoan = async (req, res) => {
 
   // Query the database for the user with the matching ID
   const userDatas = await User.findById(userId);
+  const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+
   try {
     const item_id = req.params.id;
     const user_id = req.user.userData;
@@ -37,7 +40,7 @@ exports.requestLoan = async (req, res) => {
     // Check if user has proper permissions
     if (req.user.userData.usertype !== 'User' && req.user.userData.usertype !== 'Approval') {
       const message = "Unauthorized"
-      return res.render('user/loan', { message });
+      return res.render('user/loan', { message,cartItemCount: cart.items.length });
     }
 
     if (item.available_items === 0) {
@@ -70,39 +73,14 @@ exports.requestLoan = async (req, res) => {
 };
 
 
-// exports.getLoanRequests = async (req, res) => {
-//   try {
-//     const user_id = req.user.userData._id;
-//     const users = await User.findById(user_id);
-
-//     const loans = await Loan.find({ user_id }).populate('item').sort({ request_date: -1 });
-
-//     const loanObjects = loans.map(loan => {
-//       const { name } = loan.item;
-//       const { quantity, return_date, status, admin_collection_date, request_date } = loan;
-//       return {
-//         itemName: name,
-//         quantity,
-//         requestDate: request_date,
-//         returnDate: return_date,
-//         status,
-//         collectionDate: admin_collection_date || "To be determined",
-//       };
-//     });
-
-//     return res.render('user/personalloan', { loans: loanObjects, users });
-
-//   } catch (error) {
-//     console.error(error.message);
-//     return res.status(500).json({ message: "Server error" });
-//   }
-// };
 
 
 exports.getLoanRequests = async (req, res) => {
   try {
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
+    const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+
 
     const userLoan = await Loan
       .find({
@@ -121,7 +99,7 @@ exports.getLoanRequests = async (req, res) => {
 
     return res.render("user/personalloan", {
       userLoan,users,
-      currentUserData
+      currentUserData,cartItemCount: cart.items.length
     });
   } catch (error) {
     console.error(error);
@@ -134,6 +112,8 @@ exports.viewuserloandetail = async (req, res) => {
     const loanId = req.params.loanId;
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
+    const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+
 
     // Retrieve the loan details using the loanId
     const loanDetails = await Loan.findById(loanId)
@@ -152,7 +132,7 @@ exports.viewuserloandetail = async (req, res) => {
     }
 
     // Render the loan details page with the loanDetails data
-    return res.render('user/loandetail', { loanDetails, users });
+    return res.render('user/loandetail', { loanDetails, users,cartItemCount: cart.items.length });
   } catch (error) {
     // Handle errors
     return res.status(500).render('error', { message: 'Server Error' });
@@ -165,6 +145,7 @@ exports.addToCart = async (req, res) => {
     const itemId = req.params.id;
 
     const item = await Item.findById(itemId);
+    
     if (item.available_items === 0) {
       req.flash('error_msg', "Equipment is on loan");
       return res.redirect('/all-items');
@@ -247,15 +228,15 @@ exports.getCart = async (req, res) => {
   try {
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
+
     const approvals = await User.find({ usertype: 'Approval' });
 
 
     const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
     if (!cart) {
-      const cartItemCount = req.session.cartItemCount || 0;
 
       return res.render('user/add_to_card', {
-        approvals,
+        approvals,cartItemCount: cart.items.length,
         cart,
         users,
         user: req.user.userData,
@@ -279,15 +260,13 @@ exports.getCart = async (req, res) => {
       });
     }
 
-    const cartItemCount = req.session.cartItemCount || cartData.length;
 
     return res.render('user/add_to_card', {
       approvals,
       cart: cartData,
       users,
-      user: req.user.userData,
+      user: req.user.userData,cartItemCount: cart.items.length,
       message: 'Item successfully added to cart',
-      cartItemCount: cartItemCount
     });
   } catch (error) {
     console.error(error.message);

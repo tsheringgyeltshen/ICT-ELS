@@ -1,6 +1,8 @@
 const User = require("../../../models/userModel");
 const item = require("../../../models/item");
 const loan = require("../../../models/loan");
+const Cart = require('../../../models/cart');
+
 var nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -8,6 +10,8 @@ dotenv.config();
 exports.viewLoanRequests = async (req, res) => {
   const userId = req.user.userData._id;
   const users = await User.findById(userId);
+  const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+
   if (req.user.userData.usertype !== "Approval") {
     return res.status(400).json({ error: "Invalid user type" });
   }
@@ -30,7 +34,7 @@ exports.viewLoanRequests = async (req, res) => {
     const currentUserData = req.user.userData;
     return res.render("approval/pendingloan", {
       loanRequests: loanRequests.filter((loanRequest) => loanRequest.user_id),
-      currentUserData,
+      currentUserData,cartItemCount: cart.items.length,
       users,
     });
   } catch (error) {
@@ -44,6 +48,8 @@ exports.viewapprovalLoanRequests = async (req, res) => {
   try {
     const currentUserData = req.user.userData;
     const userId = req.user.userData._id;
+    const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+
     const approvalDepartment = currentUserData.department;
     console.log(approvalDepartment);
     const loanRequests = await loan
@@ -70,7 +76,7 @@ exports.viewapprovalLoanRequests = async (req, res) => {
     return res.render("approval/approvalpendingloan", {
       loanRequests,
       users,
-      currentUserData
+      currentUserData,cartItemCount: cart.items.length 
     });
 
   } catch (error) {
@@ -86,6 +92,8 @@ exports.viewuserloandetail = async (req, res) => {
     const loanId = req.params.loanId;
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
+    const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+
 
     // Retrieve the loan details using the loanId
     const loanDetails = await loan.findById(loanId)
@@ -98,7 +106,7 @@ exports.viewuserloandetail = async (req, res) => {
     }
 
     // Render the loan details page with the loanDetails data
-    return res.render('approval/loan-detailsapproval', { loanDetails, users });
+    return res.render('approval/loan-detailsapproval', { loanDetails, users,cartItemCount: cart.items.length  });
   } catch (error) {
     // Handle errors
     return res.status(500).render('error', { message: 'Server Error' });
@@ -109,6 +117,7 @@ exports.viewuserloandetail = async (req, res) => {
 exports.manageLoanRequest = async (req, res) => {
   const userId = req.user.userData._id;
   const users = await User.findById(userId);
+  const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
   const approvalDepartment = req.user.userData.department;
 
   const loanRequests = await loan
@@ -151,7 +160,7 @@ exports.manageLoanRequest = async (req, res) => {
     return res.render("approval/pendingloan", {
       loanRequests,
       currentUserData,
-      users,
+      users,cartItemCount: cart.items.length,
       message: "Item is not available",
     });
   }
@@ -187,6 +196,7 @@ exports.manageLoanRequest = async (req, res) => {
       loanRequests,
       users,
       currentUserData,
+      users,cartItemCount: cart.items.length,
       message: "Insufficient stock or quantity, the item is on loan.",
     });
   }
@@ -244,6 +254,8 @@ exports.manageapprovalLoanRequest = async (req, res) => {
   const userId = req.user.userData._id;
   const users = await User.findById(userId);
   const approvalDepartment = req.user.userData.department;
+  const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+
 
   const loanRequests = await loan
     .find({
@@ -285,7 +297,8 @@ exports.manageapprovalLoanRequest = async (req, res) => {
     return res.render("approval/approvalpendingloan", {
       loanRequests,
       currentUserData,
-      users,
+      users, users,cartItemCount: cart.items.length,
+
       message: "Item is not available",
     });
   }
@@ -319,7 +332,7 @@ exports.manageapprovalLoanRequest = async (req, res) => {
   if (insufficientStock) {
     return res.render("approval/approvalpendingloan", {
       loanRequests,
-      users,
+      users, users,cartItemCount: cart.items.length,
       currentUserData,
       message: "Insufficient stock or quantity, the item is on loan.",
     });
@@ -443,6 +456,8 @@ exports.getLoanRequests = async (req, res) => {
     const loanId = req.params.loanId;
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
+    const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+
 
     // Retrieve the loan details using the loanId
     const userLoan = await loan
@@ -459,7 +474,7 @@ exports.getLoanRequests = async (req, res) => {
 
 
     // Render the loan details page with the loanDetails data
-    return res.render('approval/personalapprovalloan', { userLoan, users });
+    return res.render('approval/personalapprovalloan', { userLoan, users,      users,cartItemCount: cart.items.length,    });
   } catch (error) {
     // Handle errors
     console.log(error.message);
@@ -473,6 +488,8 @@ exports.viewapprovalloandetail = async (req, res) => {
     const loanId = req.params.loanId;
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
+    const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+
 
     // Retrieve the loan details using the loanId
     const loanDetails = await loan.findById(loanId)
@@ -491,7 +508,8 @@ exports.viewapprovalloandetail = async (req, res) => {
     }
 
     // Render the loan details page with the loanDetails data
-    return res.render('approval/approvalloandetail', { loanDetails, users });
+    return res.render('approval/approvalloandetail', { loanDetails, users,users,cartItemCount: cart.items.length,
+    });
   } catch (error) {
     // Handle errors
     return res.status(500).render('error', { message: 'Server Error' });

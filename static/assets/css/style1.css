@@ -438,7 +438,7 @@ a {
     position: relative
 }
 
-.nav-shop li button .nav-shop__circle {
+/* .nav-shop li button .nav-shop__circle {
     font-size: 9px;
     display: inline-block;
     background: #384aeb;
@@ -448,7 +448,7 @@ a {
     position: absolute;
     top: -8px;
     right: -12px
-}
+} */
 
 /* .nav-shop li:last-child {
     margin-left: 40px
@@ -4826,7 +4826,9 @@ a {
 
 .footer-bottom {
     background: rgba(0, 35, 71, 0.980392);
-    padding: 32px
+    padding: 32px;
+    
+    
 }
 
 .footer-bottom .footer-text {

@@ -5,11 +5,20 @@ const cloudinary = require('cloudinary').v2;
 const mongoose = require('mongoose');
 const fs = require('fs');
 const { request } = require("http");
+const Cart = require("../../../models/cart");
+// exports.getCartItemCount = async (req, res) =>{
+
+//     const cart = await Cart.findOne({ user: req.userId }).populate('items.item').populate('items.category', 'name');
+//     console.log("req.userId", cart.items.length);
+// }
 
 exports.getapprovalHome = async (req, res) => {
     try {
-
+        
         const userId = req.user.userData._id;
+        const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+        
+        
         console.log(req.user.userData._id);
         const cardsPerPage = 12;
         const currentPage = 1;
@@ -18,8 +27,9 @@ exports.getapprovalHome = async (req, res) => {
         const items = await Item.find({ isDeleted: false }).sort({ added_date: -1 }).populate('category', 'name');
 
         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-        res.render('../views/approval/approvalhome', { cardsPerPage: cardsPerPage, currentPage: currentPage,
-            user, items });
+        res.render('../views/approval/approvalhome', { cardsPerPage: cardsPerPage, currentPage: currentPage,   cartItemCount: cart.items.length,
+
+            user, items,  });
         // res.send(req.user)
     } catch (error) {
         console.log(error.message);
@@ -30,9 +40,11 @@ exports.getapprovalHome = async (req, res) => {
 exports.getUserProfileLoad = async (req, res) => {
     try {
         const userId = req.user.userData._id;
+        
+        const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
         const userData = await Users.findById(userId);
-        return res.render('approval/approvalprofile', { approval: userData });
+        return res.render('approval/approvalprofile', { approval: userData, cartItemCount: cart.items.length });
 
 
     } catch (error) {
@@ -41,49 +53,7 @@ exports.getUserProfileLoad = async (req, res) => {
     }
 }
 
-// exports.postEditProfile = async (req, res) => {
-//     try {
-//         const userId = req.user.userData._id;
 
-//         if (req.file) {
-//             const userData = await Users.findByIdAndUpdate({ _id: userId }, {
-//                 $set: {
-//                     mobilenumber: req.body.mno,
-//                     image: req.file.filename
-//                 }
-//             });
-
-//             const path = 'images/' + userData.image;
-//             fs.unlink(path, (error) => {
-//                 if (error) {
-//                     req.flash("error_msg", "Error Updating Profile");
-//                 } else {
-//                     req.flash("success_msg", "Your profile has been updated");
-//                 }
-
-//                 req.session.save(() => {
-//                     res.redirect(`/approval-profile?id=${req.body.id}`);
-//                 });
-//             });
-//         } else {
-//             await Users.findByIdAndUpdate({ _id: userId }, {
-//                 $set: {
-//                     mobilenumber: req.body.mno
-//                 }
-//             });
-
-//             req.flash("success_msg", "Your profile has been updated");
-//             req.session.save(() => {
-//                 res.redirect(`/approval-profile?id=${req.body.id}`);
-//             });
-//         }
-//     } catch (error) {
-//         req.flash("error_msg", "Error while updating");
-//         req.session.save(() => {
-//             res.redirect(`/approval-profile?id=${req.body.id}`);
-//         });
-//     }
-// };
 
 exports.postEditProfile = async (req, res) => {
     try {
@@ -143,8 +113,10 @@ exports.viewaboutus = async (req, res) => {
 
         const userId = req.user.userData._id;
         const users = await Users.findById(userId);
+        const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
-        res.render('approval/ABOUTUS', { users });
+
+        res.render('approval/ABOUTUS', { users,cartItemCount: cart.items.length });
 
 
     } catch (error) {
@@ -153,6 +125,8 @@ exports.viewaboutus = async (req, res) => {
 
     }
 }
+
+
 exports.viewAllitems = async (req, res) => {
     try {
         const userId = req.user.userData._id;
@@ -160,6 +134,7 @@ exports.viewAllitems = async (req, res) => {
         const categories = await Category.find();
         const cardsPerPage = 9;
         const currentPage = 1;
+        const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
 
         // Query the database for the user with the matching ID
@@ -175,7 +150,7 @@ exports.viewAllitems = async (req, res) => {
             );
         }
 
-        return res.render('approval/approvalitem', { items, cardsPerPage: cardsPerPage, currentPage: currentPage, user: userData, searchQuery, categories });
+        return res.render('approval/approvalitem', { items, cardsPerPage: cardsPerPage, currentPage: currentPage, user: userData, searchQuery, categories,cartItemCount: cart.items.length  });
 
     } catch (error) {
         console.error(error);
@@ -187,10 +162,11 @@ exports.viewItemByid = async (req, res) => {
         const userId = req.user.userData._id;
         const user = await Users.findById(userId);
         // Query the database for the user with the matching ID
+        const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
         const itemId = req.params.id;
         const item = await Item.findById(itemId).populate('category', 'name');
-        return res.render('approval/itemdetails', { item, user });
+        return res.render('approval/itemdetails', { item, user,cartItemCount: cart.items.length });
 
         //return res.send(item)
     } catch (error) {
@@ -210,6 +186,8 @@ exports.viewItemsByCategory = async (req, res) => {
 
         // Query the database for the user with the matching ID
         const user = await Users.findById(userId);
+        const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+
 
         if (!mongoose.Types.ObjectId.isValid(categoryId)) {
             return res.status(400).send('Invalid category ID');
@@ -225,7 +203,7 @@ exports.viewItemsByCategory = async (req, res) => {
                 item.name.toLowerCase().includes(searchQuery.toLowerCase())
             );
         }
-        return res.render('approval/categoryitems', { category, items, categories, user, cardsPerPage: cardsPerPage, currentPage: currentPage, searchQuery });
+        return res.render('approval/categoryitems', { category, items, categories, user, cardsPerPage: cardsPerPage, currentPage: currentPage, searchQuery,cartItemCount: cart.items.length });
     } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');

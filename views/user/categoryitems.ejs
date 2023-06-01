@@ -45,9 +45,12 @@
                         </ul>
 
                         <ul class="nav-shop">
-                            <!-- <li class="nav-item"><button><i class="ti-search"></i></button></li> -->
-                            <li class="nav-item cartnav"><a href="/cart"><i class="ti-shopping-cart"></i><span
-                                        class="nav-shop__circle"></span> </a></li>
+                            <li class="nav-item cartnav"><a href="/cart"><i class="ti-shopping-cart" style="font-size: large;"></i>
+                                <span
+                                  class="position-relative start-100 translate-middle badge rounded-pill bg-danger <%= cartItemCount > 0 ? ' active' : '' %>"
+                                  style="color: #fff; top: -10px; font-size: smaller; right: 7px;">
+                                  <%= cartItemCount %>
+                                </span></a> </li>
                             <li class="nav-item submenu dropdown">
 
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
@@ -72,7 +75,7 @@
         <div class="row">
             <div class="col-xl-3 col-lg-4 col-md-5">
                 <div class="sidebar-categories">
-                    <div class="head">Browse Categories</div>
+                    <div class="head"> Category</div>
                     <ul class="main-categories">
                         <li class="common-filter">
                             <form action="#">
@@ -82,7 +85,7 @@
                                         <% categories.forEach(category=> { %>
 
                                             <li class="filter-list"><a href="/categoriesitems/<%= category._id %>"
-                                                    class="category" style="color: gray;">
+                                                    class="category" style="color: black;">
                                                     <%= category.name %>
                                                 </a>
                                                 <label for="men">
@@ -117,13 +120,15 @@
                 </div>
 
                 <section class="lattest-product-area pb-40 category-list">
-                    <div class="row" id="card-container">
+                    <h4 class="ml-4" style="color: #384aeb;"><%= category.name.charAt(0).toUpperCase() + category.name.slice(1) %></h4>
+
+                    <div class="row mt-4" id="card-container">
                         <% if (items.length> 0) { %>
                             <% items.forEach(item=> { %>
                                 <div class="col-md-6 col-lg-4">
                                     <div class="card text-center card-product">
                                         <div class="card-product__img">
-                                            <img class="card-img item img-thumbnail" src="/<%= item.image %>" alt="">
+                                            <img class="card-img item img-thumbnail" src="<%= item.image %>" alt="">
                                             <ul class="card-product__imgOverlay">
                                                 <li>
                                                     <form action="/addto_card/<%= item._id %>" method="POST">
@@ -202,7 +207,7 @@
     <footer>
 
 
-        <div class="footer-bottom">
+        <div class="footer-bottom mt-2">
             <div class="container">
                 <div class="row d-flex">
                     <p class="col-lg-12 footer-text text-center">

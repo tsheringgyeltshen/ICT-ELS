@@ -25,6 +25,29 @@
     <!-- <link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css"> -->
 
     <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <style>
+        .admin-profile {
+            position: relative;
+            display: inline-block;
+        }
+
+    
+
+
+            .fas.fa-camera {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                display: inline;
+                margin-left: 60px;
+                margin-top: 50px;
+                padding-right: 30px;
+                font-size: larger;
+                color: #3d5ee1;
+                cursor: pointer;
+            }
+    </style>
 </head>
 
 <body>
@@ -55,12 +78,6 @@
 
             <ul class="nav user-menu">
 
-
-                <li class="nav-item zoom-screen me-2">
-                    <a href="#" class="nav-link header-nav-list">
-                        <img src="assets/img/icons/header-icon-04.svg" alt="">
-                    </a>
-                </li>
 
                 <li class="nav-item dropdown has-arrow new-user-menus">
                     <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
@@ -169,19 +186,30 @@
                     <div class="col-md-12">
                         <div class="profile-header">
                             <div class="row align-items-center">
-                                <div class="col-lg-2 col-md-2 " id="image-container">
+                                <div class="col-lg-2 col-md-3 " id="image-container">
 
                                     <form action="/edit-adminprofile" method="post" enctype="multipart/form-data">
 
 
-
+                                        <!-- <div class="image_container" id="image-container">
+                                            <img class="img-fluid image" src="<%=admin.image%>" alt="" width="100%" height="100%">
+                                            <div class="middle">
+                                                <div class="image-upload">
+                                                    <label for="file-input">
+                                                        <i class="fas fa-camera"></i>
+                                                    </label>
+            
+                                                    <input id="image-upload" value="<%= admin.image %>" name="image" type="file" />
+                                                </div>
+                                            </div>
+                                        </div> -->
                                         <label for="image-upload" style="position: relative; display: inline-block;">
-                                            <i class="fas fa-camera"
-                                                style="position: absolute; bottom: 0; right: 0; font-size: 1.5rem; filter: brightness(120%); "></i>
+
                                             <div class="admin-profile">
                                                 <img src="<%=admin.image%>" alt="Original Image"
-                                                    class="rounded-circle img-fluid">
+                                                    class="rounded-circle img-thumbnail img-fluid">
                                             </div>
+                                            <i class="fas fa-camera"></i>
                                         </label>
                                         <input id="image-upload" value="<%= admin.image %>" name="image" type="file"
                                             style="display: none;">
@@ -189,7 +217,7 @@
 
 
                                 </div>
-                                <div class=" col-lg-10 col-mg-10 ">
+                                <div class=" col-lg-10 col-md-9 ">
                                     <h4 class="user-name mb-2">
                                         <%=admin.name%>
                                     </h4>
@@ -337,8 +365,7 @@
                                                     </div>
 
                                                     <div class="mt-2">
-                                                        <input type="submit" class="btn btn-primary"
-                                                            value="Save">
+                                                        <input type="submit" class="btn btn-primary" value="Save">
                                                         <input type="hidden" name="id" value="<%= admin._id %>">
 
                                                         <!-- <input type="button" class="btn btn-secondary m-2" data-dismiss="modal"
@@ -395,7 +422,7 @@
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-secondary"
                                                                             onclick="$('#deleteUserModal').modal('hide')">Cancel</button>
-                                                                        
+
                                                                         <form action="/delete-admin" method="POST">
                                                                             <input type="hidden" name="id"
                                                                                 value="<%= admin._id %>">
@@ -472,6 +499,19 @@
 
             reader.readAsDataURL(file);
         });
+
+
+        // $(document).ready(function () {
+        //     $('.admin-profile').hover(
+        //         function () {
+        //             $(this).find('.fas.fa-camera').css('display', 'inline');
+        //         },
+        //         function () {
+        //             $(this).find('.fas.fa-camera').css('display', 'none');
+        //         }
+        //     );
+        // });
+
     </script>
 
 

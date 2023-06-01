@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="../assets/owl-carousel/owl.theme.default.min.css">
   <link rel="stylesheet" href="../assets/owl-carousel/owl.carousel.min.css">
   <link rel="stylesheet" href="../assets/css/style1.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.3.2/css/fixedHeader.bootstrap4.min.css">
 </head>
@@ -45,8 +44,13 @@
             </ul>
 
             <ul class="nav-shop">
-              <li class="nav-item cartnav"><a href="/cart"><i class="ti-shopping-cart"></i><span
-                    class="nav-shop__circle"></span></a></li>
+              <li class="nav-item cartnav"><a href="/cart"><i class="ti-shopping-cart" style="font-size: large;"></i>
+                  <span
+                    class="position-relative start-100 translate-middle badge rounded-pill bg-danger <%= cartItemCount > 0 ? ' active' : '' %>"
+                    style="color: #fff; top: -10px; font-size: smaller; right: 7px;">
+                    <%= cartItemCount %>
+                  </span></a>
+              </li>
 
               <li class="nav-item submenu dropdown">
 
@@ -88,8 +92,8 @@
                 <td>
                   <div class="media align-items-center">
                     <a href="/view-userloandetail/<%= loan._id %>" class="avatar avatar-sm mr-2">
-                      <img class="rounded-circle " src="<%= loan.user_id.image %>"
-                        alt="User Image" style="max-width: 50px; max-height: 50px;">
+                      <img class="rounded-circle " src="<%= loan.user_id.image %>" alt="User Image"
+                        style="max-width: 50px; max-height: 50px;">
                     </a>
                     <a href="/view-userloandetail/<%= loan._id %>" style="color: black;">
                       <%= loan.user_id.name%>
@@ -119,7 +123,7 @@
                 </td>
                 <td style="padding-top: 22px;">
                   <% if (loan.status==='pending' ) { %>
-                    <p class="badge bg-info badge" >Pending</p>
+                    <p class="badge bg-info badge">Pending</p>
                     <% } else if (loan.status==='approved' ) { %>
                       <p class="adge bg-success">Approved</p>
                       <% } else if (loan.status==='rejected' ) { %>

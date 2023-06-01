@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="assets/linericon/style.css">
     <link rel="stylesheet" href="assets/owl-carousel/owl.theme.default.min.css">
     <link rel="stylesheet" href="assets/owl-carousel/owl.carousel.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="assets/css/style1.css">
     <style>
@@ -115,8 +114,12 @@
                         </ul>
 
                         <ul class="nav-shop">
-                            <li class="nav-item cartnav"><a href="/cart"><i class="ti-shopping-cart"></i><span
-                                        class="nav-shop__circle"></span></a> </li>
+                            <li class="nav-item cartnav"><a href="/cart"><i class="ti-shopping-cart" style="font-size: large;"></i>
+                                <span
+                                  class="position-relative start-100 translate-middle badge rounded-pill bg-danger <%= cartItemCount > 0 ? ' active' : '' %>"
+                                  style="color: #fff; top: -10px; font-size: smaller; right: 7px;">
+                                  <%= cartItemCount %>
+                                </span></a> </li>
                             <li class="nav-item submenu dropdown">
 
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"

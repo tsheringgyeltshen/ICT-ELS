@@ -4,20 +4,19 @@ const Users = require("../../../models/userModel");
 const Cart = require('../../../models/cart');
 const ObjectId = require('mongodb').ObjectId;
 
-
-
 exports.loanRequestPage = async (req, res) => {
   try {
     const approvals = await Users.find({ usertype: 'Approval' });
     const userId = req.user.userData._id;
     const user = await Users.findById(userId);
     const item_id = req.params.id;
+    const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
     // Filter out the current user from the approvals
     const filteredApprovals = approvals.filter(approval => String(approval._id) !== String(userId));
 
     const item = await Item.findById(item_id).populate('category', 'name');
-    return res.render('approval/loan', { item, user, message: null, approvals: filteredApprovals });
+    return res.render('approval/loan', { item, user, message: null, approvals: filteredApprovals,cartItemCount: cart.items.length });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: "Server error" });
@@ -65,6 +64,9 @@ exports.getLoanRequests = async (req, res) => {
   try {
     const user_id = req.user.userData._id;
     const users = await Users.findById(user_id);
+    
+    const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+
 
     const loans = await Loan.find({ user_id }).populate('item').sort({ request_date: -1 });
 
@@ -81,7 +83,7 @@ exports.getLoanRequests = async (req, res) => {
       };
     });
 
-    return res.render('approval/personalapprovalloan', { loans: loanObjects, users });
+    return res.render('approval/personalapprovalloan', { loans: loanObjects, users,cartItemCount: cart.items.length });
 
   } catch (error) {
     console.error(error.message);
@@ -125,10 +127,11 @@ exports.addToCart = async (req, res) => {
   }
 };
 
-exports.addToCartapprovalhome = async (req, res) => {
+exports.addToCartapprovalhome = async (req, res, next) => {
   try {
     const userId = req.user.userData._id;
     const itemId = req.params.id;
+    req.userId = userId
 
     const item = await Item.findById(itemId);
     if (item.available_items === 0) {
@@ -163,7 +166,7 @@ exports.addToCartapprovalhome = async (req, res) => {
     req.session.save(() => {
       return res.redirect('/approvalhome');
     });
-
+    next()
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: 'Server error' });
@@ -204,7 +207,6 @@ exports.getCart = async (req, res) => {
 
     const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
     if (!cart) {
-      const cartItemCount = req.session.cartItemCount || 0;
 
       return res.render('approval/add_to_card', {
         approvals:filteredApprovals,
@@ -212,8 +214,7 @@ exports.getCart = async (req, res) => {
         users,
         user: req.user.userData,
         message: 'Item successfully added to cart',
-        cartItemCount: cartItemCount
-      });
+        cartItemCount: cart.items.length      });
     }
 
     const cartData = [];
@@ -231,7 +232,6 @@ exports.getCart = async (req, res) => {
       });
     }
 
-    const cartItemCount = req.session.cartItemCount || cartData.length;
 
     return res.render('approval/add_to_card', {
       approvals:filteredApprovals,
@@ -239,13 +239,15 @@ exports.getCart = async (req, res) => {
       users,
       user: req.user.userData,
       message: 'Item successfully added to cart',
-      cartItemCount: cartItemCount
-    });
+      cartItemCount: cart.items.length    });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: 'Server error' });
   }
 };
+
+
+
 
 exports.request_Loan = async (req, res) => {
   try {
