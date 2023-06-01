@@ -39,16 +39,35 @@
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
               <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
               <li class="nav-item"><a class="nav-link" href="/all-equipment">Equipment</a></li>
-              <li class="nav-item active submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Loan
-                </a>
+              <li class="nav-item submenu dropdown">
+                <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                    aria-haspopup="true" aria-expanded="false">Loan</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a href="/personalloan" class="nav-link">Your Loan</a></li>
-                  <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
-                  </li>
+                    <li class="nav-item">
+                        <a href="/personalloan" class="nav-link">Your Loan</a>
+
+                    </li>
+                    <div class="nav-item dropright">
+                        <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                            aria-haspopup="true" aria-expanded="false" id="loanDropdown">Pending
+                            Loan
+                            <i class="ti-angle-right" style="margin-left: 22.5px;"></i></a>
+
+                        <div class="dropdown-menu" aria-labelledby="loanDropdown">
+                            <div class="nav-item">
+                                <a class="dropdown-item" href="/view-req-loan">User</a>
+                            </div>
+                            <div class="nav-item">
+                                <a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+
                 </ul>
-              </li>
+
+            </li>
               <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
             </ul>
@@ -82,7 +101,7 @@
           <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
             <thead class="student-thread">
               <tr>
-                <th>User</th>
+                <th>Username</th>
                 <th>User ID</th>
                 <th>Request Date</th>
                 <th>Return Date</th>
@@ -96,43 +115,47 @@
                   <td>
                     <div class="media align-items-center">
                       <a href="/loan-detailsapproval/<%= loan._id %>" class="avatar avatar-sm mr-2">
-                        <img class="rounded-circle img-thumbnail img-fluid" src="<%= loan.user_id.image %>"
-                          alt="User Image" style="max-width: 50px;">
+                        <img class="rounded-circle " src="<%= loan.user_id.image %>"
+                          alt="User Image" style="max-width: 50px; max-height: 50px;">
+                          
+                          <a href="/loan-detailsapproval/<%= loan._id %>" style="color: black;">
+                            <%= loan.user_id.name%>
+                          </a>
                       </a>
                     </div>
                   </td>
-                  <td>
+                  <td style="padding-top: 19px;">
                     <%= loan.user_id.userid %>
                   </td>
-                  <td>
+                  <td style="padding-top: 19px;">
                     <% if (loan.request_date) { %>
                       <%= loan.request_date.toDateString() %>
                         <% } %>
                   </td>
                   
-                  <td>
+                  <td style="padding-top: 19px;">
                     <% if (loan.return_date) { %>
                       <%= loan.return_date.toDateString() %>
                         <% } %>
                   </td>
-                  <td>
+                  <td style="padding-top: 19px;">
                     <% if (loan.admin_collection_date) { %>
                       <%= loan.admin_collection_date.toDateString() %>
                         <% } else if (loan.status==='pending' || loan.status==='approved' ) { %>
                           To be determined
                           <% } %>
                   </td>
-                  <td>
+                  <td style="padding-top: 19px;">
                     <% if (loan.status==='pending' ) { %>
-                      <p class="btn btn-warning">Pending</p>
+                      <p class="badge bg-info">Pending</p>
                       <% } else if (loan.status==='approved' ) { %>
-                        <p class="btn btn-success">Approved</p>
+                        <p class="badge bg-success">Approved</p>
                         <% } else if (loan.status==='rejected' ) { %>
                           <p class="btn btn-danger">Rejected</p>
                           <% } else if (loan.status==='onloan' ) { %>
-                            <p class="btn btn-success">On Loan</p>
+                            <p class="badge bg-warning">On Loan</p>
                             <% } else if (loan.status==='returned' ) { %>
-                              <p class="btn btn-success">Returned</p>
+                              <p class="badge bg-primary">Returned</p>
                               <% } %>
                   </td>
                 </tr>

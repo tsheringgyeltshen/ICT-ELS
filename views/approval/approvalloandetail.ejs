@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.3.2/css/fixedHeader.bootstrap4.min.css">
+    
 </head>
 
 <body>
@@ -40,15 +41,34 @@
                         <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
                             <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="/all-equipment">Equipment</a></li>
-                            <li class="nav-item active submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                    aria-haspopup="true" aria-expanded="false">Loan
-                                </a>
+                            <li class="nav-item submenu dropdown">
+                                <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">Loan</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="/personalloan" class="nav-link">Your Loan</a></li>
-                                    <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
+                                    <li class="nav-item">
+                                        <a href="/personalloan" class="nav-link">Your Loan</a>
+
                                     </li>
+                                    <div class="nav-item dropright">
+                                        <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                            aria-haspopup="true" aria-expanded="false" id="loanDropdown">Pending
+                                            Loan
+                                            <i class="ti-angle-right" style="margin-left: 22.5px;"></i></a>
+
+                                        <div class="dropdown-menu" aria-labelledby="loanDropdown">
+                                            <div class="nav-item">
+                                                <a class="dropdown-item" href="/view-req-loan">User</a>
+                                            </div>
+                                            <div class="nav-item">
+                                                <a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
                                 </ul>
+
                             </li>
                             <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
@@ -95,10 +115,11 @@
 
 
                         <!-- Display loaned items details -->
-                        <h4>Loaned Items</h4>
+                        <h4>Loaned Item</h4>
                         <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
                             <thead class="student-thread">
                                 <tr>
+                                
                                     <th>Item Name</th>
                                     <th>Item Tag</th>
                                     <th>Category</th>
@@ -119,10 +140,10 @@
 
                                         </td>
 
-                                        <td>
+                                        <td class="pt-3">
                                             <%=item.item.itemtag %>
                                         </td>
-                                        <td>
+                                        <td class="pt-3">
                                             <%=item.item.category.name%>
                                         </td>
                                     </tr>
@@ -167,6 +188,7 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.3.2/js/dataTables.fixedHeader.min.js"></script>
+    
     <script>
         // Get the input element
         const datepicker = document.getElementById("datepicker");

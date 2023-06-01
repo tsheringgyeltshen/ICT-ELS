@@ -1,61 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<div id="layoutSidenav_content" class="p-3">
-
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Equipments</title>
-    <link rel="stylesheet" href="/css/styles.css" type="text/css">
-  </head>
-
-  <body>
-    <a href="/cart" class="btn btn-success">Cart</a>
-
-    <div class="row row-cols-1 row-cols-md-3 g-4 ">
-
-      <% if (items.length> 0) { %>
-        <% items.forEach(item=> { %>
-          <div class="col">
-            <div class="card">
-              <img src="<%= item.image %>" style="height: 200px;" class="card-img-top" alt="Skyscrapers" />
-              <div class="card-body">
-                <h5 class="card-title">
-                  <%= item.name %>
-                </h5>
-                <p class="card-text">
-                  Available: <%= item.available_items %>
-                </p>
-                <p class="card-text">
-                  Available: <%= item.add_date.toLocaleDateString() %>
-                </p>
-                <form action="/addto_card/<%= item._id %>" method="POST">
-                  <input type="hidden" name="<%= item._id %>" value="<%= item._id %>">
-                  <label for="quantity">Quantity:</label>
-                  <input type="number" name="quantity" min="1" max="<%= item.available_items %>" required>
-                  <button type="submit" class="btn btn-success">Add to Cart</button>
-                </form>
-                <a href="/view-item/<%= item._id %>" class="btn btn-success">View Details</a>
-              </div>
-            </div>
-
-          </div>
-          <% }) %>
-
-    </div>
-    <% } else { %>
-      <p>No items found.</p>
-      <% } %>
-
-
-</div>
-
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -196,16 +138,24 @@
                                         </div>
 
                                         <div class="card-body">
-                                            <p>
-                                                <%= item.category.name %>
-                                            </p>
-                                            <p>Available: <%=item.available_items%>
-                                            </p>
                                             <h4 class="card-product__title">
                                                 <a href="/view-item/<%= item._id %>">
                                                     <%= item.name %>
                                                 </a>
                                             </h4>
+                                            <p>
+                                                <%= item.category.name %>
+                                            </p>
+                                            <span
+                                                class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-warning<% } %>">
+                                                <% if (item.available_items===1) { %>
+                                                    Available
+                                                    <% } else if (item.available_items===0) { %>
+                                                        On Loan
+                                                        <% } %>
+                                            </span><br>
+                                            <span>Tag: <%=item.itemtag%>
+                                            </span>
                                             <!-- <p class="card-product__price">$150.00</p> -->
                                         </div>
 

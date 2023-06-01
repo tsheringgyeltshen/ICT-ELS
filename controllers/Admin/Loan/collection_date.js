@@ -207,7 +207,7 @@ exports.Collectedoverdueloan = async (req, res) => {
         // Handle case where return date has passed
         req.flash(
           "error_msg",
-          "Loan cannot be collected because the return date has passed."
+          "The Loan cannot be collected since return date has passed."
         );
         req.session.save(() => {
           res.redirect("/ready-forcollect");
@@ -221,7 +221,7 @@ exports.Collectedoverdueloan = async (req, res) => {
       }
     } else {
       // Handle case where return is passed or present date is greater than return date
-      req.flash("error_msg", "Cannot collect the loan. Return date has passed.");
+      req.flash("error_msg", "The Loan cannot be collected since return date has passed");
       req.session.save(() => {
         res.redirect("/ready-forcollect");
       });

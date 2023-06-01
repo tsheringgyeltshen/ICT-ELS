@@ -86,19 +86,18 @@
 					<h3>
 						<%= item.name %>
 					</h3>
-					<p>Tag: <%=item.itemtag%>
-					</p>
-					<ul class="list">
-						<li><a class="active" href="#"><span>Category :</span> <%= item.category.name %></a></li>
-					</ul>
-					<p
-						class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-danger<% } %>">
+					<span>Tag: <%=item.itemtag%>
+					</span><br>
+					<span>Category :<%= item.category.name %></span> <br>
+					
+					<span
+						class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-warning<% } %>">
 						<% if (item.available_items===1) { %>
 							Available
 							<% } else if (item.available_items===0) { %>
 								On Loan
 								<% } %>
-					</p>
+							</span><br>
 					<p>
 						<%= item.description %>
 					</p>

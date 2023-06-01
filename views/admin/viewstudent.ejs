@@ -284,8 +284,13 @@
                                 <%= users[i].email %>
                               </td>
                               <td>
-                                <%= users[i].year %>
+                                <% if (users[i].year === 0) { %>
+                                  N/A
+                                <% } else { %>
+                                  <%= users[i].year %>
+                                <% } %>
                               </td>
+                              
                               <td>
                                 <%= users[i].usertype %>
                               </td>

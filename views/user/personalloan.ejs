@@ -73,7 +73,7 @@
         <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
           <thead class="student-thread">
             <tr>
-              <th>User</th>
+              <th>Username</th>
               <th>User ID</th>
               <th>Request Date</th>
               <th>Return Date</th>
@@ -88,43 +88,46 @@
                 <td>
                   <div class="media align-items-center">
                     <a href="/view-userloandetail/<%= loan._id %>" class="avatar avatar-sm mr-2">
-                      <img class="rounded-circle img-thumbnail img-fluid" src="<%= loan.user_id.image %>"
-                        alt="User Image" style="max-width: 50px;">
+                      <img class="rounded-circle " src="<%= loan.user_id.image %>"
+                        alt="User Image" style="max-width: 50px; max-height: 50px;">
+                    </a>
+                    <a href="/view-userloandetail/<%= loan._id %>" style="color: black;">
+                      <%= loan.user_id.name%>
                     </a>
                   </div>
                 </td>
-                <td>
+                <td style="padding-top: 22px;">
                   <%= loan.user_id.userid %>
                 </td>
-                <td>
+                <td style="padding-top: 22px;">
                   <% if (loan.request_date) { %>
                     <%= loan.request_date.toDateString() %>
                       <% } %>
                 </td>
 
-                <td>
+                <td style="padding-top: 22px;">
                   <% if (loan.return_date) { %>
                     <%= loan.return_date.toDateString() %>
                       <% } %>
                 </td>
-                <td>
+                <td style="padding-top: 22px;">
                   <% if (loan.admin_collection_date) { %>
                     <%= loan.admin_collection_date.toDateString() %>
                       <% } else if (loan.status==='pending' || loan.status==='approved' ) { %>
                         To be determined
                         <% } %>
                 </td>
-                <td>
+                <td style="padding-top: 22px;">
                   <% if (loan.status==='pending' ) { %>
-                    <p class="btn btn-warning">Pending</p>
+                    <p class="badge bg-info badge" >Pending</p>
                     <% } else if (loan.status==='approved' ) { %>
-                      <p class="btn btn-success">Approved</p>
+                      <p class="adge bg-success">Approved</p>
                       <% } else if (loan.status==='rejected' ) { %>
-                        <p class="btn btn-danger">Rejected</p>
+                        <p class="badge bg-danger">Rejected</p>
                         <% } else if (loan.status==='onloan' ) { %>
-                          <p class="btn btn-success">On Loan</p>
+                          <p class="badge bg-warning">On Loan</p>
                           <% } else if (loan.status==='returned' ) { %>
-                            <p class="btn btn-success">Returned</p>
+                            <p class="badge bg-primary">Returned</p>
                             <% } %>
                 </td>
               </tr>

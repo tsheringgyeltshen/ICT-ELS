@@ -201,9 +201,10 @@
                                                     <th>User</th>
                                                     <th>User ID</th>
                                                     <th>Department</th>
-                                                    <th>Status</th>
                                                     <th>Collection Date</th>
                                                     <th>Return Date</th>
+                                                    <th>Status</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -226,9 +227,7 @@
                                                         <td>
                                                             <%= loan.user_id.department %>
                                                         </td>
-                                                        <td>
-                                                            <%= loan.status %>
-                                                        </td>
+                                                        
                                                         <td>
                                                             <% if (loan.admin_collection_date) { %>
                                                                 <%= loan.admin_collection_date.toDateString() %>
@@ -239,6 +238,10 @@
                                                                 <%= loan.return_date.toDateString() %>
                                                             <% } %>
                                                         </td>
+                                                        <td>
+                                                            <% if (loan.status==='returned' ) { %>
+                                                                <p class="badge bg-primary" >Returned</p>
+                                                                <% } %>                                                        </td>
                                                       </tr>
                                                     <% }); %>
                                                   <% } else { %>

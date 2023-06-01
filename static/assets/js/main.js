@@ -77,7 +77,7 @@ $(function () {
     var sticky = $('.header_area');
     var scroll = $(window).scrollTop();
     var windowHeight = $(window).height();
-    var threshold = windowHeight * 0.1;
+    var threshold = windowHeight * 0.3;
 
     if (scroll >= threshold){
       sticky.addClass('fixed');
@@ -145,5 +145,8 @@ $(function () {
 
 
 });
+
+
+
 
 

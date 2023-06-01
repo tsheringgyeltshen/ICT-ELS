@@ -206,10 +206,10 @@
                                     <span> Item Tag : <%=item.itemtag%>
                                     </span>
                                     <hr>
-                                    <span>Status: <% if (item.available_items === 1) { %>
-                                        Available
+                                    <span><% if (item.available_items === 1) { %>
+                                        <span class="badge bg-success"> Available </span>
                                       <% } else if (item.available_items === 0) { %>
-                                        On Loan
+                                       <span class="badge bg-warning"> On Loan</span>
                                       <% } %></span>
                                 
                                 </div>

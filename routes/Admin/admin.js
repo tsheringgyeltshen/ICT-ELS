@@ -43,7 +43,7 @@ const {viewPresentCollectionDates} = require("../../controllers/Admin/Loan/today
 
 const {viewApprovedloan, updateloan, viewuserapprovalloandetail} = require("../../controllers/Admin/Loan/loan")
 const {readyforcollection,collected,Collectedoverdueloan,collectionoverdue} = require("../../controllers/Admin/Loan/collection_date")
-const {onloanview,returnloan} = require("../../controllers/Admin/Loan/onloan")
+const {onloanview,returnloan,notifyreturndate} = require("../../controllers/Admin/Loan/onloan")
 
 
 const {returnedloan } = require("../../controllers/Admin/Loan/returnedloan")
@@ -171,6 +171,9 @@ admin_router.route('/on_loanview')
     
 admin_router.route('/returnloan/:id')
     .post(currentUser, returnloan)
+    
+admin_router.route('/notifyuser/:id')
+    .post(currentUser, notifyreturndate)
     
 admin_router.route('/returnedloan_view')
     .get(currentUser, returnedloan)

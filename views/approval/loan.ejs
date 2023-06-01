@@ -40,14 +40,33 @@
               <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
               <li class="nav-item active"><a class="nav-link" href="/all-equipment">Equipment</a></li>
               <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Loan
-                </a>
+                <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">Loan</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a href="/personalloan" class="nav-link">Your Loan</a></li>
-                  <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
+                  <li class="nav-item">
+                    <a href="/personalloan" class="nav-link">Your Loan</a>
+
                   </li>
+                  <div class="nav-item dropright">
+                    <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                      aria-expanded="false" id="loanDropdown">Pending
+                      Loan
+                      <i class="ti-angle-right" style="margin-left: 22.5px;"></i></a>
+
+                    <div class="dropdown-menu" aria-labelledby="loanDropdown">
+                      <div class="nav-item">
+                        <a class="dropdown-item" href="/view-req-loan">User</a>
+                      </div>
+                      <div class="nav-item">
+                        <a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
+                      </div>
+                    </div>
+
+                  </div>
+
+
                 </ul>
+
               </li>
               <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
@@ -96,57 +115,57 @@
             <h3>
               <%= item.name %>
             </h3>
-            <p>Tag: <%=item.itemtag%>
-            </p>
-            <ul class="list">
-              <li><a class="active" href="#"><span>Category:</span>
-                  <%= item.category.name %>
-                </a></li>
-            </ul>
-            <p
-              class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-danger<% } %>">
+            <span>Tag: <%=item.itemtag%>
+            </span><br>
+
+            <span>Category:
+              <%= item.category.name %>
+            </span><br>
+
+            <span
+              class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-warning<% } %>">
               <% if (item.available_items===1) { %>
                 Available
                 <% } else if (item.available_items===0) { %>
                   On Loan
                   <% } %>
-            </p>
+            </span>
             <p>
               <%= item.description %>
             </p>
             <!-- <div class="row quantity "> -->
             <form action="/loan/<%=item.id%>" method="POST">
+              <div class="row">
+                <div class="col-lg-12">
+                  <select class="form-select" name="approval" aria-label="Default select example" required>
+                    <option selected>Select Approval</option>
+                    <% approvals.forEach((approval)=> { %>
+                      <option value="<%= approval._id %>">
+                        <%= approval.name %>
+                      </option>
+                      <% }) %>
+                  </select>.
 
-              <div class="form-group">
-                <label for="approval">Select Approval</label>
-                <select class="form-control" name="approval" required>
-                  <% approvals.forEach((approval) => { %>
-                    <option value="<%= approval._id %>">
-                      <%= approval.name %>
-                    </option>
-                  <% }) %>
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <label for="return_date">Return Date:</label>
-                <% const today = new Date().toISOString().split('T')[0]; %>
+                </div>
 
-                <input type="date" name="return_date" placeholder="dd-mm-yyyy" class="form-control" min="<%= today%>" required>
-              </div>
-              
-              <div class="form-group">
-                <button type="submit" class="button primary-btn applyl">
-                  Request Loan
-                </button>
-              </div>
+                <div class="col-lg-12 mt-2">
+                  <label for="return_date" style="color: black;">Return Date:</label>
+                  <% const today=new Date().toISOString().split('T')[0]; %>
 
+                    <input type="date" name="return_date" placeholder="dd-mm-yyyy" class="form-control"
+                      min="<%= today%>" required>
+
+                    <button type="submit" class="button primary-btn applyl">
+                      Request Loan
+                    </button>
+                </div>
+              </div>
             </form>
-
           </div>
-
         </div>
+
       </div>
+  </div>
   </div>
   </div>
   <hr>

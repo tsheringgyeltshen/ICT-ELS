@@ -1164,14 +1164,11 @@ button.bg-danger:hover {
 
 .btn-primary {
     background-color: #3d5ee1;
-    border: 1px solid #3d5ee1 
-   
-
+    border: 1px solid #3d5ee1
 }
 
 .btn-primary-save-bg {
     background-color: #18aefa
-    
 }
 
 .btn-primary-save-bg:hover {
@@ -3355,6 +3352,12 @@ footer p {
     margin-right: 10px
 }
 
+.avatar-img {
+    /* object-fit: cover; */
+    width: 145px;
+    height: 145px;
+}
+
 .notifications .media-list .media-left {
     padding-right: 8px
 }
@@ -4324,7 +4327,8 @@ table.table-inbox tbody tr.checked {
     text-transform: uppercase;
     padding: 11px 15px
 }
-.search-student-btn1 .btn-primary{
+
+.search-student-btn1 .btn-primary {
 
     width: 130px;
     font-size: 14px;
@@ -4367,7 +4371,7 @@ table.table-inbox tbody tr.checked {
     border: 9px solid #fff;
     width: 150px;
     height: 150px;
-    
+
 }
 
 .names-profiles h4 {
@@ -6908,14 +6912,14 @@ table.table-inbox tbody tr.checked {
     transform: translate(calc(-100% - 5px), -50%)
 }
 
-.onoffswitch {
+/* .onoffswitch {
     margin-left: auto;
     position: relative;
     width: 73px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none
-}
+} */
 
 .onoffswitch-checkbox {
     display: none
@@ -8301,12 +8305,12 @@ table.table-inbox tbody tr.checked {
     padding: 0
 }
 
-.social-share>li {
+/* .social-share>li {
     display: inline-block;
     float: left;
     margin-left: 10px;
     text-align: center
-}
+} */
 
 .social-share>li:first-child {
     margin-left: 0
@@ -9908,7 +9912,7 @@ body[data-layout-mode=dark] .alertify .ajs-footer .ajs-buttons .ajs-button.ajs-o
 
 @media(min-width:992px) {
     #toggle_btn {
-        
+
         align-items: center;
         color: #3d5ee1;
         display: inline-flex;
@@ -9923,10 +9927,10 @@ body[data-layout-mode=dark] .alertify .ajs-footer .ajs-buttons .ajs-button.ajs-o
         position: absolute;
         padding: 0 12px;
         border-radius: 10px;
-        
+
         left: -22px;
         z-index: 999;
-        
+
         /* box-shadow: 0 0 35px rgba(61, 47, 146, .1) */
     }
 
@@ -11194,9 +11198,9 @@ body[data-layout-mode=dark] .alertify .ajs-footer .ajs-buttons .ajs-button.ajs-o
     object-fit: cover;
     width: 200px;
     height: 200px;
-  }
-  
-.admin-profile .img-fluid{
+}
+
+.admin-profile .img-fluid {
 
     object-fit: cover;
     width: 250px;
@@ -11209,11 +11213,10 @@ body[data-layout-mode=dark] .alertify .ajs-footer .ajs-buttons .ajs-button.ajs-o
     background-color: transparent;
     border: none;
     padding: 0;
-  }
-  
-  /* Optional: Add custom styles for button icons */
-  .btn-custom img {
+}
+
+/* Optional: Add custom styles for button icons */
+.btn-custom img {
     height: 32px;
     width: 32px;
-  }
-  
+}

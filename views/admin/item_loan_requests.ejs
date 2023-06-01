@@ -193,10 +193,10 @@
                                                 <th>Name</th>
                                                 <th>UserID</th>
                                                 <th>department</th>
-                                                <th>Status</th>
                                                 <th>Request Date</th>
                                                 <th>Return Date</th>
                                                 <th>Collection Date</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -218,9 +218,7 @@
                                                     <td>
                                                         <%= loan.department %>
                                                     </td>
-                                                    <td>
-                                                        <%= loan.status %>
-                                                    </td>
+
                                                     <td>
                                                         <%= loan.requestDate.toLocaleDateString() %>
                                                     </td>
@@ -234,6 +232,19 @@
                                                                 <%= loan.collectionDate.toDateString() %>
                                                                     <% } else { %>
                                                                         <%= loan.collectionDate %>
+                                                                            <% } %>
+                                                    </td>
+                                                    <td style="padding-top: 22px;">
+                                                        <% if (loan.status==='pending' ) { %>
+                                                            <p class="badge bg-info badge">Pending</p>
+                                                            <% } else if (loan.status==='approved' ) { %>
+                                                                <p class="adge bg-success">Approved</p>
+                                                                <% } else if (loan.status==='rejected' ) { %>
+                                                                    <p class="badge bg-danger">Rejected</p>
+                                                                    <% } else if (loan.status==='onloan' ) { %>
+                                                                        <p class="badge bg-warning">On Loan</p>
+                                                                        <% } else if (loan.status==='returned' ) { %>
+                                                                            <p class="badge bg-primary">Returned</p>
                                                                             <% } %>
                                                     </td>
                                                 </tr>

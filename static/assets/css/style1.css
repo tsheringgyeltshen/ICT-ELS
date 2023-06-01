@@ -7,8 +7,8 @@ body {
     font-size: 15px;
     font-weight: 400;
     line-height: 1.667;
-    
-    
+
+
 }
 
 ul {
@@ -524,7 +524,8 @@ a {
         padding-left: 15px;
         padding-right: 15px;
     }
-    .navbar .container.lol{
+
+    .navbar .container.lol {
         padding-left: 15px;
         padding-right: 15px;
     }
@@ -1592,9 +1593,9 @@ a {
     margin-bottom: 30px
 }
 
-.single-recent-blog-post .thumb {
+/* .single-recent-blog-post .thumb {
     /* overflow: hidden */
-}
+/* } */ */
 
 .single-recent-blog-post .thumb img {
     transition: all 0.7s linear
@@ -2678,13 +2679,16 @@ a {
 
 
 
-.category:hover{
-    color: #384aeb; /* Apply your desired active styles here */
-  }
-  .category{
-    color: #222; /* Apply your desired active styles here */
-  }
-  
+.category:hover {
+    color: #384aeb;
+    /* Apply your desired active styles here */
+}
+
+.category {
+    color: #222;
+    /* Apply your desired active styles here */
+}
+
 
 .sidebar-filter .common-filter:last-child {
     border-bottom: 0
@@ -4351,7 +4355,7 @@ a {
     border-bottom: 1px dotted #eeeeee;
     margin-top: 20px;
     padding-bottom: 26px;
-    margin-bottom: 0
+    /* margin-bottom: 0 */
 }
 
 .s_product_text .card_area {
@@ -4904,6 +4908,22 @@ a {
     margin-left: -1vw;
 
 }
+.badge{
+color: white;
+}
+
+.side-menu-arrow {
+    /* position: absolute; */
+    margin-left: 40px;
+    
+}
+
+
+/* .nav-item1:hover a {
+  color: white;
+} */
+
+
 
 /* .dropdown-menu-end1 {
     margin-left: -20vw;
@@ -4987,7 +5007,13 @@ footer {
     }
 }
 
+.pending-dropdown {
+    display: none;
+}
 
+.dropdown-menu li:hover .pending-dropdown {
+    display: block;
+}
 
 /* Include the Bootstrap CSS file (e.g., via a CDN) if you haven't already */
 

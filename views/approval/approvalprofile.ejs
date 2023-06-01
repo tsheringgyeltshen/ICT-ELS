@@ -109,14 +109,33 @@
                             <li class="nav-item"><a class="nav-link" href="approvalhome">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="/all-equipment">Equipment</a></li>
                             <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                    aria-haspopup="true" aria-expanded="false">Loan
-                                </a>
+                                <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">Loan</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a href="/personalloan" class="nav-link">Your Loan</a></li>
-                                    <li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
+                                    <li class="nav-item">
+                                        <a href="/personalloan" class="nav-link">Your Loan</a>
+
                                     </li>
+                                    <div class="nav-item dropright">
+                                        <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                            aria-haspopup="true" aria-expanded="false" id="loanDropdown">Pending
+                                            Loan
+                                            <i class="ti-angle-right" style="margin-left: 22.5px;"></i></a>
+
+                                        <div class="dropdown-menu" aria-labelledby="loanDropdown">
+                                            <div class="nav-item">
+                                                <a class="dropdown-item" href="/view-req-loan">User</a>
+                                            </div>
+                                            <div class="nav-item">
+                                                <a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
                                 </ul>
+
                             </li>
                             <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
@@ -149,12 +168,9 @@
 
     <section>
         <div class="container">
-            <h2 class="mb-3"><b>User Profile</b></h2>
-            <br>
-            <h4 class="mb-3">User Details</h4> <%- include('messages') %>
-
-                <hr>
-                <br>
+            <h4 class="mt-3">User Profile</h4>
+            <hr>
+            <%- include('messages') %>
                 <form action="/approval-profile" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-5">
@@ -216,11 +232,16 @@
                                     <div class="p-3"><input type="number" name="mno" class="form-control"
                                             value="<%=approval.mobilenumber %>" required></div>
                                 </div>
-                                <div class="col-sm-3 mt-3">
+                                <div class="col-sm-2 mt-3">
                                     <button type="submit" class="btn btn-primary"
                                         style="font-size: large;">Save</button>
                                     <input type="hidden" name="id" value="<%= approval._id %>">
                                 </div>
+                                <!-- <div class="col-sm-3 mt-3">
+                                    <button type="submit" class="btn btn-primary"
+                                        style="font-size: large;">Save</button>
+                                    <input type="hidden" name="id" value="<%= approval._id %>">
+                                </div> -->
 
                             </div>
                         </div>
@@ -234,7 +255,7 @@
 
 
     <!-- Footer Section Begin -->
-    <footer class="footer mt-1">
+    <footer class="footer mt-3">
 
 
 

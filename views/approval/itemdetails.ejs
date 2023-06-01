@@ -40,14 +40,33 @@
 							<li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
 							<li class="nav-item active"><a class="nav-link" href="/all-equipment">Equipment</a></li>
 							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-									aria-haspopup="true" aria-expanded="false">Loan
-								</a>
+								<a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									aria-haspopup="true" aria-expanded="false">Loan</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a href="/personalloan" class="nav-link">Your Loan</a></li>
-									<li class="nav-item "><a class="nav-link" href="/view-req-loan">Pending Loan</a>
+									<li class="nav-item">
+										<a href="/personalloan" class="nav-link">Your Loan</a>
+
 									</li>
+									<div class="nav-item dropright">
+										<a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+											aria-haspopup="true" aria-expanded="false" id="loanDropdown">Pending
+											Loan
+											<i class="ti-angle-right" style="margin-left: 22.5px;"></i></a>
+
+										<div class="dropdown-menu" aria-labelledby="loanDropdown">
+											<div class="nav-item">
+												<a class="dropdown-item" href="/view-req-loan">User</a>
+											</div>
+											<div class="nav-item">
+												<a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
+											</div>
+										</div>
+
+									</div>
+
+
 								</ul>
+
 							</li>
 							<li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
@@ -90,27 +109,26 @@
 				</div>
 			</div>
 			<div class="col-lg-6 offset-lg-1">
-				<div class="s_product_text mt-auto ">
+				<div class="p-3 s_product_text mt-auto ">
 					<h3>
 						<%= item.name %>
 					</h3>
-					<p>Tag: <%=item.itemtag%>
-					</p>
-					<ul class="list">
-						<li><a class="active" href="#"><span>Category:</span>
-								<%= item.category.name %>
-							</a></li>
+					<span>Tag: <%=item.itemtag%>
+					</span><br>
+					<span>
+						Category:
+							<%= item.category.name %>
+						
 						<!-- <li><a href="#"><span>Available</span>: <%= item.available_items %></a></li> -->
 
-					</ul>
-					<p
-						class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-danger<% } %>">
+					</span><br>
+					<span class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-warning<% } %>">
 						<% if (item.available_items===1) { %>
 							Available
 							<% } else if (item.available_items===0) { %>
 								On Loan
 								<% } %>
-					</p>
+					</span><br>
 					<p>
 						<%= item.description %>
 					</p>

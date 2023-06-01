@@ -157,7 +157,7 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="page-sub-header">
-                <h3 class="page-title">Manage Loan</h3>
+                <h3 class="page-title">View Loan</h3>
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item"><a href="#">Loan</a></li>
                   <li class="breadcrumb-item active">Loan Details </li>
@@ -187,22 +187,9 @@
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="d-flex align-items-center mb-4">
-                        <img class="avatar-img rounded-circle" src="<%= loanDetails.user_id.image %>" alt="User Image">
-                        <div class="ms-3">
-                          <h2>
-                            <%= loanDetails.user_id.name %>
-                          </h2>
-                          <p>User ID: <%= loanDetails.user_id.userid %>
-                          </p>
-                          <p>Department: <%= loanDetails.user_id.department %>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                 
+
+
                   <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
                     <thead class="student-thread">
                       <tr>
@@ -234,47 +221,47 @@
                               <% } else { %>
                                 On Loan
                                 <% } %> -->
-                                <%=item.item.category.name %>
+                            <%=item.item.category.name %>
                           </td>
                         </tr>
                         <% }); %>
                     </tbody>
                   </table>
 
+
               </div>
             </div>
           </div>
         </div>
+
+
+
       </div>
-
-
 
     </div>
 
-  </div>
 
 
 
 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="../assets/js/jquery-3.6.0.min.js"></script>
 
-  <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <script src="../ssets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <script src="../ssets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/feather.min.js"></script>
 
-  <script src="../assets/js/feather.min.js"></script>
-
-  <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 
-  <!-- <script src="assets/plugins/datatables/datatables.min.js"></script> -->
+    <!-- <script src="assets/plugins/datatables/datatables.min.js"></script> -->
 
-  <script src="../assets/js/datatables-simple-demo.js"></script>
+    <script src="../assets/js/datatables-simple-demo.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-    crossorigin="anonymous"></script>
-  <script src="../assets/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+      crossorigin="anonymous"></script>
+    <script src="../assets/js/script.js"></script>
 </body>
 
 </html>
