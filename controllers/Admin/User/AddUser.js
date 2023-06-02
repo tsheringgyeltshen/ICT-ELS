@@ -42,7 +42,7 @@ const addUserMail = async (name, email, password, user_id) => {
             from: process.env.USER_MAIL,
             to: email,
             subject: 'You has been added to ICT Equipment Loan System',
-            html: '<p>Hii ' + name + ', you has been added to ICT Equipment Loan System<a href="http://127.0.0.1:3000/verify?id=' + user_id + '"></a></p> <br><br> <b>Email:-</b>' + email + '<br><b>Password:-</b>' + password + ''
+            html: '<p>Hii ' + name + ', you have been added to ICT Equipment Loan System<a href="http://127.0.0.1:3000/verify?id=' + user_id + '"></a></p> <br><br> <b>Email:-</b>' + email + '<br><b>Password:-</b>' + password + ''
         }
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
@@ -80,7 +80,7 @@ const sendVerifyMail = async (name, email, user_id) => {
             from: process.env.USER_MAIL,
             to: email,
             subject: 'ICT Equipment Loan System-Verification mail',
-            html: '<p>Hii ' + name + ', You has been added to ICT Equipment Loan System <a href="http://127.0.0.1:5000/verify?id=' + user_id + '"></a></p>'
+            html: '<p>Hii ' + name + ', You have been added to ICT Equipment Loan System <a href="http://127.0.0.1:5000/verify?id=' + user_id + '"></a></p>'
         }
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
@@ -112,76 +112,6 @@ exports.getRegister1 = async (req, res) => {
         console.log(error.message);
     }
 }
-
-// exports.postRegister1 = async (req, res) => {
-//     try {
-//         // Retrieve the user ID from the JWT token
-//         const userId = req.user.userData._id;
-
-//         // Query the database for the user with the matching ID
-//         const adminData = await Users.findById(userId);
-
-//         const name = req.body.name;
-//         const userid = req.body.userid;
-//         const email = req.body.email;
-//         const mobilenumber = req.body.mobilenumber;
-//         const usertype = req.body.usertype;
-//         const year = req.body.year;
-//         const department = req.body.department;
-//         const studentorstaff = req.body.studentorstaff;
-//         const image = req.file.filename;
-//         const password = randomstring.generate(8);
-
-
-
-//         const finduser = await Users.findOne({ userid: userid });
-//         const finduser1 = await Users.findOne({ email: email });
-
-//         if (finduser || finduser1) {
-
-//             res.render('admin/addnewuser', { message: "Email or userid has already taken.", admin: adminData });
-//         }
-
-
-
-//         else {
-//             const spassword = await securePassword(password);
-//             const user = new Users({
-//                 name: name,
-//                 userid: userid,
-//                 email: email,
-//                 mobilenumber: mobilenumber,
-//                 usertype: usertype,
-//                 studentorstaff: studentorstaff,
-//                 year: year,
-//                 department: department,
-//                 image: image,
-//                 password: spassword,
-
-//             });
-//             const userData = await user.save();
-
-//             if (userData) {
-//                 addUserMail(name, email, password, userData._id);
-//                 res.render('admin/addnewuser', { message1: "User has been successfully added", admin: adminData });
-
-//             }
-
-//             else {
-
-//                 res.render('admin/addnewuser', { message: "Something wrong", admin: adminData });
-//             }
-
-//         }
-
-
-
-//     } catch (error) {
-
-//         console.log(error.message)
-
-//     }
-// }
 
 
 exports.postRegister1 = async (req, res) => {

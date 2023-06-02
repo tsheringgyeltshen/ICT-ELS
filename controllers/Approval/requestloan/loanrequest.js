@@ -16,7 +16,7 @@ exports.loanRequestPage = async (req, res) => {
     const filteredApprovals = approvals.filter(approval => String(approval._id) !== String(userId));
 
     const item = await Item.findById(item_id).populate('category', 'name');
-    return res.render('approval/loan', { item, user, message: null, approvals: filteredApprovals,cartItemCount: cart.items.length });
+    return res.render('approval/loan', { item, user, message: null, approvals: filteredApprovals, cartItemCount: cart ? cart.items.length : 0 });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: "Server error" });
@@ -83,7 +83,7 @@ exports.getLoanRequests = async (req, res) => {
       };
     });
 
-    return res.render('approval/personalapprovalloan', { loans: loanObjects, users,cartItemCount: cart.items.length });
+    return res.render('approval/personalapprovalloan', { loans: loanObjects, users, cartItemCount: cart ? cart.items.length : 0});
 
   } catch (error) {
     console.error(error.message);
@@ -200,6 +200,7 @@ exports.deleteCart = async (req, res) => {
 exports.getCart = async (req, res) => {
   try {
     const userId = req.user.userData._id;
+    console.log(userId);
     const users = await Users.findById(userId);
     const approval = await Users.find({ usertype: 'Approval' });
 
@@ -214,7 +215,7 @@ exports.getCart = async (req, res) => {
         users,
         user: req.user.userData,
         message: 'Item successfully added to cart',
-        cartItemCount: cart.items.length      });
+        cartItemCount: cart ? cart.items.length : 0});
     }
 
     const cartData = [];
@@ -239,7 +240,7 @@ exports.getCart = async (req, res) => {
       users,
       user: req.user.userData,
       message: 'Item successfully added to cart',
-      cartItemCount: cart.items.length    });
+      cartItemCount: cart ? cart.items.length : 0 });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: 'Server error' });

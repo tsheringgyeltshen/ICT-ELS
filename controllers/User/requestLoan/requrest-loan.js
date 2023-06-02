@@ -17,7 +17,7 @@ exports.loanRequestPage = async (req, res) => {
 
     const item_id = req.params.id;
     const item = await Item.findById(item_id).populate('category', 'name');
-    return res.render('user/loan', { user: userDatas, item, message: null,cartItemCount: cart.items.length });
+    return res.render('user/loan', { user: userDatas, item, message: null, cartItemCount: cart ? cart.items.length : 0});
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: "Server error" });
@@ -40,7 +40,7 @@ exports.requestLoan = async (req, res) => {
     // Check if user has proper permissions
     if (req.user.userData.usertype !== 'User' && req.user.userData.usertype !== 'Approval') {
       const message = "Unauthorized"
-      return res.render('user/loan', { message,cartItemCount: cart.items.length });
+      return res.render('user/loan', { message, cartItemCount: cart ? cart.items.length : 0});
     }
 
     if (item.available_items === 0) {
@@ -99,7 +99,7 @@ exports.getLoanRequests = async (req, res) => {
 
     return res.render("user/personalloan", {
       userLoan,users,
-      currentUserData,cartItemCount: cart.items.length
+      currentUserData, cartItemCount: cart ? cart.items.length : 0
     });
   } catch (error) {
     console.error(error);
@@ -132,7 +132,7 @@ exports.viewuserloandetail = async (req, res) => {
     }
 
     // Render the loan details page with the loanDetails data
-    return res.render('user/loandetail', { loanDetails, users,cartItemCount: cart.items.length });
+    return res.render('user/loandetail', { loanDetails, users, cartItemCount: cart ? cart.items.length : 0});
   } catch (error) {
     // Handle errors
     return res.status(500).render('error', { message: 'Server Error' });
@@ -236,7 +236,7 @@ exports.getCart = async (req, res) => {
     if (!cart) {
 
       return res.render('user/add_to_card', {
-        approvals,cartItemCount: cart.items.length,
+        approvals, cartItemCount: cart ? cart.items.length : 0,
         cart,
         users,
         user: req.user.userData,
@@ -265,7 +265,7 @@ exports.getCart = async (req, res) => {
       approvals,
       cart: cartData,
       users,
-      user: req.user.userData,cartItemCount: cart.items.length,
+      user: req.user.userData, cartItemCount: cart ? cart.items.length : 0,
       message: 'Item successfully added to cart',
     });
   } catch (error) {

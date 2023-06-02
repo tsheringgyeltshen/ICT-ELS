@@ -34,7 +34,7 @@ exports.viewLoanRequests = async (req, res) => {
     const currentUserData = req.user.userData;
     return res.render("approval/pendingloan", {
       loanRequests: loanRequests.filter((loanRequest) => loanRequest.user_id),
-      currentUserData,cartItemCount: cart.items.length,
+      currentUserData, cartItemCount: cart ? cart.items.length : 0,
       users,
     });
   } catch (error) {
@@ -76,7 +76,7 @@ exports.viewapprovalLoanRequests = async (req, res) => {
     return res.render("approval/approvalpendingloan", {
       loanRequests,
       users,
-      currentUserData,cartItemCount: cart.items.length 
+      currentUserData, cartItemCount: cart ? cart.items.length : 0
     });
 
   } catch (error) {
@@ -106,7 +106,7 @@ exports.viewuserloandetail = async (req, res) => {
     }
 
     // Render the loan details page with the loanDetails data
-    return res.render('approval/loan-detailsapproval', { loanDetails, users,cartItemCount: cart.items.length  });
+    return res.render('approval/loan-detailsapproval', { loanDetails, users, cartItemCount: cart ? cart.items.length : 0 });
   } catch (error) {
     // Handle errors
     return res.status(500).render('error', { message: 'Server Error' });
@@ -160,7 +160,7 @@ exports.manageLoanRequest = async (req, res) => {
     return res.render("approval/pendingloan", {
       loanRequests,
       currentUserData,
-      users,cartItemCount: cart.items.length,
+      users, cartItemCount: cart ? cart.items.length : 0,
       message: "Item is not available",
     });
   }
@@ -196,7 +196,7 @@ exports.manageLoanRequest = async (req, res) => {
       loanRequests,
       users,
       currentUserData,
-      users,cartItemCount: cart.items.length,
+      users, cartItemCount: cart ? cart.items.length : 0,
       message: "Insufficient stock or quantity, the item is on loan.",
     });
   }
@@ -297,7 +297,7 @@ exports.manageapprovalLoanRequest = async (req, res) => {
     return res.render("approval/approvalpendingloan", {
       loanRequests,
       currentUserData,
-      users, users,cartItemCount: cart.items.length,
+      users, users, cartItemCount: cart ? cart.items.length : 0,
 
       message: "Item is not available",
     });
@@ -332,7 +332,7 @@ exports.manageapprovalLoanRequest = async (req, res) => {
   if (insufficientStock) {
     return res.render("approval/approvalpendingloan", {
       loanRequests,
-      users, users,cartItemCount: cart.items.length,
+      users, users, cartItemCount: cart ? cart.items.length : 0,
       currentUserData,
       message: "Insufficient stock or quantity, the item is on loan.",
     });
@@ -474,7 +474,7 @@ exports.getLoanRequests = async (req, res) => {
 
 
     // Render the loan details page with the loanDetails data
-    return res.render('approval/personalapprovalloan', { userLoan, users,      users,cartItemCount: cart.items.length,    });
+    return res.render('approval/personalapprovalloan', { userLoan, users, users, cartItemCount: cart ? cart.items.length : 0,    });
   } catch (error) {
     // Handle errors
     console.log(error.message);
@@ -508,7 +508,7 @@ exports.viewapprovalloandetail = async (req, res) => {
     }
 
     // Render the loan details page with the loanDetails data
-    return res.render('approval/approvalloandetail', { loanDetails, users,users,cartItemCount: cart.items.length,
+    return res.render('approval/approvalloandetail', { loanDetails, users,users, cartItemCount: cart ? cart.items.length : 0,
     });
   } catch (error) {
     // Handle errors

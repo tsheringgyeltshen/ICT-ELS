@@ -6,11 +6,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const { request } = require("http");
 const Cart = require("../../../models/cart");
-// exports.getCartItemCount = async (req, res) =>{
 
-//     const cart = await Cart.findOne({ user: req.userId }).populate('items.item').populate('items.category', 'name');
-//     console.log("req.userId", cart.items.length);
-// }
 
 exports.getapprovalHome = async (req, res) => {
     try {
@@ -27,7 +23,7 @@ exports.getapprovalHome = async (req, res) => {
         const items = await Item.find({ isDeleted: false }).sort({ added_date: -1 }).populate('category', 'name');
 
         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-        res.render('../views/approval/approvalhome', { cardsPerPage: cardsPerPage, currentPage: currentPage,   cartItemCount: cart.items.length,
+        res.render('../views/approval/approvalhome', { cardsPerPage: cardsPerPage, currentPage: currentPage,   cartItemCount: cart ? cart.items.length : 0,
 
             user, items,  });
         // res.send(req.user)
@@ -44,7 +40,7 @@ exports.getUserProfileLoad = async (req, res) => {
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
         const userData = await Users.findById(userId);
-        return res.render('approval/approvalprofile', { approval: userData, cartItemCount: cart.items.length });
+        return res.render('approval/approvalprofile', { approval: userData,  cartItemCount: cart ? cart.items.length : 0 });
 
 
     } catch (error) {
@@ -116,7 +112,7 @@ exports.viewaboutus = async (req, res) => {
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
 
-        res.render('approval/ABOUTUS', { users,cartItemCount: cart.items.length });
+        res.render('approval/ABOUTUS', { users, cartItemCount: cart ? cart.items.length : 0});
 
 
     } catch (error) {
@@ -150,7 +146,7 @@ exports.viewAllitems = async (req, res) => {
             );
         }
 
-        return res.render('approval/approvalitem', { items, cardsPerPage: cardsPerPage, currentPage: currentPage, user: userData, searchQuery, categories,cartItemCount: cart.items.length  });
+        return res.render('approval/approvalitem', { items, cardsPerPage: cardsPerPage, currentPage: currentPage, user: userData, searchQuery, categories, cartItemCount: cart ? cart.items.length : 0});
 
     } catch (error) {
         console.error(error);
@@ -166,7 +162,7 @@ exports.viewItemByid = async (req, res) => {
 
         const itemId = req.params.id;
         const item = await Item.findById(itemId).populate('category', 'name');
-        return res.render('approval/itemdetails', { item, user,cartItemCount: cart.items.length });
+        return res.render('approval/itemdetails', { item, user, cartItemCount: cart ? cart.items.length : 0 });
 
         //return res.send(item)
     } catch (error) {
@@ -203,7 +199,7 @@ exports.viewItemsByCategory = async (req, res) => {
                 item.name.toLowerCase().includes(searchQuery.toLowerCase())
             );
         }
-        return res.render('approval/categoryitems', { category, items, categories, user, cardsPerPage: cardsPerPage, currentPage: currentPage, searchQuery,cartItemCount: cart.items.length });
+        return res.render('approval/categoryitems', { category, items, categories, user, cardsPerPage: cardsPerPage, currentPage: currentPage, searchQuery, cartItemCount: cart ? cart.items.length : 0 });
     } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');

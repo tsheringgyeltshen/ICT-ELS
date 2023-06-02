@@ -18,7 +18,7 @@ exports.getUserHome = async (req, res) => {
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
         const items = await Item.find({ isDeleted: false }).sort({ added_date: -1 }).populate('category', 'name');
 
-        res.render('../views/user/userhome', { items, cardsPerPage:cardsPerPage,currentPage:currentPage,user: userData,cartItemCount: cart.items.length });
+        res.render('../views/user/userhome', { items, cardsPerPage:cardsPerPage,currentPage:currentPage,user: userData, cartItemCount: cart ? cart.items.length : 0});
         // res.send(req.user)
 
     } catch (error) {
@@ -35,7 +35,7 @@ exports.getUserProfileLoad = async (req, res) => {
         const userData = await Users.findById(userId);
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
-        return res.render('user/userprofile', { user: userData,cartItemCount: cart.items.length });
+        return res.render('user/userprofile', { user: userData, cartItemCount: cart ? cart.items.length : 0});
 
 
     } catch (error) {
@@ -102,7 +102,7 @@ exports.viewAboutuspage = async (req, res) => {
         const users = await Users.findById(userId);
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
-        res.render('user/aboutus', { users,cartItemCount: cart.items.length });
+        res.render('user/aboutus', { users, cartItemCount: cart ? cart.items.length : 0});
 
 
     } catch (error) {
@@ -134,7 +134,7 @@ exports.viewAllitems = async (req, res) => {
             );
         }
 
-        return res.render('user/useritem', { items, user: userData, searchQuery, cardsPerPage:cardsPerPage,currentPage:currentPage,categories,cartItemCount: cart.items.length  });
+        return res.render('user/useritem', { items, user: userData, searchQuery, cardsPerPage:cardsPerPage,currentPage:currentPage,categories, cartItemCount: cart ? cart.items.length : 0});
 
     } catch (error) {
         console.error(error);
@@ -152,7 +152,7 @@ exports.viewItemByid = async (req, res) => {
         const itemId = req.params.id;
 
         const item = await Item.findById(itemId).populate('category', 'name');
-        return res.render('../views/user/itemdetails', { item, user: userData,cartItemCount: cart.items.length  });
+        return res.render('../views/user/itemdetails', { item, user: userData, cartItemCount: cart ? cart.items.length : 0});
 
     } catch (error) {
         console.error(error);
@@ -188,7 +188,7 @@ exports.viewItemsByCategory = async (req, res) => {
             item.name.toLowerCase().includes(searchQuery.toLowerCase())
           );
         }
-        return res.render('user/categoryitems', { category, items, categories, user, cardsPerPage:cardsPerPage,currentPage:currentPage,searchQuery,cartItemCount: cart.items.length });
+        return res.render('user/categoryitems', { category, items, categories, user, cardsPerPage:cardsPerPage,currentPage:currentPage,searchQuery, cartItemCount: cart ? cart.items.length : 0});
     } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
