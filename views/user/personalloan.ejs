@@ -138,8 +138,10 @@
                             <% } else if (loan.status==='returned' ) { %>
                               <p class="badge bg-primary">Returned</p>
                                <% } else if (loan.status==='collect' ) { %>
-                                <p class="badge bg-info">Collect</p>
-                                <% }%>
+                                <p class="badge bg-info">Collect</p>                               
+                                <% } else if (loan.status==='overdue' ) { %>
+                                  <p class="badge bg-danger">Overdue</p>
+                                  <% } %>
 
                 </td>
 
