@@ -113,12 +113,23 @@ exports.viewuserapprovalloandetail = async (req, res) => {
 //       return;
 //     }
 
+//     if (isWeekend(collectionDate)) {
+//       // If the collection date falls on a weekend, display a flash message
+//       req.flash("error_msg", "Cannot select collection date on weekends");
+//       req.session.save(() => {
+//         res.redirect("/view-approved-loan");
+//       });
+//       return;
+//     }
+
 //     // Update the loan with the new collection date
 //     const updatedLoan = await loan.findByIdAndUpdate(
 //       { _id: loan_id },
 //       {
 //         $set: {
 //           admin_collection_date: collectionDate,
+//           status: 'accept'
+          
 //         },
 //       },
 //       { new: true }
@@ -168,7 +179,10 @@ exports.viewuserapprovalloandetail = async (req, res) => {
 //   }
 // };
 
-
+// function isWeekend(date) {
+//   const day = date.getDay();
+//   return day === 0 || day === 6; // 0: Sunday, 6: Saturday
+// }
 
 exports.updateloan = async (req, res) => {
   //@dde
@@ -196,6 +210,7 @@ exports.updateloan = async (req, res) => {
 
   // Convert the collection date from the request body to a Date object
   const collectionDate = new Date(req.body.admin_collection_date);
+  const today = new Date();
 
   try {
     // Find the loan to check the return_date
@@ -225,6 +240,7 @@ exports.updateloan = async (req, res) => {
       {
         $set: {
           admin_collection_date: collectionDate,
+          status: 'accept'
         },
       },
       { new: true }
@@ -249,8 +265,18 @@ exports.updateloan = async (req, res) => {
           from: process.env.USER_MAIL,
           to: await data.user_id.email,
           subject: "ICT Equipment Loan System",
-          text: `Dear user, your loan for ${itemNames}, which has been approved, has been given with a collection date on ${collectionDate.toDateString()}. Kindly come for collection on the given day.`,
+          text: `Dear user, your loan for ${itemNames}, which has been approved, has been given with a collection date Kindly come for collection on the given day.`,
         };
+
+        if (collectionDate.toDateString() === today.toDateString()) {
+          // If the collection date is today, include additional information in the email
+          mailOptions.text += `\n\nPlease note that the collection date is today.`;
+        } else {
+          // If the collection date is not today, include a reminder for the day before collection
+          const previousDay = new Date(collectionDate);
+          previousDay.setDate(collectionDate.getDate() - 1);
+          mailOptions.text += `\n\nPlease note that the collection date is on ${previousDay.toDateString()} and ${collectionDate.toDateString()}.`;
+        }
 
         // Send the email
         transporter.sendMail(mailOptions, function (error, info) {
@@ -278,4 +304,6 @@ function isWeekend(date) {
   const day = date.getDay();
   return day === 0 || day === 6; // 0: Sunday, 6: Saturday
 }
+
+
 

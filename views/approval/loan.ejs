@@ -154,7 +154,7 @@
                   <% const today=new Date().toISOString().split('T')[0]; %>
 
                     <input type="date" name="return_date" placeholder="dd-mm-yyyy" class="form-control"
-                      min="<%= today%>" required>
+                      min="<%= today%>" oninput="disableWeekends(event.target)" required>
 
                     <button type="submit" class="button primary-btn applyl">
                       Request Loan
@@ -187,7 +187,20 @@
     </div>
   </footer>
   <!--================ End footer Area  =================-->
-
+  <script>
+    function disableWeekends(input) {
+      const selectedDate = new Date(input.value);
+      const day = selectedDate.getDay(); // 0 (Sunday) to 6 (Saturday)
+  
+      if (day === 0 || day === 6) {
+        // Disable selection on weekends
+        input.setCustomValidity('Please select a weekday for the return date.');
+      } else {
+        // Enable selection on weekdays
+        input.setCustomValidity('');
+      }
+    }
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="../assets/jquery/jquery-3.2.1.min.js"></script>

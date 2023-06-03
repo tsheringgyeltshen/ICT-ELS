@@ -99,6 +99,8 @@
   </header>
   <!-- <div class="product_image_area"> -->
     <div class="container">
+      <%- include('messages') %>
+
       <div class="table-responsive">
         <% if (userLoan.length> 0) { %>
           <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
@@ -148,18 +150,23 @@
                           To be determined
                           <% } %>
                   </td>
-                  <td style="padding-top: 19px;">
+                  <td style="padding-top: 22px;">
                     <% if (loan.status==='pending' ) { %>
                       <p class="badge bg-info">Pending</p>
                       <% } else if (loan.status==='approved' ) { %>
                         <p class="badge bg-success">Approved</p>
-                        <% } else if (loan.status==='rejected' ) { %>
-                          <p class="btn btn-danger">Rejected</p>
-                          <% } else if (loan.status==='onloan' ) { %>
-                            <p class="badge bg-warning">On Loan</p>
-                            <% } else if (loan.status==='returned' ) { %>
-                              <p class="badge bg-primary">Returned</p>
-                              <% } %>
+                        <% } else if (loan.status==='accept' ) { %>
+                          <p class="badge bg-primary">Accept Collect</p>
+                          <% } else if (loan.status==='rejected' ) { %>
+                            <p class="badge bg-danger">Rejected</p>
+                            <% } else if (loan.status==='onloan' ) { %>
+                              <p class="badge bg-warning">On Loan</p>
+                              <% } else if (loan.status==='returned' ) { %>
+                                <p class="badge bg-primary">Returned</p>
+                                 <% } else if (loan.status==='collect' ) { %>
+                                  <p class="badge bg-info">Collect</p>
+                                  <% }%>
+  
                   </td>
                 </tr>
                 <% }); %>

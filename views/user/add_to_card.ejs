@@ -145,7 +145,7 @@
                             <% const today = new Date().toISOString().split('T')[0]; %>
                             
                             <input type="date" class="form-control col-lg-4" name="return_date"min="<%= today%>"
-                               required>
+                               required oninput="disableWeekends(event.target)">
                             <button class="button primary-btn mt-3" style="border-radius: 1vh;" type="submit">Request
                               Loan</button>
                           </div>
@@ -186,7 +186,20 @@
     }
   </Script>
 
+<script>
+  function disableWeekends(input) {
+    const selectedDate = new Date(input.value);
+    const day = selectedDate.getDay(); // 0 (Sunday) to 6 (Saturday)
 
+    if (day === 0 || day === 6) {
+      // Disable selection on weekends
+      input.setCustomValidity('Please select a weekday for the return date.');
+    } else {
+      // Enable selection on weekdays
+      input.setCustomValidity('');
+    }
+  }
+</script>
 
 
   <script src="../assets/jquery/jquery-3.2.1.min.js"></script>

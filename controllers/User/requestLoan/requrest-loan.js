@@ -17,7 +17,7 @@ exports.loanRequestPage = async (req, res) => {
 
     const item_id = req.params.id;
     const item = await Item.findById(item_id).populate('category', 'name');
-    return res.render('user/loan', { user: userDatas, item, message: null, cartItemCount: cart ? cart.items.length : 0});
+    return res.render('user/loan', { user: userDatas, item, message: null, cartItemCount: cart ? cart.items.length : 0 });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: "Server error" });
@@ -40,7 +40,7 @@ exports.requestLoan = async (req, res) => {
     // Check if user has proper permissions
     if (req.user.userData.usertype !== 'User' && req.user.userData.usertype !== 'Approval') {
       const message = "Unauthorized"
-      return res.render('user/loan', { message, cartItemCount: cart ? cart.items.length : 0});
+      return res.render('user/loan', { message, cartItemCount: cart ? cart.items.length : 0 });
     }
 
     if (item.available_items === 0) {
@@ -98,7 +98,7 @@ exports.getLoanRequests = async (req, res) => {
     const currentUserData = req.user.userData;
 
     return res.render("user/personalloan", {
-      userLoan,users,
+      userLoan, users,
       currentUserData, cartItemCount: cart ? cart.items.length : 0
     });
   } catch (error) {
@@ -114,7 +114,6 @@ exports.viewuserloandetail = async (req, res) => {
     const users = await User.findById(userId);
     const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
-
     // Retrieve the loan details using the loanId
     const loanDetails = await Loan.findById(loanId)
       .populate("user_id", "name department usertype userid image")
@@ -124,20 +123,80 @@ exports.viewuserloandetail = async (req, res) => {
         populate: { path: "category", select: "name" } // Populate the 'category' field from the item schema
       });
 
-    console.log(loanDetails);
-
     if (!loanDetails) {
       // Handle loan not found
       return res.status(404).render('error', { message: 'Loan not found' });
     }
 
-    // Render the loan details page with the loanDetails data
-    return res.render('user/loandetail', { loanDetails, users, cartItemCount: cart ? cart.items.length : 0});
+    // Check if the loan status is 'accept'
+    const acceptItems = loanDetails.status === 'accept' ? loanDetails.items : [];
+
+    // Render the loan details page with the loanDetails data and acceptItems
+    return res.render('user/loandetail', { loanDetails, acceptItems, users, cartItemCount: cart ? cart.items.length : 0 });
   } catch (error) {
     // Handle errors
     return res.status(500).render('error', { message: 'Server Error' });
   }
 };
+
+exports.acceptloanitems = async (req, res) => {
+  // Get the loan ID from the request parameters
+  try {
+    const loanId = req.params.loanId;
+    console.log(loanId);
+
+    const loan = await Loan.findById(loanId)
+      .populate("user_id", "name email department usertype userid image")
+      .populate({
+        path: "items.item",
+        select: "name available_items image itemtag category",
+        populate: { path: "category", select: "name" }
+      });
+
+    // Retrieve the selected item IDs from the request body
+    const selectedItems = req.body.selectedItems;
+
+    // Update the loan items based on the selected items
+    const updatedLoanItems = await Promise.all(loan.items.map(async (loanItem) => {
+      if (selectedItems.includes(loanItem._id.toString())) {
+        return loanItem;
+      } else {
+        // Update the available_items count of the item in the Item schema
+        await Item.findByIdAndUpdate(loanItem.item._id, { $inc: { available_items: 1 } });
+
+        return null; // Remove the item from the loan by returning null
+      }
+    }));
+
+    // Filter out null values (unchecked items) from the updatedLoanItems array
+    const filteredLoanItems = updatedLoanItems.filter(Boolean);
+
+    // Update the loan with the filteredLoanItems and set the status to 'collect'
+    const updatedLoan = await Loan.findByIdAndUpdate(
+      { _id: loanId },
+      {
+        $set: {
+          items: filteredLoanItems,
+          status: 'collect'
+        },
+      },
+      { new: true }
+    );
+
+    // Set a flash message indicating successful acceptance of items
+    req.flash("success_msg", "Items Successfully Accepted");
+    req.session.save(() => {
+      res.redirect("/get_loan");
+    });
+  } catch (error) {
+    req.flash("error_msg", "Check at least one item");
+    req.session.save(() => {
+      res.redirect("/get_loan");
+
+    });
+  }
+}
+
 
 exports.addToCart = async (req, res) => {
   try {
@@ -145,7 +204,7 @@ exports.addToCart = async (req, res) => {
     const itemId = req.params.id;
 
     const item = await Item.findById(itemId);
-    
+
     if (item.available_items === 0) {
       req.flash('error_msg', "Equipment is on loan");
       return res.redirect('/all-items');

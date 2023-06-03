@@ -181,7 +181,8 @@
 
                               <label for="return_date">Return Date:</label>
                               <input type="date" class="form-control col-lg-4" name="return_date" min="<%= today%>"
-                                required>
+                                required   oninput="disableWeekends(event.target)"
+                                >
                           </div>
                         </td>
                       </tr>
@@ -228,7 +229,20 @@
   </footer>
   <!--================ End footer Area  =================-->
 
-
+  <script>
+    function disableWeekends(input) {
+      const selectedDate = new Date(input.value);
+      const day = selectedDate.getDay(); // 0 (Sunday) to 6 (Saturday)
+  
+      if (day === 0 || day === 6) {
+        // Disable selection on weekends
+        input.setCustomValidity('Please select a weekday for the return date.');
+      } else {
+        // Enable selection on weekdays
+        input.setCustomValidity('');
+      }
+    }
+  </script>
 
   <script src="../assets/jquery/jquery-3.2.1.min.js"></script>
   <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>

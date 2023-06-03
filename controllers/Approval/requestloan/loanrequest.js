@@ -65,7 +65,7 @@ exports.getLoanRequests = async (req, res) => {
     const user_id = req.user.userData._id;
     const users = await Users.findById(user_id);
     
-    const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+    const cart = await Cart.findOne({ user: user_id }).populate('items.item').populate('items.category', 'name');
 
 
     const loans = await Loan.find({ user_id }).populate('item').sort({ request_date: -1 });
@@ -90,6 +90,10 @@ exports.getLoanRequests = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+
+
+
 
 exports.addToCart = async (req, res) => {
   try {

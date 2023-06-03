@@ -120,40 +120,79 @@
 
                         <!-- Display loaned items details -->
                         <h4>Loaned Item</h4>
-                        <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
-                            <thead class="student-thread">
-                                <tr>
-                                
-                                    <th>Item Name</th>
-                                    <th>Item Tag</th>
-                                    <th>Category</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% loanDetails.items.forEach((item)=> { %>
+                        <% if (loanDetails.status === 'accept') { %>
+                            <!-- Display loaned items details for accept status -->
+                            <form action="/accept-item/<%= loanDetails._id %>" method="POST">
+                                <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
+                                    <thead class="student-thread">
+                                        <tr>
+                                            <th></th>
+                                            <!-- Checkbox column -->
+                                            <th>Item Name</th>
+                                            <th>Item Tag</th>
+                                            <th>Category</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% acceptItems.forEach((item) => { %>
+                                        <% if (item.item && item.item.image) { %>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="selectedItems[]" value="<%= item._id %>">
+                                            </td>
+                                            <td class="d-flex align-items-center">
+                                                <div class="avatar avatar-sm me-2">
+                                                    <img class="rounded-circle img-thumbnail img-fluid" src="<%= item.item.image %>"
+                                                        alt="User Image" style="max-width: 50px; max-height: 50px;">
+                                                </div>
+                                                <%= item.item.name %>
+                                            </td>
+                                            <td>
+                                                <%= item.item.itemtag %>
+                                            </td>
+                                            <td>
+                                                <%= item.item.category.name %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                                <button type="submit" class="btn btn-primary" >Accept</button>
+                            </form>
+                            <% } else { %>
+                            <!-- Display loaned items details for other statuses -->
+                            <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
+                                <thead class="student-thread">
                                     <tr>
-
+                                        <th>Item Name</th>
+                                        <th>Item Tag</th>
+                                        <th>Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% loanDetails.items.forEach((item) => { %>
+                                    <% if (item.item && item.item.image) { %>
+                                    <tr>
                                         <td class="d-flex align-items-center">
                                             <div class="avatar avatar-sm me-2">
-                                                <img class="rounded-circle img-thumbnail img-fluid"
-                                                    src="<%= item.item.image %>" alt="User Image"
-                                                    style="max-width: 50px; max-height: 50px;">
+                                                <img class="rounded-circle img-thumbnail img-fluid" src="<%= item.item.image %>"
+                                                    alt="User Image" style="max-width: 50px; max-height: 50px;">
                                             </div>
-
                                             <%= item.item.name %>
-
                                         </td>
-
-                                        <td class="pt-3">
-                                            <%=item.item.itemtag %>
+                                        <td>
+                                            <%= item.item.itemtag %>
                                         </td>
-                                        <td class="pt-3">
-                                            <%=item.item.category.name%>
+                                        <td>
+                                            <%= item.item.category.name %>
                                         </td>
                                     </tr>
+                                    <% } %>
                                     <% }); %>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                            <% } %>
 
 
 

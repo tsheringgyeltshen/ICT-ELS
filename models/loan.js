@@ -27,7 +27,7 @@ const loanSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["pending", "approved", "rejected", "onloan", "returned"],
+    enum: ["pending", "approved", "rejected","accept", "collect", "onloan", "returned"],
     default: "pending",
   },
   admin_collection_date: {
