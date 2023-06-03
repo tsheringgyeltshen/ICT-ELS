@@ -133,12 +133,13 @@ exports.acceptloanreturnitems = async (req, res) => {
             await item.findByIdAndUpdate(loanItem.item._id, {
               $set: { available_items: 1 },
             });
-          } else {
-            // Set available_items to 0 if the item is not checked
-            await item.findByIdAndUpdate(loanItem.item._id, {
-              $set: { available_items: 0 },
-            });
-          }
+          } 
+        //   else {
+        //     // Set available_items to 0 if the item is not checked
+        //     await item.findByIdAndUpdate(loanItem.item._id, {
+        //       $set: { available_items: 0 },
+        //     });
+        //   }
         })
       );
   
@@ -217,23 +218,31 @@ exports.acceptitemsoverduereturn = async (req, res) => {
         });
   
       const selectedItems = req.body.selectedItems;
-      const allItemsSelected = selectedItems.length === Loan.items.length;
-  console.log(allItemsSelected)
+      var loan_items_unChacked_length = 0
+      
       // Update the loan items based on the selected items
       await Promise.all(
         Loan.items.map(async (loanItem) => {
           const itemId = loanItem.item._id.toString();
           const selectedItem = selectedItems.includes(itemId);
-  
-          if (loanItem.item.available_items === 1 && !selectedItem) {
-            return; // Skip updating this item
-          } else if (loanItem.item.available_items === 0 && !selectedItem) {
-            return; // Skip updating this item
-          } else if (loanItem.item.available_items === 0 && selectedItem) {
-            await item.findByIdAndUpdate(itemId, { $set: { available_items: 1 } });
-          }
+            if(loanItem.item.available_items === 0) loan_items_unChacked_length++
+            if (selectedItems.includes(loanItem._id.toString())) {
+                // Set available_items to 1 if the item is checked
+                await item.findByIdAndUpdate(loanItem.item._id, {
+                  $set: { available_items: 1 },
+                });
+              } 
+        //   if (loanItem.item.available_items === 1 && !selectedItem) {
+        //     return; // Skip updating this item
+        //   } else if (loanItem.item.available_items === 0 && !selectedItem) {
+        //     return; // Skip updating this item
+        //   } else if (loanItem.item.available_items === 0 && selectedItem) {
+        //     await item.findByIdAndUpdate(itemId, { $set: { available_items: 1 } });
+        //   }
         })
       );
+      const allItemsSelected = selectedItems.length === loan_items_unChacked_length;
+      
   
       // Determine the status based on whether all items are selected
       const status1 = allItemsSelected ? "returned" : "overdue";
