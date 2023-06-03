@@ -43,7 +43,7 @@ const {viewPresentCollectionDates} = require("../../controllers/Admin/Loan/today
 
 const {viewApprovedloan, updateloan, viewuserapprovalloandetail} = require("../../controllers/Admin/Loan/loan")
 const {readyforcollection,collected} = require("../../controllers/Admin/Loan/collection_date")
-const {onloanview,returnloan,notifyreturndate} = require("../../controllers/Admin/Loan/onloan")
+const {onloanview,notifyreturndate,viewonloandetailforreturn,acceptloanreturnitems,viewoverduereturn,overdueloanitemdetails,acceptitemsoverduereturn} = require("../../controllers/Admin/Loan/onloan")
 
 
 const {returnedloan } = require("../../controllers/Admin/Loan/returnedloan")
@@ -153,24 +153,36 @@ admin_router.route('/view-approved-loan')
 admin_router.route('/view-approvaluserdetail/:loanId')
     .get(currentUser, viewuserapprovalloandetail)
     
+    
+admin_router.route('/onloandetailforreturn/:loanId')
+    .get(currentUser, viewonloandetailforreturn)
+    
+admin_router.route('/accept-itemsreturn/:loanId')
+    .post(currentUser, acceptloanreturnitems);
+    
+admin_router.route('/onloandetailforoverduereturn/:loanId')
+    .get(currentUser, overdueloanitemdetails)
+
+admin_router.route('/accept-itemsoverduereturn/:loanId')
+    .post(currentUser, acceptitemsoverduereturn)
+
+    
 admin_router.route('/ready-forcollect')
     .get(currentUser, readyforcollection)
     
 admin_router.route('/on_loan/:id')
     .post(currentUser, collected)
-    
-// admin_router.route('/collectoverdue_loan/:id')
-//     .post(currentUser,Collectedoverdueloan)
 
-// admin_router.route('/collectionoverdue_loan/:id')
-//     .post(currentUser,collectionoverdue) 
     
     
 admin_router.route('/on_loanview')
     .get(currentUser, onloanview)
     
-admin_router.route('/returnloan/:id')
-    .post(currentUser, returnloan)
+// admin_router.route('/returnloan/:id')
+//     .post(currentUser, returnloan)
+
+admin_router.route('/viewoverdue')
+    .get(currentUser, viewoverduereturn)
     
 admin_router.route('/notifyuser/:id')
     .post(currentUser, notifyreturndate)

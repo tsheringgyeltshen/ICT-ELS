@@ -134,61 +134,6 @@ exports.geteditUserPage = async (req, res) => {
     }
 }
 
-// exports.posteditUserPage = async (req, res) => {
-//     try {
-//         if (req.file) {
-//             const userData = await Users.findByIdAndUpdate(
-//                 { _id: req.body.id },
-//                 {
-//                     $set: {
-//                         name: req.body.name,
-//                         userid: req.body.userid,
-//                         email: req.body.email,
-//                         mobilenumber: req.body.mno,
-//                         year: req.body.year,
-//                         department: req.body.department,
-//                         image: req.file.filename
-//                     }
-//                 }
-//             );
-
-//             const path = 'images/' + userData.image;
-//             fs.unlink(path, (error) => {
-//                 if (error) {
-//                     req.flash("error_msg", "User Update Failed");
-//                 } else {
-//                     req.flash("success_msg", "User Successfully Updated");
-//                 }
-//                 req.session.save(() => {
-//                     return res.redirect(`/view-user?id=${req.body.id}`);
-//                 });
-//             });
-//         } else {
-//             await Users.findByIdAndUpdate(
-//                 { _id: req.body.id },
-//                 {
-//                     $set: {
-//                         name: req.body.name,
-//                         userid: req.body.userid,
-//                         email: req.body.email,
-//                         mobilenumber: req.body.mno,
-//                         year: req.body.year,
-//                         department: req.body.department
-//                     }
-//                 });
-
-//             req.flash("success_msg", "User Successfully Updated");
-//             req.session.save(() => {
-//                 return res.redirect(`/view-user?id=${req.body.id}`);
-//             });
-//         }
-//     } catch (error) {
-//         req.flash("error_msg", "Error while updating");
-//         req.session.save(() => {
-//             return res.redirect(`/view-user?id=${req.body.id}`);
-//         });
-//     }
-// };
 
 exports.posteditUserPage = async (req, res) => {
     try {

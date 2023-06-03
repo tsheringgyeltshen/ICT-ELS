@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>On Loan</title>
+    <title>Ready For Collection Loan</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     <link rel="shortcut icon" href="assets/img/logo-small.png">
@@ -134,8 +134,8 @@
                             <ul>
                                 <li><a href="/view-approved-loan">Approved Loan</a></li>
                                 <li><a href="/ready-forcollect">Collect Loan</a></li>
-                                <li><a class="active" href="/on_loanview">On Loan</a></li>
-                                <li><a  href="/viewoverdue">Overdue Loan</a></li>
+                                <li><a href="/on_loanview">On Loan</a></li>
+                                <li><a class="active" href="/viewoverdue">Overdue Loan</a></li>
                                 <li><a href="/returnedloan_view">Returned Loan</a></li>
 
                             </ul>
@@ -158,7 +158,7 @@
                                 <h3 class="page-title">Manage Loan</h3>
                                 <ul class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">Loan</a></li>
-                                    <li class="breadcrumb-item active">On Loan</li>
+                                    <li class="breadcrumb-item active">Overdue Loan</li>
                                 </ul>
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                                     <div class="page-header">
                                         <div class="row align-items-center">
                                             <div class="col">
-                                                <h3 class="page-title">On Loan Details</h3>
+                                                <h3 class="page-title">Overdue Loan Details</h3>
                                             </div>
                                             <div class="col-lg-2">
 
@@ -222,11 +222,11 @@
                                                 </thead>
                                                 <tbody>
                                                     <% collectloan.forEach(function(loan) { %>
-                                                        <% if (loan.status==='onloan' && loan.return_date !==null) { %>
+                                                        <% if (loan.status==='overdue') { %>
                                                             <tr>
                                                                 <td>
                                                                     <h2 class="table-avatar">
-                                                                        <a href="/onloandetailforreturn/<%= loan._id %>"
+                                                                        <a href="/onloandetailforoverduereturn/<%= loan._id %>"
                                                                             class="avatar avatar-sm me-2">
                                                                             <img class="avatar-img rounded-circle"
                                                                                 src="<%= loan.user_id.image %>"
@@ -241,12 +241,7 @@
                                                                 <td>
                                                                     <%= loan.user_id.department %>
                                                                 </td>
-                                                                <!-- <td>
-                                                                    <% if (loan.status==='onloan' ) { %>
-
-                                                                        <p class="badge bg-warning">On Loan</p>
-                                                                        <% } %>
-                                                                </td> -->
+              
                                                                 <td>
                                                                     <% if (loan.admin_collection_date) { %>
                                                                         <%= loan.admin_collection_date.toDateString() %>

@@ -290,17 +290,15 @@ exports.getCart = async (req, res) => {
 
     const approvals = await User.find({ usertype: 'Approval' });
 
-
     const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
     if (!cart) {
-
       return res.render('user/add_to_card', {
-        approvals, cartItemCount: cart ? cart.items.length : 0,
-        cart,
+        approvals,
+        cartItemCount: 0, // Set cart item count to 0 if cart is null
+        cart: null, // Set cart to null
         users,
         user: req.user.userData,
         message: 'Item successfully added to cart',
-        cartItemCount: cartItemCount
       });
     }
 
@@ -319,12 +317,12 @@ exports.getCart = async (req, res) => {
       });
     }
 
-
     return res.render('user/add_to_card', {
       approvals,
       cart: cartData,
       users,
-      user: req.user.userData, cartItemCount: cart ? cart.items.length : 0,
+      user: req.user.userData,
+      cartItemCount: cart.items.length,
       message: 'Item successfully added to cart',
     });
   } catch (error) {
@@ -332,6 +330,7 @@ exports.getCart = async (req, res) => {
     return res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 exports.deleteCart = async (req, res) => {
   try {
