@@ -62,12 +62,11 @@ exports.requestLoan = async (req, res) => {
 
 exports.getLoanRequests = async (req, res) => {
   try {
+    
     const user_id = req.user.userData._id;
     const users = await Users.findById(user_id);
     
     const cart = await Cart.findOne({ user: user_id }).populate('items.item').populate('items.category', 'name');
-
-
     const loans = await Loan.find({ user_id }).populate('item').sort({ request_date: -1 });
 
     const loanObjects = loans.map(loan => {

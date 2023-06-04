@@ -2,14 +2,27 @@ const item = require("../../../models/item");
 const loan = require("../../../models/loan");
 var nodemailer = require("nodemailer");
 const Users = require("../../../models/userModel");
+const moment = require('moment');
+
 
 const dotenv = require("dotenv");
 dotenv.config();
 
-
 exports.readyforcollection = async (req, res) => {
   try {
+    // Create a nodemailer transporter using Gmail SMTP settings
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: process.env.USER_MAIL,
+        pass: process.env.USER_PASS,
+      },
+    });
     const userId = req.user.userData._id;
+    const currentUserData = req.user.userData;
 
     const adminData = await Users.findById(userId);
     const collectloan = await loan
@@ -17,7 +30,7 @@ exports.readyforcollection = async (req, res) => {
         status: "collect",
         admin_collection_date: { $ne: null } // Filter where collection_date is not null
       })
-      .populate("user_id", "name department studentorstaff image userid")
+      .populate("user_id", "name email department studentorstaff image userid")
       .populate({
         path: "items.item",
         select: "name available_items"
@@ -25,10 +38,50 @@ exports.readyforcollection = async (req, res) => {
       .select("items status return_date admin_collection_date")
       .exec();
 
-    // Add this line to set the currentUserData variable
-    const currentUserData = req.user.userData;
+    const currentDate = moment().startOf('day'); // Get the current date
+    const loansToUpdate = collectloan.filter(loan => {
+      const collectionDate = moment(loan.admin_collection_date).startOf('day');
+      const newDateStarts = moment(loan.admin_new_date_start).startOf('day');
+      const isCollectionDatePassed = collectionDate.isBefore(currentDate);
+      const isNewDateStarted = newDateStarts.isSameOrBefore(currentDate);
+      const isLoanAccepted = loan.status === 'accept';
+      return isCollectionDatePassed && isNewDateStarted && isLoanAccepted;
+    });
+
+    // Loop through the loans to update and send emails
+    for (const loan of loansToUpdate) {
+      loan.status = 'rejected';
+
+      // Update the 'available_items' field to 1 for each item in the loan
+      for (const item of loan.items) {
+        item.item.available_items = 1;
+        await item.item.save();
+      }
+
+      await loan.save();
+
+      // Send email to the user here
+      // Compose the email options
+      var mailOptions = {
+        from: process.env.USER_MAIL,
+        to: loan.user_id.email,
+        subject: "ICT Equipment Loan System",
+        text: `Dear user, you have not collected the item and your loan has been rejected`,
+      };
+
+      // Send the email
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+    }
+
+    // Render the view with the updated 'collectloan' array
     return res.render("admin/readyforcollection", {
-      collectloan,
+      collectloan: collectloan.filter(loan => loan.status === 'collect'), // Filter out rejected loans
       currentUserData,
       admin: adminData
     });
@@ -37,6 +90,8 @@ exports.readyforcollection = async (req, res) => {
     return res.status(500).json({ error: "Server error" });
   }
 };
+
+
 
 exports.collected = async (req, res) => {
   //@dde

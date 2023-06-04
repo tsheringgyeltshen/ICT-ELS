@@ -2,6 +2,7 @@ const User = require("../../../models/userModel");
 const item = require("../../../models/item");
 const loan = require("../../../models/loan");
 const Cart = require('../../../models/cart');
+const moment = require('moment');
 
 var nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
@@ -453,33 +454,83 @@ exports.rejectLoanRequest = async (req, res) => {
 
 exports.getLoanRequests = async (req, res) => {
   try {
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: process.env.USER_MAIL,
+        pass: process.env.USER_PASS,
+      },
+    });
     const loanId = req.params.loanId;
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
     const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
-
 
     // Retrieve the loan details using the loanId
     const userLoan = await loan
       .find({
         user_id: userId
       })
-      .populate("user_id", "name department usertype userid image")
+      .populate("user_id", "name email department usertype userid image")
       .populate({
         path: "items.item",
         select: "name available_items image itemtag category", // Include the 'category' field from the item schema
         populate: { path: "category", select: "name" } // Populate the 'category' field from the item schema
       });
 
+    const currentDate = moment().startOf('day'); // Get the current date
+    const loansToUpdate = userLoan.filter(loan => {
+      const collectionDate = moment(loan.admin_collection_date).startOf('day');
+      const newDateStarts = moment(loan.admin_new_date_start).startOf('day');
+      const isCollectionDatePassed = collectionDate.isBefore(currentDate);
+      const isNewDateStarted = newDateStarts.isSameOrBefore(currentDate);
+      const isLoanAccepted = loan.status === 'accept';
+      return isCollectionDatePassed && isNewDateStarted && isLoanAccepted;
+    });
 
+    // Loop through the loans to update and send emails
+    for (const loan of loansToUpdate) {
+      loan.status = 'rejected';
+
+      // Update the 'available_items' field to 1 for each item in the loan
+      for (const item of loan.items) {
+        item.item.available_items = 1;
+        await item.item.save();
+      }
+
+      await loan.save();
+
+      // Send email to the user here
+      // Compose the email options
+      var mailOptions = {
+        from: process.env.USER_MAIL,
+        to: loan.user_id.email,
+        subject: "ICT Equipment Loan System",
+        text: `Dear user, you have not accepted the item collection and your loan has been rejected`,
+      };
+
+      // Send the email
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+    }
 
     // Render the loan details page with the loanDetails data
-    return res.render('approval/personalapprovalloan', { userLoan, users, users, cartItemCount: cart ? cart.items.length : 0,    });
+    return res.render('approval/personalapprovalloan', { userLoan, users, users, cartItemCount: cart ? cart.items.length : 0 });
   } catch (error) {
     // Handle errors
     console.log(error.message);
   }
 };
+
+
 
 
 
