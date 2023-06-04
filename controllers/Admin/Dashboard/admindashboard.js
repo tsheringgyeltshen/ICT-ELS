@@ -10,9 +10,9 @@ exports.getAdminHome = async (req, res) => {
         const pendingLoanCount = await Loan.countDocuments({ status: 'pending' });
         const approvedLoanCount = await Loan.countDocuments({ status: 'approved' });
         const onLoanCount = await Loan.countDocuments({ status: 'onloan' });
-        const usercount = await Users.countDocuments({ usertype: 'User' });
-        const approvalcount = await Users.countDocuments({ usertype: 'Approval' });
-        const admincount = await Users.countDocuments({ usertype: 'Admin' });
+        const pendingcount = await Loan.countDocuments({ status: 'pending' });
+        const overduecount = await Loan.countDocuments({ status: 'overdue' });
+        
 
         const itemonloancount = await Item.countDocuments({ available_items:'0', isDeleted: false });
         const availableitem = await Item.countDocuments({ available_items:'1', isDeleted: false });
@@ -20,8 +20,19 @@ exports.getAdminHome = async (req, res) => {
         const itemcount = await Item.countDocuments({ isDeleted: false, });
 
         const userId = req.user.userData._id;
+        
+        
 
+        const itemData = await Item.find({ isDeleted: false });
 
+        const itemCounts = itemData.reduce((counts, item) => {
+            counts[item.name] = (counts[item.name] || 0) + 1;
+            return counts;
+        }, {});
+
+        const itemNames = Object.keys(itemCounts);
+        
+        
         // Query the database for the user with the matching ID
         const adminData = await Users.findById(userId);
         const now = new Date();
@@ -42,8 +53,10 @@ exports.getAdminHome = async (req, res) => {
         approvedLoanCount, pendingLoanCount,
         admin: adminData, userCount, image1,
         collectionCount,
-        onLoanCount, usercount, approvalcount, admincount,
-        availableitem,itemonloancount});
+        onLoanCount, pendingcount,overduecount,
+        availableitem,itemonloancount,
+        itemNamesJSON: JSON.stringify(itemNames),
+        itemCountsJSON: JSON.stringify(Object.values(itemCounts))});
 
     } catch (error) {
 

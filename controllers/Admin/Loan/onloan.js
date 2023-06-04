@@ -109,8 +109,17 @@ exports.viewonloandetailforreturn = async (req, res) => {
   
 exports.acceptloanreturnitems = async (req, res) => {
     try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        port: 587,
+        secure: false,
+        requireTLS: true,
+        auth: {
+            user: process.env.USER_MAIL,
+            pass: process.env.USER_PASS,
+        },
+    });
       const loanId = req.params.loanId;
-      console.log(loanId);
   
       // Find the loan by ID and populate related fields
       const Loan = await loan
@@ -124,7 +133,7 @@ exports.acceptloanreturnitems = async (req, res) => {
   
       const selectedItems = req.body.selectedItems;
       const allItemsSelected = selectedItems.length === Loan.items.length;
-  
+      const selectedItemNames = [];
       // Update the loan items based on the selected items
       await Promise.all(
         Loan.items.map(async (loanItem) => {
@@ -133,13 +142,10 @@ exports.acceptloanreturnitems = async (req, res) => {
             await item.findByIdAndUpdate(loanItem.item._id, {
               $set: { available_items: 1 },
             });
+            selectedItemNames.push(loanItem.item.name);
+
           } 
-        //   else {
-        //     // Set available_items to 0 if the item is not checked
-        //     await item.findByIdAndUpdate(loanItem.item._id, {
-        //       $set: { available_items: 0 },
-        //     });
-        //   }
+       
         })
       );
   
@@ -156,7 +162,18 @@ exports.acceptloanreturnitems = async (req, res) => {
         },
         { new: true }
       );
-  
+      const itemNames = Loan.items.map((item) => item.item.name).join(", ");
+
+      const mailOptions = {
+        from: process.env.USER_MAIL,
+        to: Loan.user_id.email,
+        subject: "Return of ICT Equipment",
+        text: `Dear user, you have successfully returned item:${selectedItemNames.join(", ")}`
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log("Email sent: " + Loan.user_id.email);
+    
       req.flash("success_msg", "Items Successfully Returned");
       req.session.save(() => {
         res.redirect("/on_loanview");
@@ -204,8 +221,17 @@ exports.viewoverduereturn = async (req, res) => {
 
 exports.acceptitemsoverduereturn = async (req, res) => {
     try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        port: 587,
+        secure: false,
+        requireTLS: true,
+        auth: {
+            user: process.env.USER_MAIL,
+            pass: process.env.USER_PASS,
+        },
+    });
       const loanId = req.params.loanId;
-      console.log(loanId);
   
       // Find the loan by ID and populate related fields
       const Loan = await loan
@@ -219,7 +245,8 @@ exports.acceptitemsoverduereturn = async (req, res) => {
   
       const selectedItems = req.body.selectedItems;
       var loan_items_unChacked_length = 0
-      
+      const selectedItemNames = [];
+
       // Update the loan items based on the selected items
       await Promise.all(
         Loan.items.map(async (loanItem) => {
@@ -231,14 +258,10 @@ exports.acceptitemsoverduereturn = async (req, res) => {
                 await item.findByIdAndUpdate(loanItem.item._id, {
                   $set: { available_items: 1 },
                 });
+                selectedItemNames.push(loanItem.item.name);
+
               } 
-        //   if (loanItem.item.available_items === 1 && !selectedItem) {
-        //     return; // Skip updating this item
-        //   } else if (loanItem.item.available_items === 0 && !selectedItem) {
-        //     return; // Skip updating this item
-        //   } else if (loanItem.item.available_items === 0 && selectedItem) {
-        //     await item.findByIdAndUpdate(itemId, { $set: { available_items: 1 } });
-        //   }
+
         })
       );
       const allItemsSelected = selectedItems.length === loan_items_unChacked_length;
@@ -257,6 +280,17 @@ exports.acceptitemsoverduereturn = async (req, res) => {
         },
         { new: true }
       );
+      const itemNames = Loan.items.map((item) => item.item.name).join(", ");
+
+      const mailOptions = {
+        from: process.env.USER_MAIL,
+        to: Loan.user_id.email,
+        subject: "Return of ICT Equipment",
+        text: `Dear user, you have successfully returned item: ${selectedItemNames.join(", ")}`
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log("Email sent: " + Loan.user_id.email);
   
       req.flash("success_msg", "Items Successfully Returned");
       req.session.save(() => {

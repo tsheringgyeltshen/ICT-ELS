@@ -28,64 +28,52 @@ exports.getAddCategoryItem = async (req, res) => {
 
 exports.postaddItem = async (req, res) => {
     try {
-        const userId = req.user.userData._id;
-        const categories = await Category.find();
-
-
-        // Query the database for the user with the matching ID
-        const adminData = await Users.findById(userId);
-        // Use isLogin middleware to check if user is authenticated
-        // if (req.user.usertype === 'admin') { 
-        const result = await cloudinary.uploader.upload(req.file.path);
-
-        const name = req.body.name;
-        const category = req.body.category;
-        const description = req.body.description;
-        const itemtag = req.body.itemtag;
-        // const available_items = req.body.available_items;
-        const newItem = await Item({ name, category, description, image: result.secure_url, itemtag });
-        await newItem.save();
-        //     return res.send(newItem);
-        return res.render('admin/add-item', { message1: "Equipment Successfully Added", admin: adminData, categories: categories });
-        // }
-        // return res.send('not authorized')
-
-
+      const userId = req.user.userData._id;
+      const categories = await Category.find();
+      const adminData = await Users.findById(userId);
+  
+      const itemTag = req.body.itemtag;
+  
+      // Check if the item tag already exists in the database
+      const existingItem = await Item.findOne({ itemtag: itemTag });
+  
+      if (existingItem) {
+        return res.render('admin/add-item', {
+          message2: 'Item tag already exists',
+          admin: adminData,
+          categories: categories,
+        });
+      }
+  
+      const result = await cloudinary.uploader.upload(req.file.path);
+  
+      const name = req.body.name;
+      const category = req.body.category;
+      const description = req.body.description;
+  
+      const newItem = await Item({
+        name,
+        category,
+        description,
+        image: result.secure_url,
+        itemtag: itemTag,
+      });
+  
+      await newItem.save();
+  
+      return res.render('admin/add-item', {
+        message1: 'Equipment Successfully Added',
+        admin: adminData,
+        categories: categories,
+      });
+  
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Server Error');
+      console.error(error);
+      res.status(500).send('Server Error');
     }
-};
+  };
+  
 
-// exports.postaddItem = async (req, res) => {
-//     try {
-//         const userId = req.user.userData._id;
-//         const categories = await Category.find();
-
-
-//         // Query the database for the user with the matching ID
-//         const adminData = await Users.findById(userId);
-//         // Use isLogin middleware to check if user is authenticated
-//         // if (req.user.usertype === 'admin') { 
-
-//         const name = req.body.name;
-//         const category = req.body.category;
-//         const description = req.body.description;
-//         const available_items = req.body.available_items;
-//         const image = req.file.filename;
-//         const newItem = await Item({ name, category, description, image, available_items });
-//         await newItem.save();
-//         //     return res.send(newItem);
-//         return res.render('admin/add-item', { message1: "Equipment Successfully Added", admin: adminData, categories: categories });
-//         // }
-//         // return res.send('not authorized')
-
-
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send('Server Error');
-//     }
-// };
 exports.postUpdateItem = async (req, res) => {
     try {
         if (req.file) {

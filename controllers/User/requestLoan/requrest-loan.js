@@ -139,6 +139,49 @@ exports.viewuserloandetail = async (req, res) => {
   }
 };
 
+
+
+exports.cancelloanRequest = async (req, res) => {
+  // Get the loan ID from the request parameters
+  try {
+    const loanId = req.params.loanId;
+    const userId = req.user.userData._id;
+
+    console.log(loanId);
+
+    // Find the loan by ID
+    const loan = await Loan.findById(loanId)
+      .populate("user_id", "name email department usertype userid image")
+      .populate({
+        path: "items.item",
+        select: "name available_items image itemtag category",
+        populate: { path: "category", select: "name" }
+      });
+
+    // Delete the loan
+    await Loan.findByIdAndDelete(loanId);
+
+    // Set available_items to 1 for each item in the loan
+    for (const loanItem of loan.items) {
+      const itemId = loanItem.item._id;
+      await Item.findByIdAndUpdate(itemId, { available_items: 1 });
+    }
+
+    // Redirect to the desired page
+    req.flash("success_msg", "Loan cancelled successfully");
+    req.session.save(() => {
+      res.redirect("/get_loan");
+    });
+
+  } catch (error) {
+    req.flash("error_msg", "Something went wrong");
+    req.session.save(() => {
+      res.redirect("/get_loan");
+    });
+  }
+}
+
+
 exports.acceptloanitems = async (req, res) => {
   // Get the loan ID from the request parameters
   try {

@@ -16,8 +16,8 @@
   <link rel="stylesheet" href="../assets/owl-carousel/owl.theme.default.min.css">
   <link rel="stylesheet" href="../assets/owl-carousel/owl.carousel.min.css">
   <link rel="stylesheet" href="../assets/css/style1.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.3.2/css/fixedHeader.bootstrap4.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -152,7 +152,30 @@
                   </td>
                   <td style="padding-top: 22px;">
                     <% if (loan.status==='pending' ) { %>
-                      <p class="badge bg-info">Pending</p>
+                      <p class="badge bg-info">Pending</p><br>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirmModal">Cancel</button>
+                      
+                      
+                      <!-- Confirm Modal -->
+                      <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content" style="margin-top: 100px;">
+                            
+                            <div class="modal-body" style="color: black;">
+                            
+                            
+                              Are you sure you want to cancel the loan request?
+                            </div>
+                            <div class="modal-footer">
+                              <form id="cancelForm" action="/cancelapprovalloan/<%= loan._id %>" method="post">
+                              <button type="submit" form="cancelForm" class="btn btn-danger">Yes</button>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
                       <% } else if (loan.status==='approved' ) { %>
                         <p class="badge bg-success">Approved</p>
                         <% } else if (loan.status==='accept' ) { %>
@@ -209,9 +232,13 @@
   <script src="../assets/mail-script.js"></script>
   <script src="../assets/js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="../assets/js/datatables-simple-demo.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+      crossorigin="anonymous"></script>
+  <!-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-  <script src="https://cdn.datatables.net/fixedheader/3.3.2/js/dataTables.fixedHeader.min.js"></script>
+  <script src="https://cdn.datatables.net/fixedheader/3.3.2/js/dataTables.fixedHeader.min.js"></script> -->
   <script>
     // Get the input element
     const datepicker = document.getElementById("datepicker");

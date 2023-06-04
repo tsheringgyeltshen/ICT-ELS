@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.3.2/css/fixedHeader.bootstrap4.min.css">
-    
+
 </head>
 
 <body>
@@ -76,11 +76,11 @@
 
                         <ul class="nav-shop">
                             <li class="nav-item cartnav"><a href="/cart1"><i class="ti-shopping-cart"
-                                style="font-size: large;"></i> <span
-                                class="position-relative start-100 translate-middle badge rounded-pill bg-danger <%= cartItemCount > 0 ? ' active' : '' %>"
-                                style="color: #fff; top: -10px; font-size: smaller; right: 7px;">
-                                <%= cartItemCount %>
-                            </span></a> </li>
+                                        style="font-size: large;"></i> <span
+                                        class="position-relative start-100 translate-middle badge rounded-pill bg-danger <%= cartItemCount > 0 ? ' active' : '' %>"
+                                        style="color: #fff; top: -10px; font-size: smaller; right: 7px;">
+                                        <%= cartItemCount %>
+                                    </span></a> </li>
 
                             <li class="nav-item submenu dropdown">
 
@@ -120,10 +120,11 @@
 
                         <!-- Display loaned items details -->
                         <h4>Loaned Item</h4>
-                        <% if (loanDetails.status === 'accept') { %>
+                        <% if (loanDetails.status==='accept' ) { %>
                             <!-- Display loaned items details for accept status -->
                             <form action="/accept-item/<%= loanDetails._id %>" method="POST">
-                                <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
+                                <table id="datatablesSimple" class="table table-striped table-bordered"
+                                    style="width: 100%;">
                                     <thead class="student-thread">
                                         <tr>
                                             <th></th>
@@ -134,65 +135,152 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% acceptItems.forEach((item) => { %>
-                                        <% if (item.item && item.item.image) { %>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="selectedItems[]" value="<%= item._id %>">
-                                            </td>
-                                            <td class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm me-2">
-                                                    <img class="rounded-circle img-thumbnail img-fluid" src="<%= item.item.image %>"
-                                                        alt="User Image" style="max-width: 50px; max-height: 50px;">
-                                                </div>
-                                                <%= item.item.name %>
-                                            </td>
-                                            <td>
-                                                <%= item.item.itemtag %>
-                                            </td>
-                                            <td>
-                                                <%= item.item.category.name %>
-                                            </td>
-                                        </tr>
-                                        <% } %>
-                                        <% }); %>
+                                        <% acceptItems.forEach((item)=> { %>
+                                            <% if (item.item && item.item.image) { %>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" name="selectedItems[]"
+                                                            value="<%= item._id %>">
+                                                    </td>
+                                                    <td class="d-flex align-items-center">
+                                                        <div class="avatar avatar-sm me-2">
+                                                            <img class="rounded-circle img-thumbnail img-fluid"
+                                                                src="<%= item.item.image %>" alt="User Image"
+                                                                style="max-width: 50px; max-height: 50px;">
+                                                        </div>
+                                                        <%= item.item.name %>
+                                                    </td>
+                                                    <td>
+                                                        <%= item.item.itemtag %>
+                                                    </td>
+                                                    <td>
+                                                        <%= item.item.category.name %>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                                    <% }); %>
                                     </tbody>
                                 </table>
-                                <button type="submit" class="btn btn-primary" >Accept</button>
+                                <div>
+                                    <h4 class="text-center">Terms and Condition</h4>
+                                    <div class="card-body">
+
+
+                                        <ol>
+                                            <li>
+                                                Ownership: The ownership of the loaned ICT equipment remains with the
+                                                Lender
+                                                at
+                                                all times. The Borrower has no rights or claims of ownership over the
+                                                equipment.
+
+                                            </li>
+                                            <li>
+                                                Loan Period: The loan period will be specified with a start date and end
+                                                date.
+                                                Any
+                                                extension or renewal of the loan period should be agreed upon in writing
+                                                by
+                                                both
+                                                parties.
+                                            </li>
+                                            <li>
+                                                Condition of Equipment: The Borrower acknowledges that the equipment is
+                                                in
+                                                good
+                                                working
+                                                condition at the time of loan. The Borrower agrees to return the
+                                                equipment
+                                                in
+                                                the same
+                                                condition.
+                                            </li>
+                                            <li>
+                                                Use of Equipment: The Borrower agrees to use the loaned equipment solely
+                                                for
+                                                its
+                                                intended purpose and in a careful and responsible manner. The equipment
+                                                should
+                                                not be
+                                                modified, tampered with, or used for illegal activities.
+                                            </li>
+                                            <li>
+                                                Care and Maintenance: The Borrower is responsible for properly handling
+                                                and
+                                                maintaining
+                                                the loaned equipment. This includes protecting it from damage, loss,
+                                                theft,
+                                                or
+                                                unauthorized use. Any damage, loss, or theft should be promptly reported
+                                                to
+                                                the
+                                                Lender.
+                                            </li>
+                                            <li>
+                                                Liability and Indemnification: The Borrower assumes all liability for
+                                                the
+                                                use,
+                                                operation, and condition of the loaned equipment during the loan period.
+                                                The
+                                                Borrower
+                                                agrees to indemnify and hold the Lender harmless from any claims,
+                                                damages,
+                                                losses, or
+                                                expenses arising out of the Borrower's use of the equipment.
+                                            </li>
+                                            <li>
+
+                                                Return of Equipment: The Borrower agrees to return the equipment to the
+                                                Lender
+                                                at the
+                                                end of the loan period or upon request. The Borrower is responsible for
+                                                any
+                                                costs
+                                                associated with the return of the equipment.
+                                            </li>
+
+                                        </ol>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+
+                                    <button type="submit" class=" col-2 btn btn-primary">Accept</button>
+                                </div>
                             </form>
                             <% } else { %>
-                            <!-- Display loaned items details for other statuses -->
-                            <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
-                                <thead class="student-thread">
-                                    <tr>
-                                        <th>Item Name</th>
-                                        <th>Item Tag</th>
-                                        <th>Category</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% loanDetails.items.forEach((item) => { %>
-                                    <% if (item.item && item.item.image) { %>
-                                    <tr>
-                                        <td class="d-flex align-items-center">
-                                            <div class="avatar avatar-sm me-2">
-                                                <img class="rounded-circle img-thumbnail img-fluid" src="<%= item.item.image %>"
-                                                    alt="User Image" style="max-width: 50px; max-height: 50px;">
-                                            </div>
-                                            <%= item.item.name %>
-                                        </td>
-                                        <td>
-                                            <%= item.item.itemtag %>
-                                        </td>
-                                        <td>
-                                            <%= item.item.category.name %>
-                                        </td>
-                                    </tr>
-                                    <% } %>
-                                    <% }); %>
-                                </tbody>
-                            </table>
-                            <% } %>
+                                <table id="datatablesSimple" class="table table-striped table-bordered"
+                                    style="width: 100%;">
+                                    <thead class="student-thread">
+                                        <tr>
+                                            <th>Item Name</th>
+                                            <th>Item Tag</th>
+                                            <th>Category</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% loanDetails.items.forEach((item)=> { %>
+                                            <% if (item.item && item.item.image) { %>
+                                                <tr>
+                                                    <td class="d-flex align-items-center">
+                                                        <div class="avatar avatar-sm me-2">
+                                                            <img class="rounded-circle img-thumbnail img-fluid"
+                                                                src="<%= item.item.image %>" alt="User Image"
+                                                                style="max-width: 50px; max-height: 50px;">
+                                                        </div>
+                                                        <%= item.item.name %>
+                                                    </td>
+                                                    <td>
+                                                        <%= item.item.itemtag %>
+                                                    </td>
+                                                    <td>
+                                                        <%= item.item.category.name %>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                                    <% }); %>
+                                    </tbody>
+                                </table>
+                                <% } %>
 
 
 
@@ -231,7 +319,7 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.3.2/js/dataTables.fixedHeader.min.js"></script>
-    
+
     <script>
         // Get the input element
         const datepicker = document.getElementById("datepicker");

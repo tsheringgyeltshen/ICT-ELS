@@ -515,6 +515,47 @@ exports.viewapprovalloandetail = async (req, res) => {
   }
 };
 
+exports.cancelapprovalloanRequest = async (req, res) => {
+  // Get the loan ID from the request parameters
+  try {
+    const loanId = req.params.loanId;
+
+    console.log(loanId);
+
+    // Find the loan by ID
+    const Loan = await loan.findById(loanId)
+      .populate("user_id", "name email department usertype userid image")
+      .populate({
+        path: "items.item",
+        select: "name available_items image itemtag category",
+        populate: { path: "category", select: "name" }
+      });
+
+    // Delete the loan
+    await loan.findByIdAndDelete(loanId);
+
+    // Set available_items to 1 for each item in the loan
+    for (const loanItem of Loan.items) {
+      const itemId = loanItem.item._id;
+      await item.findByIdAndUpdate(itemId, { available_items: 1 });
+    }
+
+    // Redirect to the desired page
+    req.flash("success_msg", "Loan cancelled successfully");
+    req.session.save(() => {
+      res.redirect("/get_loan");
+    });
+
+  } catch (error) {
+    req.flash("error_msg", "Something went wrong");
+    req.session.save(() => {
+      res.redirect("/get_loan");
+    });
+  }
+}
+
+
+
 exports.acceptapprovalloanitems = async (req, res) => {
   // Get the loan ID from the request parameters
   try {

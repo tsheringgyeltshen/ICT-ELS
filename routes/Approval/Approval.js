@@ -1,7 +1,7 @@
 const express = require("express");
 const { getUserProfileLoad,postEditProfile, getapprovalHome,viewaboutus } = require("../../controllers/Approval/approvalDashboard/approvalDashboard");
 const currentUser = require("../../middlewares/currentUser");
-const {viewLoanRequests,viewapprovalLoanRequests, manageLoanRequest,manageapprovalLoanRequest, rejectLoanRequest,rejectapprovalLoanRequest,viewuserloandetail, getLoanRequests,viewapprovalloandetail,acceptapprovalloanitems} = require("../../controllers/Approval/pendingloans/view-request-loan")
+const {viewLoanRequests,viewapprovalLoanRequests, manageLoanRequest,manageapprovalLoanRequest, rejectLoanRequest,rejectapprovalLoanRequest,viewuserloandetail, getLoanRequests,viewapprovalloandetail,acceptapprovalloanitems,cancelapprovalloanRequest} = require("../../controllers/Approval/pendingloans/view-request-loan")
 const { viewAllitems, viewItemByid,viewItemsByCategory} = require("../../controllers/Approval/approvalDashboard/approvalDashboard");
 const { requestLoan,loanRequestPage,getCart,request_Loan,addToCart,deleteCart,addToCartapprovalhome} = require("../../controllers/Approval/requestloan/loanrequest");
 const approval_router = express.Router();
@@ -69,6 +69,9 @@ approval_router.route('/personalloan')
     
 approval_router.route('/view-approvalloandetail/:loanId')
     .get(currentUser, viewuserloandetail)
+    
+approval_router.route('/cancelapprovalloan/:loanId')
+    .post(currentUser,cancelapprovalloanRequest)
     
 approval_router.route('/accept-item/:loanId')
     .post(currentUser, acceptapprovalloanitems);

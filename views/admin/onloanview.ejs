@@ -191,26 +191,25 @@
 
 
                                     <div class="table-responsive">
-                                        <% if (collectloan.length> 0) {
+                                        <% if (collectloan.length > 0) {
                                             // sort the loans by return date
                                             collectloan.sort(function(a, b) {
-                                            // convert return dates to timestamps for comparison
-                                            returnDateA = new Date(a.return_date).getTime() || Infinity;
-                                            returnDateB = new Date(b.return_date).getTime() || Infinity;
-                                            today = new Date().getTime();
-                                            // compare return dates
-                                            if (returnDateA === returnDateB) {
-                                            // if return dates are the same, compare days left
-                                            daysLeftA = Math.ceil((returnDateA - today) / (1000 * 60 * 60 * 24));
-                                            daysLeftB = Math.ceil((returnDateB - today) / (1000 * 60 * 60 * 24));
-                                            return daysLeftA - daysLeftB;
-                                            } else {
-                                            return returnDateA - returnDateB;
-                                            }
+                                                // convert return dates to timestamps for comparison
+                                                returnDateA = new Date(a.return_date).getTime() || Infinity;
+                                                returnDateB = new Date(b.return_date).getTime() || Infinity;
+                                                today = new Date().getTime();
+                                                // compare return dates
+                                                if (returnDateA === returnDateB) {
+                                                    // if return dates are the same, compare days left
+                                                    daysLeftA = Math.ceil((returnDateA - today) / (1000 * 60 * 60 * 24));
+                                                    daysLeftB = Math.ceil((returnDateB - today) / (1000 * 60 * 60 * 24));
+                                                    return daysLeftA - daysLeftB;
+                                                } else {
+                                                    return returnDateA - returnDateB;
+                                                }
                                             });
-                                            %>
-                                            <table id="datatablesSimple" class="table table-striped table-bordered"
-                                                style="width: 100%;">
+                                        %>
+                                            <table id="datatablesSimple" class="table table-striped table-bordered" style="width: 100%;">
                                                 <thead class="student-thread">
                                                     <tr>
                                                         <th>User</th>
@@ -236,8 +235,7 @@
                                                                     <td>
                                                                         <h2 class="table-avatar">
                                                                             <a href="/onloandetailforreturn/<%= loan._id %>" class="avatar avatar-sm me-2">
-                                                                                <img class="avatar-img rounded-circle" src="<%= loan.user_id.image %>"
-                                                                                    alt="User Image">
+                                                                                <img class="avatar-img rounded-circle" src="<%= loan.user_id.image %>" alt="User Image">
                                                                             </a>
                                                                             <%= loan.user_id.name %>
                                                                         </h2>
@@ -267,8 +265,7 @@
                                                                     <td>
                                                                         <h2 class="table-avatar">
                                                                             <a href="/onloandetailforreturn/<%= loan._id %>" class="avatar avatar-sm me-2">
-                                                                                <img class="avatar-img rounded-circle" src="<%= loan.user_id.image %>"
-                                                                                    alt="User Image">
+                                                                                <img class="avatar-img rounded-circle" src="<%= loan.user_id.image %>" alt="User Image">
                                                                             </a>
                                                                             <%= loan.user_id.name %>
                                                                         </h2>
@@ -294,7 +291,7 @@
                                                                             <span style="color:red">Today</span>
                                                                         <% } else { %>
                                                                             <% if (diffDays === 1) { %>
-                                                                                <span style="color: red;">Overdue by 1 day</span>
+                                                                                <span style="color: red;">Due tomorrow</span>
                                                                                 <form method="post" action="/notifyuser/<%= loan.id %>">
                                                                                     <button type="submit" class="btn btn-outline-primary mt-1">Notify User</button>
                                                                                 </form>
@@ -308,12 +305,12 @@
                                                         <% } %>
                                                     <% }); %>
                                                 </tbody>
-                                                
                                             </table>
-                                            <% } else { %>
-                                                <p>No on loan found.</p>
-                                                <% } %>
+                                        <% } else { %>
+                                            <p>No on loan found.</p>
+                                        <% } %>
                                     </div>
+                                    
 
 
 
