@@ -14,7 +14,7 @@ exports.returnedloan = async (req, res)=>{
         const adminData = await Users.findById(userId);
         const collectloan = await loan
             .find({
-                status: "returned",
+                status: 'returned'
             })
             .populate("user_id", "name department studentorstaff image userid")
             .populate({
@@ -22,8 +22,8 @@ exports.returnedloan = async (req, res)=>{
                 select: "name available_items"
             })
             .select("items status return_date admin_collection_date ")
-            .exec();
-
+            
+        console.log(collectloan)
         // Add this line to set the currentUserData variable
         const currentUserData = req.user.userData;
         return res.render("admin/returnedloan", {
