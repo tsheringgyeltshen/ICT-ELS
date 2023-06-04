@@ -132,8 +132,8 @@
                                 <li><a href="/view-approved-loan">Approved Loan</a></li>
                                 <li><a href="/ready-forcollect">Collect Loan</a></li>
                                 <li><a href="/on_loanview">On Loan</a></li>
+                                <li><a href="/viewoverdue">Overdue Loan</a></li>
                                 <li><a href="/returnedloan_view">Returned Loan</a></li>
-
 
 
                             </ul>
@@ -150,33 +150,38 @@
             <div class="content container-fluid">
                 <%- include('messages') %>
 
-                <div class="page-header">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="page-sub-header">
-                                <h3 class="page-title">User Details</h3>
-                                <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">User</a></li>
-                                    <li class="breadcrumb-item active">All User</li>
-                                </ul>
+                    <div class="page-header">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="page-sub-header">
+                                    <h3 class="page-title">User Details</h3>
+                                    <ul class="breadcrumb"
+                                        style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+                                        aria-label="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/viewstudent">User</a></li>
+                                        <li class="breadcrumb-item"> <a href="/viewstudent">All User</a></li>
+                                        <li class="breadcrumb-item active">User Details</li>
+                                        
+    
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <section style="background-color: #eee;">
-                    <div class="container py-5 justify-content-center">
+                    <section style="background-color: #eee;">
+                        <div class="container py-5 justify-content-center">
 
-                        <% if(typeof message !=='undefined' && message ){ %>
-                            <div class="alert alert-success">
-                                <%= message %>
-                            </div>
-                            <% } %>
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="card mb-4">
-                                            <div class="card-body text-center">
-                                                <!-- <div class="profile-user-img">
+                            <% if(typeof message !=='undefined' && message ){ %>
+                                <div class="alert alert-success">
+                                    <%= message %>
+                                </div>
+                                <% } %>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="card mb-4">
+                                                <div class="card-body text-center">
+                                                    <!-- <div class="profile-user-img">
                                             <img src="assets/img/user.jpg" alt="Profile">
                                             <div class="form-group students-up-files profile-edit-icon mb-0">
                                                 <div class="uplod d-flex">
@@ -187,142 +192,144 @@
                                             </div>
                                         </div> -->
 
-                                                <img src="<%=users.image%>" alt="avatar"
-                                                    class="rounded-circle img-fluid mx-4 my-2 "
-                                                    style="width: 125px; height: 125px;">
+                                                    <img src="<%=users.image%>" alt="avatar"
+                                                        class="rounded-circle img-fluid mx-4 my-2 "
+                                                        style="width: 125px; height: 125px;">
 
 
-                                                <h5 class="">
-                                                    <%=users.name%>
-                                                </h5>
-                                                <p class="text-muted mb-1">
-                                                    <%=users.userid%>
-                                                </p>
-                                                <p class="text-muted mb-4">
-                                                    <%=users.department%>
-                                                </p>
+                                                    <h5 class="">
+                                                        <%=users.name%>
+                                                    </h5>
+                                                    <p class="text-muted mb-1">
+                                                        <%=users.userid%>
+                                                    </p>
+                                                    <p class="text-muted mb-4">
+                                                        <%=users.department%>
+                                                    </p>
 
-                                                <div class="d-flex justify-content-center mb-2">
-                                                    <a href="/edit-user?id=<%= users._id %>" class="btn btn-primary"
-                                                        role="button">Edit</a>
-                                                    <button type="button" data-bs-toggle="modal"
-                                                        data-bs-target="#deleteUserModal"
-                                                        class="btn btn-outline-danger ms-1">Delete</button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog"
-                                            aria-labelledby="deleteUserModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="deleteUserModalLabel">Confirm Delete
-                                                        </h5>
-                                                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
-                                                        <!-- <span aria-hidden="true">&times;</span> -->
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Are you sure you want to delete user '<%= users.name %>' ?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            onclick="$('#deleteUserModal').modal('hide')">Cancel</button>
-
-                                                        <form action="/delete-student" method="POST">
-                                                            <input type="hidden" name="id" value="<%= users._id %>">
-                                                            <input type="hidden" name="isDeleted" value="true">
-
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                                        </form>
+                                                    <div class="d-flex justify-content-center mb-2">
+                                                        <a href="/edit-user?id=<%= users._id %>" class="btn btn-primary"
+                                                            role="button">Edit</a>
+                                                        <button type="button" data-bs-toggle="modal"
+                                                            data-bs-target="#deleteUserModal"
+                                                            class="btn btn-outline-danger ms-1">Delete</button>
                                                     </div>
                                                 </div>
                                             </div>
+
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteUserModalLabel">Confirm
+                                                                Delete
+                                                            </h5>
+                                                            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+                                                            <!-- <span aria-hidden="true">&times;</span> -->
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Are you sure you want to delete user '<%= users.name %>' ?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                onclick="$('#deleteUserModal').modal('hide')">Cancel</button>
+
+                                                            <form action="/delete-student" method="POST">
+                                                                <input type="hidden" name="id" value="<%= users._id %>">
+                                                                <input type="hidden" name="isDeleted" value="true">
+
+                                                                <button type="submit"
+                                                                    class="btn btn-danger">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
                                         </div>
+                                        <div class="col-lg-6">
+                                            <div class="card mb-4">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <p class="mb-0">FullName</p>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <p class="text-muted mb-0">
+                                                                <%= users.name %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <p class="mb-0">Email</p>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <p class="text-muted mb-0">
+                                                                <%= users.email %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <p class="mb-0">User ID</p>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <p class="text-muted mb-0">
+                                                                <%= users.userid %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <p class="mb-0">Phone</p>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <p class="text-muted mb-0">
+                                                                <%= users.mobilenumber %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <p class="mb-0">Department</p>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <p class="text-muted mb-0">
+                                                                <%= users.department %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <p class="mb-0">Year</p>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <p class="text-muted mb-0">
+                                                                <%= users.year %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-
-
-
-
+                                        </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="card mb-4">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <p class="mb-0">FullName</p>
-                                                    </div>
-                                                    <div class="col-sm-9">
-                                                        <p class="text-muted mb-0">
-                                                            <%= users.name %>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <p class="mb-0">Email</p>
-                                                    </div>
-                                                    <div class="col-sm-9">
-                                                        <p class="text-muted mb-0">
-                                                            <%= users.email %>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <p class="mb-0">User ID</p>
-                                                    </div>
-                                                    <div class="col-sm-9">
-                                                        <p class="text-muted mb-0">
-                                                            <%= users.userid %>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <p class="mb-0">Phone</p>
-                                                    </div>
-                                                    <div class="col-sm-9">
-                                                        <p class="text-muted mb-0">
-                                                            <%= users.mobilenumber %>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <p class="mb-0">Department</p>
-                                                    </div>
-                                                    <div class="col-sm-9">
-                                                        <p class="text-muted mb-0">
-                                                            <%= users.department %>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <p class="mb-0">Year</p>
-                                                    </div>
-                                                    <div class="col-sm-9">
-                                                        <p class="text-muted mb-0">
-                                                            <%= users.year %>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                    </div>
-                </section>
+                        </div>
+                    </section>
 
 
             </div>
