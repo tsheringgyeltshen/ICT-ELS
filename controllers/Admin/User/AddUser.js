@@ -189,9 +189,6 @@ exports.getVerify = async (req, res) => {
 }
 
 
-
-
-
 //@des bulk add user
 exports.bulkaddload = async (req, res) => {
     try {

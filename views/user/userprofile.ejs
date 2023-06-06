@@ -207,8 +207,10 @@
                                     <div class="p-3"><b>Contact No</b></div>
                                 </div>
                                 <div class="col-6">
-                                    <div class="p-3"><input type="number" name="mno" class="form-control"
+                                    <div class="p-3"><input type="number" id="mobilenumber" name="mno" class="form-control"
                                             value="<%=user.mobilenumber %>" required></div>
+                                            <small id="mobilenumberError" class="text-danger"></small>
+
                                 </div>
                                 <div class="col-sm-2 mt-3">
                                     <button type="submit" class="btn btn-primary"
@@ -263,6 +265,26 @@
             reader.readAsDataURL(file);
         });
     </script>
+    <script>
+        // Get the input element and error message element
+        const mobileNumberInput = document.getElementById('mobilenumber');
+        const mobileNumberError = document.getElementById('mobilenumberError');
+      
+        // Add event listener to validate input on keyup
+        mobileNumberInput.addEventListener('keyup', validateMobileNumber);
+      
+        function validateMobileNumber() {
+          const mobileNumber = mobileNumberInput.value.trim();
+      
+          // Reset error message
+          mobileNumberError.textContent = '';
+      
+          // Validate the length and first two numbers
+          if (mobileNumber.length !== 8 || !/^(77|17)/.test(mobileNumber)) {
+            mobileNumberError.textContent = 'Mobile number must have a length of 8 and start with 77 or 17.';
+          }
+        }
+      </script>
 
     <script src="assets/jquery/jquery-3.2.1.min.js"></script>
     <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
