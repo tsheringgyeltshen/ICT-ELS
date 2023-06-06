@@ -83,6 +83,9 @@
                 <th>Return Date</th>
                 <th>Collection Date</th>
                 <th>Status</th>
+                <% if (userLoan.some(loan=> loan.status === 'pending')) { %>
+                  <th>Action</th>
+                  <% } %>
               </tr>
             </thead>
             <tbody>
@@ -122,6 +125,24 @@
                   <td style="padding-top: 22px;">
                     <% if (loan.status==='pending' ) { %>
                       <p class="badge bg-info">Pending</p><br>
+                      <% } else if (loan.status==='approved' ) { %>
+                        <p class="badge bg-success">Approved</p>
+                        <% } else if (loan.status==='accept' ) { %>
+                          <p class="badge bg-primary">Accept Collect</p>
+                          <% } else if (loan.status==='rejected' ) { %>
+                            <p class="badge bg-danger">Rejected</p>
+                            <% } else if (loan.status==='onloan' ) { %>
+                              <p class="badge bg-warning">On Loan</p>
+                              <% } else if (loan.status==='returned' ) { %>
+                                <p class="badge bg-primary">Returned</p>
+                                <% } else if (loan.status==='collect' ) { %>
+                                  <p class="badge bg-info">Collect</p>
+                                  <% } else if (loan.status==='overdue' ) { %>
+                                    <p class="badge bg-danger">Overdue</p>
+                                    <% } %>
+                  </td>
+                  <% if (loan.status==='pending' ) { %>
+                    <td style="padding-top: 19px;">
                       <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal"
                         data-target="#confirmModal">Cancel</button>
 
@@ -145,23 +166,8 @@
                           </div>
                         </div>
                       </div>
-
-                      <% } else if (loan.status==='approved' ) { %>
-                        <p class="badge bg-success">Approved</p>
-                        <% } else if (loan.status==='accept' ) { %>
-                          <p class="badge bg-primary">Accept Collect</p>
-                          <% } else if (loan.status==='rejected' ) { %>
-                            <p class="badge bg-danger">Rejected</p>
-                            <% } else if (loan.status==='onloan' ) { %>
-                              <p class="badge bg-warning">On Loan</p>
-                              <% } else if (loan.status==='returned' ) { %>
-                                <p class="badge bg-primary">Returned</p>
-                                <% } else if (loan.status==='collect' ) { %>
-                                  <p class="badge bg-info">Collect</p>
-                                  <% } else if (loan.status==='overdue' ) { %>
-                                    <p class="badge bg-danger">Overdue</p>
-                                    <% } %>
-                  </td>
+                    </td>
+                    <% } %>
                 </tr>
                 <% }); %>
             </tbody>

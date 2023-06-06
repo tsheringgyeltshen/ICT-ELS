@@ -167,119 +167,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-lg-12" >
-                            <div class="card mb-4">
-                                <form action="/edit-user" method="post" enctype="multipart/form-data">
-                                    <div class="card-body">
-                                        <div class="row">
-                                        <div class="col-sm-3" id="image-container">
-                                                <div class="col-lg-9">                                                  
-                                                    <label for="image-upload" style="position: relative; display: inline-block;">
-                                                        <i class="fas fa-camera" style="position: absolute; bottom: 0; right: 0; font-size: 2rem; filter: brightness(120%);"></i>
-                                                        <img src="/<%=users.image%>" alt="Original Image" class="rounded-circle img-fluid mx-4 my-2">
-                                                    </label>
-                                                    <input id="image-upload" value="<%= users.image %>" name="image" type="file" style="display: none;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <div class="col-sm-8 offset-sm-4">
-                                                <p class="mb-1">Full Name</p>
-                                            </div>
-                                            <div class="col-sm-8 offset-sm-4">
-                                                <input class="form-control" value="<%=users.name%>" type="text" required>
-                                            </div>
-                                        </div>
-                                        
-                                        
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p class="mb-0">Email</p>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <input class=" form-control" name="email" type="email"
-                                                    value="<%=users.email%>" required>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p class="mb-0">User ID</p>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <input type="number" min="0" name="userid" value="<%=users.userid%>"
-                                                    class=" form-control" required>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p class="mb-0">Phone</p>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <input type="number" name="mno" min="0" value="<%=users.mobilenumber%>"
-                                                    class=" form-control" required>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p class="mb-0">Section</p>
-                                            </div>
-                                            <div class="col-sm-9">
-
-
-                                                <select name="department" class="form-control">
-                                                    <option value="BScIT" <% if (users.department==="BScIT" ) { %>
-                                                        selected<% } %>>BScIT</option>
-                                                    <option value="SIDD" <% if (users.department==="SIDD" ) { %>selected
-                                                        <% } %>>SIDD</option>
-                                                    <option value="Blockchain" <% if (users.department==="Blockchain" )
-                                                        { %>selected<% } %>>Blockchain
-                                                    </option>
-                                                    <option value="Fullstack" <% if (users.department==="Fullstack" ) {
-                                                        %>selected<% } %>>Fullstack</option>
-                                                    <option value="SOC" <% if (users.department==="SOC" ) { %>selected<%
-                                                            } %>>SOC</option>
-                                                    <option value="BScCS" <% if (users.department==="BScCS" ) { %>
-                                                        selected<% } %>>BScCS</option>
-                                                    <option value="AI&DS" <% if (users.department==="AI&DS" ) { %>
-                                                        selected<% } %>>AI&DS</option>
-                                                    <option value="ICT" <% if (users.department==="ICT" ) { %>selected<%
-                                                            } %>>ICT</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p class="mb-0">Year</p>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <input type="number" name="year" value="<%=users.year%>" max="4" min="1"
-                                                    class=" form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="modal-footer mt-2">
-                                            <input type="submit" class="btn btn-info " style="color: white;"
-                                                value="Save">
-                                            <input type="hidden" name="id" value="<%= users._id %>">
-
-                                        </div>
-                                    </div>
-                                </form>
-
-                            </div>
-
-                        </div> -->
-
-
-
-
+               
                 <div class="col-lg-12">
                     <div class="card mb-4">
                         <form action="/edit-user" method="post" enctype="multipart/form-data">
@@ -314,8 +202,10 @@
                                                 <p class="mb-0">Full Name</p>
                                             </div>
                                             <div class="col-sm-9 col-lg-9 col-md-9">
-                                                <input class=" form-control" value="<%=users.name%>" name="name"
+                                                <input class=" form-control" value="<%=users.name%>" id="name" name="name"
                                                     type="text" required>
+                                                    <small id="nameError" class="text-danger"></small>
+
                                             </div>
                                         </div>
                                         <hr>
@@ -324,8 +214,10 @@
                                                 <p class="mb-0">Email</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input class=" form-control" name="email" type="email"
+                                                <input class=" form-control" name="email" id="email" type="email"
                                                     value="<%=users.email%>" required>
+                                                    <small id="emailError" class="text-danger"></small>
+
                                             </div>
                                         </div>
                                         <hr>
@@ -334,8 +226,10 @@
                                                 <p class="mb-0">User ID</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="number" min="0" name="userid" value="<%=users.userid%>"
+                                                <input type="text" min="0" name="userid" id="userid" value="<%=users.userid%>"
                                                     class=" form-control" required>
+                                                    <small id="useridError" class="text-danger"></small>
+
                                             </div>
                                         </div>
                                         <hr>
@@ -345,7 +239,9 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <input type="number" name="mno" min="0" value="<%=users.mobilenumber%>"
-                                                    class=" form-control" required>
+                                                    class=" form-control" id="mobilenumber" required>
+                                                    <small id="mobilenumberError" class="text-danger"></small>
+
                                             </div>
                                         </div>
                                         <hr>
@@ -386,13 +282,16 @@
 
                                         <div class="row">
                                             <div class="col-sm-3">
-                                                <p class="mb-0">Year</p>
+                                              <p class="mb-0">Year</p>
                                             </div>
                                             <div class="col-sm-9">
-                                                <input type="number" name="year" value="<%=users.year%>" max="4" min="1"
-                                                    class=" form-control" required>
+                                              <input type="text" name="year" id="yearInput" value="<%=users.year%>" class="form-control" required>
+                                              <small id="yearError" class="text-danger"></small>
                                             </div>
-                                        </div>
+                                          </div>
+                                          
+                                          
+                                          
                                         <hr>
                                         <div class="mt-2">
                                             <input type="submit" class="btn btn-primary" value="Save">
@@ -434,6 +333,109 @@
             reader.readAsDataURL(file);
         });
     </script>
+    <script>
+        // Get the input element and error message element
+        const nameInput = document.getElementById('name');
+        const nameError = document.getElementById('nameError');
+      
+        // Add event listener to validate input on keyup
+        nameInput.addEventListener('keyup', validateName);
+      
+        function validateName() {
+          const name = nameInput.value.trim();
+      
+          // Reset error message
+          nameError.textContent = '';
+      
+          // Validate name format
+          const numberPattern = /\d/;
+          if (numberPattern.test(name)) {
+            nameError.textContent = 'Name should not contain numbers.';
+          }
+        }
+      </script>
+       <script>
+        // Get the input element and error message element
+        const userIdInput = document.getElementById('userid');
+        const userIdError = document.getElementById('useridError');
+    
+        // Add event listener to validate input on keyup
+        userIdInput.addEventListener('keyup', validateUserId);
+    
+        function validateUserId() {
+          const userId = userIdInput.value.trim();
+          const userIdLength = userId.length;
+    
+          // Reset error message
+          userIdError.textContent = '';
+    
+          // Validate the length
+          if (![8, 10, 12].includes(userIdLength)) {
+            userIdError.textContent = 'User ID must have a length of 8, 10, or 12 characters.';
+          }
+        }
+      </script>
+      <script>
+        // Get the input element and error message element
+        const mobileNumberInput = document.getElementById('mobilenumber');
+        const mobileNumberError = document.getElementById('mobilenumberError');
+      
+        // Add event listener to validate input on keyup
+        mobileNumberInput.addEventListener('keyup', validateMobileNumber);
+      
+        function validateMobileNumber() {
+          const mobileNumber = mobileNumberInput.value.trim();
+      
+          // Reset error message
+          mobileNumberError.textContent = '';
+      
+          // Validate the length and first two numbers
+          if (mobileNumber.length !== 8 || !/^(77|17)/.test(mobileNumber)) {
+            mobileNumberError.textContent = 'Mobile number must have a length of 8 and start with 77 or 17.';
+          }
+        }
+      </script>
+      <script>
+        // Get the input element and error message element
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('emailError');
+      
+        // Add event listener to validate input on keyup
+        emailInput.addEventListener('keyup', validateEmail);
+      
+        function validateEmail() {
+          const email = emailInput.value.trim();
+      
+          // Reset error message
+          emailError.textContent = '';
+      
+          // Validate email format
+          const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailPattern.test(email)) {
+            emailError.textContent = 'Please enter a valid email address.';
+          }
+        }
+      </script>
+      <script>
+        // Get the input element and error message element
+        const yearInput = document.getElementById('yearInput');
+        const yearError = document.getElementById('yearError');
+      
+        // Add event listener to validate input on keyup
+        yearInput.addEventListener('keyup', validateYear);
+      
+        function validateYear() {
+          const year = yearInput.value.trim();
+      
+          // Reset error message
+          yearError.textContent = '';
+      
+          // Validate if input is a number and within the range
+          if (isNaN(year) || year < 1 || year > 4) {
+            yearError.textContent = 'Year should be a number between 1 and 4.';
+          }
+        }
+      </script>
 
     <script src="assets/js/jquery-3.6.0.min.js"></script>
 

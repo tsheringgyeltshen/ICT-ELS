@@ -76,6 +76,17 @@ exports.postaddItem = async (req, res) => {
 
 exports.postUpdateItem = async (req, res) => {
     try {
+        const categories = await Category.find();
+
+        const itemTag = req.body.itemtag;
+  
+        // Check if the item tag already exists in the database
+        const existingItem = await Item.findOne({ itemtag: itemTag });
+    
+        if (existingItem) {
+            req.flash('error_msg', "Item tag already exists");
+            return res.redirect(`/view-items/${req.params.id}`);
+        }
         if (req.file) {
             const itemData = await Item.findById(req.params.id);
 

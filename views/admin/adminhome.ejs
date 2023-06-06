@@ -276,38 +276,21 @@
 
                     </div>
                     <div class="col-lg-12">
-
                         <div class="card card-chart">
                             <div class="card-header">
                                 <div class="row align-items-center">
                                     <div class="col-6">
                                         <h5 class="card-title">Equipment</h5>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="card-body">
                                 <canvas id="barchart"></canvas>
                             </div>
                         </div>
-
                     </div>
                 </div>
-                <!-- <div class="row">
-                    <div class="col-lg-6 card card-body">
-                        <div class="card-header">
-                            <label for="">User Details</label>
-                        </div>
-                        <div class="card-body">
 
-
-                            <canvas id="myChart"></canvas>
-
-                        </div>
-
-
-                    </div>
-                </div> -->
 
             </div>
         </div>
@@ -315,147 +298,7 @@
     </div>
 
     </div>
-    <!-- <script>
 
-        var xValues = ["On Loan Item", "Available Item"];
-        var yValues = ['<%-itemonloancount %>', '<%-availableitem%>'];
-        var barColors = [
-            "#b91d47",
-            "#00aba9",
-
-
-        ];
-
-        new Chart("piechart", {
-            type: "doughnut",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
-                }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: "Total number of items"
-                }
-            }
-        });
-        var xValues = ["On Loan Item", "Available Item"];
-        var yValues = ['<%-itemonloancount %>', '<%-availableitem%>'];
-        var barColors = [
-            "#b91d47",
-            "#00aba9",
-
-
-        ];
-
-        new Chart("piechart", {
-            type: "doughnut",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
-                }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: "Total number of items"
-                }
-            }
-        });
-
-    </script>
-
-    <script>
-        var itemNames = JSON.parse('<%- itemNamesJSON %>');
-        var itemCounts = JSON.parse('<%- itemCountsJSON %>');
-
-        var xValues = itemNames;
-        var yValues = itemCounts;
-        var barColors = generateRandomColors(itemNames.length);
-
-        new Chart("barchart", {
-            type: "bar",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
-                }]
-            },
-            options: {
-                legend: { display: false },
-                title: {
-                    display: true,
-                    text: "Item Count"
-                },
-                scales: {
-                    y: {
-                        ticks: {
-                            precision: 0, // Display whole numbers
-                            beginAtZero: true // Start the y-axis from 0
-                        }
-                    }
-                }
-            }
-        });
-
-        function generateRandomColors(count) {
-            var colors = [];
-            for (var i = 0; i < count; i++) {
-                var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-                colors.push(color);
-            }
-            return colors;
-        }
-    </script>
-
-
-
-    <script>
-
-        var xValues = ["Overdue Loan", "Pending Loan"];
-        var yValues = ['<%- overduecount %>', '<%-pendingcount%>'];
-        var barColors = [
-            "#b91d47",
-            "#00aba9",
-            "#2b5797",
-
-        ];
-
-        new Chart("myChart", {
-            type: "doughnut",
-            data: {
-                labels: xValues,
-                datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
-                }]
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: "Total Number of overdue and pending"
-                }
-            },
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'bottom'
-                }
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-            height: 400 // Set the desired height here
-        }
-
-        });
-
-    </script> -->
     <script>
         var xValues = ["On Loan Item", "Available Item"];
         var yValues = ['<%- itemonloancount %>', '<%- availableitem %>'];
@@ -487,12 +330,11 @@
             }
         });
 
-        var itemNames = JSON.parse('<%- itemNamesJSON %>');
-        var itemCounts = JSON.parse('<%- itemCountsJSON %>');
+        var topItems = JSON.parse('<%- JSON.stringify(topItems) %>');
 
-        var xValues = itemNames;
-        var yValues = itemCounts;
-        var barColors = generateRandomColors(itemNames.length);
+        var xValues = topItems.map(item => item.name);
+        var yValues = topItems.map(item => item.count);
+        var barColors = generateRandomColors(topItems.length);
 
         new Chart("barchart", {
             type: "bar",
@@ -507,7 +349,7 @@
                 legend: { display: false },
                 title: {
                     display: true,
-                    text: "Item Count"
+                    text: "Top 10 Item Count"
                 },
                 scales: {
                     y: {
@@ -525,20 +367,10 @@
                         position: 'bottom'
                     }
                 },
-               
-                //  height: 300,
-                // Set the desired height here
             }
         });
 
-        // function generateRandomColors(count) {
-        //     var colors = [];
-        //     for (var i = 0; i < count; i++) {
-        //         var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-        //         colors.push(color);
-        //     }
-        //     return colors;
-        // }
+
 
         var xValues = ["Overdue Loan", "Pending Loan"];
         var yValues = ['<%- overduecount %>', '<%- pendingcount %>'];

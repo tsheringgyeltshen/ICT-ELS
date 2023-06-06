@@ -8,12 +8,9 @@ const userSchema  = new mongoose.Schema({
         required:[true, 'Please tell us your name!']
     },
     userid:{
-        type:Number,
+        type:String,
         unique:true,
-        requred:[true, 'Please provide your User ID'],
-        minlength:8,
-        maxlength:8,
-        
+        requred:[true, 'Please provide your User ID'] 
     },
     email:{
         type:String,

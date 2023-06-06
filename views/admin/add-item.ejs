@@ -220,14 +220,6 @@
                                                 </div>
 
 
-                                                <!-- <div class="col-12 col-sm-4">
-                                            <div class="form-group local-forms">
-                                                <label>Quantity<span class="login-danger">*</span> </label>
-                                                <input class="form-control" min="1" name="available_items" id="available_items" type="number" placeholder="Enter Quantity"
-                                                    required>
-                                            </div>
-                                        </div> -->
-
                                                 <div class="col-12 col-sm-4">
                                                     <div class="form-group local-forms">
                                                         <label>Item Tag<span class="login-danger">*</span> </label>
@@ -235,14 +227,14 @@
                                                             type="text" placeholder="Enter Item Tag" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 ">
+                                                <div class="col-12">
                                                     <div class="form-group local-forms">
-                                                        <label>Equipment Discription <span
-                                                                class="login-danger">*</span></label>
-                                                        <textarea class="form-control" name="description"
-                                                            id="description" required></textarea>
+                                                        <label>Equipment Description <span class="login-danger">*</span></label>
+                                                        <textarea class="form-control" name="description" id="description" required></textarea>
+                                                        <small id="descriptionError" class="text-danger"></small>
                                                     </div>
                                                 </div>
+                                                                                                            
 
                                                 <div class="col-12">
                                                     <div class="form-group">
@@ -280,6 +272,23 @@
         }
 
 
+    </script>
+     <script>
+        var descriptionInput = document.getElementById('description');
+        var descriptionError = document.getElementById('descriptionError');
+    
+        descriptionInput.addEventListener('input', function () {
+            var maxLength = 150;
+            var currentLength = descriptionInput.value.length;
+    
+            if (currentLength > maxLength) {
+                descriptionError.textContent = 'Maximum length exceeded. Please limit to 100 characters.';
+                descriptionInput.setCustomValidity('Maximum length exceeded');
+            } else {
+                descriptionError.textContent = '';
+                descriptionInput.setCustomValidity('');
+            }
+        });
     </script>
 
 

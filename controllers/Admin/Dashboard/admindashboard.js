@@ -7,63 +7,70 @@ const Chart = require('chart.js');
 
 exports.getAdminHome = async (req, res) => {
     try {
-        const pendingLoanCount = await Loan.countDocuments({ status: 'pending' });
-        const approvedLoanCount = await Loan.countDocuments({ status: 'approved' });
-        const onLoanCount = await Loan.countDocuments({ status: 'onloan' });
-        const pendingcount = await Loan.countDocuments({ status: 'pending' });
-        const overduecount = await Loan.countDocuments({ status: 'overdue' });
-        
-
-        const itemonloancount = await Item.countDocuments({ available_items:'0', isDeleted: false });
-        const availableitem = await Item.countDocuments({ available_items:'1', isDeleted: false });
-
-        const itemcount = await Item.countDocuments({ isDeleted: false, });
-
-        const userId = req.user.userData._id;
-        
-        
-
-        const itemData = await Item.find({ isDeleted: false });
-
-        const itemCounts = itemData.reduce((counts, item) => {
-            counts[item.name] = (counts[item.name] || 0) + 1;
-            return counts;
-        }, {});
-
-        const itemNames = Object.keys(itemCounts);
-        
-        
-        // Query the database for the user with the matching ID
-        const adminData = await Users.findById(userId);
-        const now = new Date();
-
-        // Count the number of collections due for today
-        const collectionCount = await Loan.countDocuments({
-            status: "approved",
-            admin_collection_date: now.toISOString().substr(0, 10),
-        });
-        // Count the number of users with usertype "user"
-        const userCount = await Users.countDocuments({
-            studentorstaff: { $in: ["student", "staff"] }
-        });
-
-        const image1 = (adminData.image).split('\\')[1];
-
-        res.render('../views/admin/adminhome', { itemcount,
-        approvedLoanCount, pendingLoanCount,
-        admin: adminData, userCount, image1,
+      if (req.user.userData.usertype !== "Admin") {
+        req.flash('error_msg', 'You are not authorized'); 
+        return  res.redirect('/');
+      }
+      const pendingLoanCount = await Loan.countDocuments({ status: 'pending' });
+      const approvedLoanCount = await Loan.countDocuments({ status: 'approved' });
+      const onLoanCount = await Loan.countDocuments({ status: 'onloan' });
+      const pendingcount = await Loan.countDocuments({ status: 'pending' });
+      const overduecount = await Loan.countDocuments({ status: 'overdue' });
+      
+      const itemonloancount = await Item.countDocuments({ available_items: '0', isDeleted: false });
+      const availableitem = await Item.countDocuments({ available_items: '1', isDeleted: false });
+  
+      const itemcount = await Item.countDocuments({ isDeleted: false });
+  
+      const userId = req.user.userData._id;
+  
+      const itemData = await Item.find({ isDeleted: false });
+  
+      const itemCounts = itemData.reduce((counts, item) => {
+        counts[item.name] = (counts[item.name] || 0) + 1;
+        return counts;
+      }, {});
+  
+      const itemCountsArray = Object.entries(itemCounts).map(([name, count]) => ({ name, count }));
+      itemCountsArray.sort((a, b) => b.count - a.count);
+      const topItems = itemCountsArray.slice(0, 10);
+  
+      const adminData = await Users.findById(userId);
+      const now = new Date();
+  
+      const collectionCount = await Loan.countDocuments({
+        status: "approved",
+        admin_collection_date: now.toISOString().substr(0, 10),
+      });
+  
+      const userCount = await Users.countDocuments({
+        studentorstaff: { $in: ["student", "staff"] }
+      });
+  
+      const image1 = adminData.image.split('\\')[1];
+  
+      res.render('../views/admin/adminhome', {
+        itemcount,
+        approvedLoanCount,
+        pendingLoanCount,
+        admin: adminData,
+        userCount,
+        image1,
         collectionCount,
-        onLoanCount, pendingcount,overduecount,
-        availableitem,itemonloancount,
-        itemNamesJSON: JSON.stringify(itemNames),
-        itemCountsJSON: JSON.stringify(Object.values(itemCounts))});
-
+        onLoanCount,
+        pendingcount,
+        overduecount,
+        availableitem,
+        itemonloancount,
+        itemNamesJSON: JSON.stringify(Object.keys(itemCounts)),
+        itemCountsJSON: JSON.stringify(Object.values(itemCounts)),
+        topItems
+      });
     } catch (error) {
-
-        console.log(error.message);
-
+      console.log(error.message);
     }
-}
+  }
+  
 //@des user details 
 exports.getUserProfileLoad = async (req, res) => {
     try {

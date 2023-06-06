@@ -36,32 +36,21 @@ exports.getAdminEditProfile = async (req, res) => {
     }
 }
 
-// exports.postAdminEditProfile = async (req, res) => {
-//     try {
-
-//         const userData = await Users.findByIdAndUpdate({ _id: req.body.id },
-//             {
-//                 $set: {
-//                     name: req.body.name,
-//                     userid: req.body.userid,
-//                     email: req.body.email,
-//                     mobilenumber: req.body.mno,
-//                     department: req.body.department1,
-//                     // usertype:req.body.usertype,
-
-//                 }
-//             });
-
-//         res.redirect(`/adminprofile?id=${req.body.id}`);
-
-//     } catch (error) {
-
-//         console.log(error.message);
-//     }
-// }
 
 exports.postAdminEditProfile = async (req, res) => {
     try {
+        const existingUser = await Users.findOne({
+            $or: [
+                { email: req.body.email },
+                { userid: req.body.userid }
+            ],
+            _id: { $ne: req.body.id }
+        });
+
+        if (existingUser) {
+            req.flash('error_msg', 'Email or User ID already exists. Cannot update the user.');
+            res.redirect(`/adminprofile?id=${req.body.id}`);
+        }
 
         if (req.file) {
             const userData1 = await Users.findById(req.body.id);

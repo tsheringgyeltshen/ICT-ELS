@@ -39,45 +39,45 @@
               <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
               <li class="nav-item"><a class="nav-link" href="/all-equipment">Equipment</a></li>
               <li class="nav-item active submenu dropdown">
-                <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false">Loan</a>
+                <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">Loan</a>
                 <ul class="dropdown-menu">
-                    <li class="nav-item">
-                        <a href="/personalloan" class="nav-link">Your Loan</a>
+                  <li class="nav-item">
+                    <a href="/personalloan" class="nav-link">Your Loan</a>
 
-                    </li>
-                    <div class="nav-item dropright">
-                        <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                            aria-haspopup="true" aria-expanded="false" id="loanDropdown">Pending
-                            Loan
-                            <i class="ti-angle-right" style="margin-left: 22.5px;"></i></a>
+                  </li>
+                  <div class="nav-item dropright">
+                    <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                      aria-expanded="false" id="loanDropdown">Pending
+                      Loan
+                      <i class="ti-angle-right" style="margin-left: 22.5px;"></i></a>
 
-                        <div class="dropdown-menu" aria-labelledby="loanDropdown">
-                            <div class="nav-item">
-                                <a class="dropdown-item" href="/view-req-loan">User</a>
-                            </div>
-                            <div class="nav-item">
-                                <a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
-                            </div>
-                        </div>
-
+                    <div class="dropdown-menu" aria-labelledby="loanDropdown">
+                      <div class="nav-item">
+                        <a class="dropdown-item" href="/view-req-loan">User</a>
+                      </div>
+                      <div class="nav-item">
+                        <a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
+                      </div>
                     </div>
+
+                  </div>
 
 
                 </ul>
 
-            </li>
+              </li>
               <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
             </ul>
 
             <ul class="nav-shop">
-              <li class="nav-item cartnav"><a href="/cart1"><i class="ti-shopping-cart"
-                style="font-size: large;"></i> <span
-                class="position-relative start-100 translate-middle badge rounded-pill bg-danger <%= cartItemCount > 0 ? ' active' : '' %>"
-                style="color: #fff; top: -10px; font-size: smaller; right: 7px;">
-                <%= cartItemCount %>
-            </span></a> </li>
+              <li class="nav-item cartnav"><a href="/cart1"><i class="ti-shopping-cart" style="font-size: large;"></i>
+                  <span
+                    class="position-relative start-100 translate-middle badge rounded-pill bg-danger <%= cartItemCount > 0 ? ' active' : '' %>"
+                    style="color: #fff; top: -10px; font-size: smaller; right: 7px;">
+                    <%= cartItemCount %>
+                  </span></a> </li>
 
               <li class="nav-item submenu dropdown">
 
@@ -98,8 +98,8 @@
     </div>
   </header>
   <!-- <div class="product_image_area"> -->
-    <div class="container">
-      <%- include('messages') %>
+  <div class="container">
+    <% include('messages') %>
 
       <div class="table-responsive">
         <% if (userLoan.length> 0) { %>
@@ -112,6 +112,9 @@
                 <th>Return Date</th>
                 <th>Collection Date</th>
                 <th>Status</th>
+                <% if (userLoan.some(loan=> loan.status === 'pending')) { %>
+                  <th>Action</th>
+                  <% } %>
               </tr>
             </thead>
             <tbody>
@@ -120,12 +123,11 @@
                   <td>
                     <div class="media align-items-center">
                       <a href="/loan-detailsapproval/<%= loan._id %>" class="avatar avatar-sm mr-2">
-                        <img class="rounded-circle " src="<%= loan.user_id.image %>"
-                          alt="User Image" style="max-width: 50px; max-height: 50px;">
-                          
-                          <a href="/loan-detailsapproval/<%= loan._id %>" style="color: black;">
-                            <%= loan.user_id.name%>
-                          </a>
+                        <img class="rounded-circle " src="<%= loan.user_id.image %>" alt="User Image"
+                          style="max-width: 50px; max-height: 50px;">
+                        <a href="/loan-detailsapproval/<%= loan._id %>" style="color: black;">
+                          <%= loan.user_id.name%>
+                        </a>
                       </a>
                     </div>
                   </td>
@@ -137,7 +139,6 @@
                       <%= loan.request_date.toDateString() %>
                         <% } %>
                   </td>
-                  
                   <td style="padding-top: 19px;">
                     <% if (loan.return_date) { %>
                       <%= loan.return_date.toDateString() %>
@@ -153,28 +154,6 @@
                   <td style="padding-top: 22px;">
                     <% if (loan.status==='pending' ) { %>
                       <p class="badge bg-info">Pending</p><br>
-                        <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#confirmModal">Cancel</button>
-                      
-                      
-                      <!-- Confirm Modal -->
-                      <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content" style="margin-top: 100px;">
-                            
-                            <div class="modal-body" style="color: black;">
-                            
-                            
-                              Are you sure you want to cancel the loan request?
-                            </div>
-                            <div class="modal-footer">
-                              <form id="cancelForm" action="/cancelapprovalloan/<%= loan._id %>" method="post">
-                              <button type="submit" form="cancelForm" class="btn btn-danger">Yes</button>
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                       
                       <% } else if (loan.status==='approved' ) { %>
                         <p class="badge bg-success">Approved</p>
@@ -187,12 +166,36 @@
                               <% } else if (loan.status==='returned' ) { %>
                                 <p class="badge bg-primary">Returned</p>
                                 <% } else if (loan.status==='collect' ) { %>
-                                  <p class="badge bg-info">Collect</p>                               
-                                 <% } else if (loan.status==='collect' ) { %>
                                   <p class="badge bg-info">Collect</p>
-                                  <% }%>
-  
+                                  <% } else if (loan.status==='collect' ) { %>
+                                    <p class="badge bg-info">Collect</p>
+                                    <% } %>
                   </td>
+                  <% if (loan.status==='pending' ) { %>
+                    <td style="padding-top: 19px;">
+                      <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal"
+                        data-target="#confirmModal">Cancel</button>
+
+
+                      <!-- Confirm Modal -->
+                      <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
+                        aria-labelledby="confirmModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content" style="margin-top: 100px;">
+                            <div class="modal-body" style="color: black;">
+                              Are you sure you want to cancel the loan request?
+                            </div>
+                            <div class="modal-footer">
+                              <form id="cancelForm" action="/cancelapprovalloan/<%= loan._id %>" method="post">
+                                <button type="submit" form="cancelForm" class="btn btn-danger">Yes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <% } %>
                 </tr>
                 <% }); %>
             </tbody>
@@ -201,7 +204,8 @@
             <p>No loan found.</p>
             <% } %>
       </div>
-    </div>
+  </div>
+
 
 
   <footer>
@@ -232,7 +236,7 @@
   <script src="../assets/mail-script.js"></script>
   <script src="../assets/js/main.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
- 
+
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
   <script src="https://cdn.datatables.net/fixedheader/3.3.2/js/dataTables.fixedHeader.min.js"></script>

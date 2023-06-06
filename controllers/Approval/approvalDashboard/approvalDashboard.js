@@ -10,7 +10,13 @@ const Cart = require("../../../models/cart");
 
 exports.getapprovalHome = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Approval") {
+            req.flash('error_msg', 'You are not authorized');
+            
+            return res.redirect('/');
+
         
+        }
         const userId = req.user.userData._id;
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
         

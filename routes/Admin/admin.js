@@ -91,9 +91,9 @@ admin_router.route('/edit-staff')
 //@des user category load
 admin_router.route('/categories')
     .get(currentUser,viewCategories)
-    
-admin_router.route('/add-category')
     .post(currentUser,postaddCategory)
+
+// admin_router.route('/add-category')
 
 admin_router.route('/edit-category/:category_id')
     .get(currentUser, getEditCategories)

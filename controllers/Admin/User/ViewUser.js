@@ -137,6 +137,19 @@ exports.geteditUserPage = async (req, res) => {
 
 exports.posteditUserPage = async (req, res) => {
     try {
+        const existingUser = await Users.findOne({
+            $or: [
+                { email: req.body.email },
+                { userid: req.body.userid }
+            ],
+            _id: { $ne: req.body.id }
+        });
+
+        if (existingUser) {
+            req.flash('error_msg', 'Email or User ID already exists. Cannot update the user.');
+            return res.redirect(`/view-user?id=${req.body.id}`);
+        }
+
         if (req.file) {
             const userData = await Users.findById(req.body.id);
 
@@ -193,6 +206,7 @@ exports.posteditUserPage = async (req, res) => {
     }
 };
 
+
 // admin edit staff load
 exports.geteditstaffPage = async (req, res) => {
     try {
@@ -217,66 +231,21 @@ exports.geteditstaffPage = async (req, res) => {
 }
 
 
-// exports.posteditstaffPage = async (req, res) => {
-//   try {
-//     if (req.file) {
-//       const userData = await Users.findByIdAndUpdate(
-//         { _id: req.body.id },
-//         {
-//           $set: {
-//             name: req.body.name,
-//             userid: req.body.userid,
-//             email: req.body.email,
-//             mobilenumber: req.body.mno,
-//             year: req.body.year,
-//             usertype: req.body.usertype,
-//             department: req.body.department,
-//             image: req.file.filename,
-//           },
-//         }
-//       );
-
-//       const path = 'images/' + userData.image;
-//       fs.unlink(path, (error) => {
-//         if (error) {
-//           req.flash('error_msg', "User Successfully Updated");
-//         } else {
-//           req.flash('success_msg', 'User Successfully Updated');
-//         }
-//         req.session.save(() => {
-//           res.redirect(`/view-onestaff?id=${req.body.id}`);
-//         });
-//       });
-//     } else {
-//       await Users.findByIdAndUpdate(
-//         { _id: req.body.id },
-//         {
-//           $set: {
-//             name: req.body.name,
-//             userid: req.body.userid,
-//             email: req.body.email,
-//             mobilenumber: req.body.mno,
-//             year: req.body.year,
-//             usertype: req.body.usertype,
-//             department: req.body.department,
-//           },
-//         }
-//       );
-//       req.flash('success_msg', "User Successfully Updated");
-//       req.session.save(() => {
-//         res.redirect(`/view-onestaff?id=${req.body.id}`);
-//       });
-//     }
-//   } catch (error) {
-//     req.flash('error_msg', 'Error while updating');
-//     req.session.save(() => {
-//       res.redirect(`/view-onestaff?id=${req.body.id}`);
-//     });
-//   }
-// };
 
 exports.posteditstaffPage = async (req, res) => {
     try {
+        const existingUser = await Users.findOne({
+            $or: [
+                { email: req.body.email },
+                { userid: req.body.userid }
+            ],
+            _id: { $ne: req.body.id }
+        });
+
+        if (existingUser) {
+            req.flash('error_msg', 'Email or User ID already exists. Cannot update the user.');
+            return res.redirect(`/view-onestaff?id=${req.body.id}`);
+        }
         if (req.file) {
             const userData = await Users.findById(req.body.id);
 
