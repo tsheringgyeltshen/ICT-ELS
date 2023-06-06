@@ -182,6 +182,7 @@ a {
     color: #384aeb
 }
 
+
 .header_area .navbar .nav .nav-item.submenu {
     position: relative
 }
@@ -304,58 +305,6 @@ a {
     line-height: 70px
 }
 
-#search_input_box {
-    text-align: center;
-    padding: 5px 20px
-}
-
-#search_input_box .form-control {
-    padding-left: 0;
-    background: transparent;
-    border: 0;
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 18px
-}
-
-#search_input_box .form-control:focus {
-    box-shadow: none;
-    outline: none
-}
-
-#search_input_box input.placeholder {
-    color: #ffffff;
-    font-size: 16px
-}
-
-#search_input_box input:-moz-placeholder {
-    color: #ffffff;
-    font-size: 16px
-}
-
-#search_input_box input::-moz-placeholder {
-    color: #ffffff;
-    font-size: 16px
-}
-
-#search_input_box input::-webkit-input-placeholder {
-    color: #ffffff;
-    font-size: 16px
-}
-
-#search_input_box .btn {
-    width: 0;
-    height: 0;
-    padding: 0;
-    border: 0
-}
-
-#search_input_box .lnr-cross {
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 10px 0
-}
 
 .header-top {
     background: #000000
@@ -559,6 +508,8 @@ a {
     .header_area .navbar .search {
         margin-left: 0px
     }
+
+
 
     .header_area .navbar-collapse {
         max-height: 340px;
@@ -1358,21 +1309,9 @@ a {
     color: #fff
 }
 
-.blog-banner {
-    position: relative
-}
 
-.blog-banner h4,
-.blog-banner h1,
-.blog-banner a {
-    text-transform: capitalize;
-    color: #fff
-}
 
-.blog-banner h4 {
-    font-size: 18px;
-    margin-bottom: 15px
-}
+
 
 .blog-banner h1 {
     font-size: 30px;
@@ -1595,9 +1534,8 @@ a {
 
 /* .single-recent-blog-post .thumb {
     /* overflow: hidden */
-/* } */ */
-
-.single-recent-blog-post .thumb img {
+/* } */
+*/ .single-recent-blog-post .thumb img {
     transition: all 0.7s linear
 }
 
@@ -3011,6 +2949,7 @@ a {
     margin-top: 75px
 }
 
+/* 
 @media (min-width: 767px) {
     .order_details_table {
         margin-top: 45px
@@ -3033,7 +2972,7 @@ a {
     font-family: "Oswald", sans-serif;
     font-weight: normal;
     color: #222
-}
+} */
 
 @media (max-width: 1000px) {
     .order_details_table .table tbody tr:last-child {
@@ -4827,8 +4766,8 @@ a {
 .footer-bottom {
     background: rgba(0, 35, 71, 0.980392);
     padding: 32px;
-    
-    
+
+
 }
 
 .footer-bottom .footer-text {
@@ -4910,14 +4849,15 @@ a {
     margin-left: -1vw;
 
 }
-.badge{
-color: white;
+
+.badge {
+    color: white;
 }
 
 .side-menu-arrow {
     /* position: absolute; */
     margin-left: 40px;
-    
+
 }
 
 

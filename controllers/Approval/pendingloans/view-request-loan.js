@@ -594,13 +594,13 @@ exports.cancelapprovalloanRequest = async (req, res) => {
     // Redirect to the desired page
     req.flash("success_msg", "Loan cancelled successfully");
     req.session.save(() => {
-      res.redirect("/get_loan");
+      res.redirect("/view-req-loan");
     });
 
   } catch (error) {
     req.flash("error_msg", "Something went wrong");
     req.session.save(() => {
-      res.redirect("/get_loan");
+      res.redirect("/view-req-loan");
     });
   }
 }
