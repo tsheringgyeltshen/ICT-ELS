@@ -141,9 +141,18 @@ $(function () {
   // Number of cards to display per page
 
 
+});
 
-
-
+$(document).ready(function () {
+  var table = $('#example').DataTable({
+    fixedHeader: true,
+    order: [],
+    sortable: false,
+    headerCallback: function (thead, data, start, end, display) {
+      $(thead).find('th').css('background-color', 'rgba(0, 35, 71, 0.980392)');
+      $(thead).find('th').css('color', 'white');
+    }
+  });
 });
 
 

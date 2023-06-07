@@ -25,10 +25,6 @@ const securePassword = async (password) => {
 //to send mail for password and email
 const addUserMail = async (name, email, password, user_id) => {
   try {
-    if (req.user.userData.usertype !== "Admin") {
-      req.flash('error_msg', 'You are not authorized');
-      return res.redirect('/');
-    }
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -67,10 +63,6 @@ const addUserMail = async (name, email, password, user_id) => {
 //@des send verify mail
 const sendVerifyMail = async (name, email, user_id) => {
   try {
-    if (req.user.userData.usertype !== "Admin") {
-      req.flash('error_msg', 'You are not authorized');
-      return res.redirect('/');
-    }
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -189,10 +181,7 @@ exports.postRegister1 = async (req, res) => {
 
 exports.getVerify = async (req, res) => {
   try {
-    if (req.user.userData.usertype !== "Admin") {
-      req.flash('error_msg', 'You are not authorized');
-      return res.redirect('/');
-    }
+
 
     const updateInfo = await Users.updateOne({ _id: req.query.id }, { $set: { is_verified: true } });
 
@@ -229,7 +218,7 @@ exports.bulkaddload = async (req, res) => {
   }
 }
 
-//@des add user post
+//@future work
 exports.postaddusebulk = async (req, res) => {
   try {
     if (req.user.userData.usertype !== "Admin") {

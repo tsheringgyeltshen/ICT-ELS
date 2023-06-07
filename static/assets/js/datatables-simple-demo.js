@@ -3,13 +3,12 @@ window.addEventListener('DOMContentLoaded', event => {
     if (datatablesSimple) {
         const dataTable = new simpleDatatables.DataTable(datatablesSimple, {
             sortable: false,
-            
         });
 
-        // Add color to datatable rows
-        const rows = dataTable.rows();
-        rows.forEach(row => {
-            row.element.style.backgroundColor = '#000';
+        const tableHeadings = datatablesSimple.querySelectorAll('th');
+        tableHeadings.forEach(th => {
+            th.style.backgroundColor = '#3d5ee1'; // Change the background color to your desired color
+            th.style.color = 'white'; // Change the text color to your desired color
         });
     }
 });

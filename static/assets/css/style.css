@@ -2548,12 +2548,12 @@ div.dataTables_wrapper div.dataTables_length select {
 .user-menu .dropdown-menu .dropdown-item {
     display: flex;
     align-items: center;
-    border-top: 1px solid #e3e3e3;
+    border-top: 1px solid #fff;
     padding: 10px 15px
 }
 
 .user-menu .dropdown-menu .dropdown-item:hover {
-    color: #3d5ee1
+    color: #fff
 }
 
 .header .dropdown-menu>li>a:focus,

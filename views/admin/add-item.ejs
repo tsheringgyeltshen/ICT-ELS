@@ -266,11 +266,11 @@
         var descriptionError = document.getElementById('descriptionError');
     
         descriptionInput.addEventListener('input', function () {
-            var maxLength = 200;
+            var maxLength = 300;
             var currentLength = descriptionInput.value.length;
     
             if (currentLength > maxLength) {
-                descriptionError.textContent = 'Maximum length exceeded. Please limit to 200 characters.';
+                descriptionError.textContent = 'Maximum length exceeded. Please limit to 300 characters.';
                 descriptionInput.setCustomValidity('Maximum length exceeded');
             } else {
                 descriptionError.textContent = '';
