@@ -9,6 +9,10 @@ dotenv.config()
 
 exports.getViewStudentPage = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
 
         const userId = req.user.userData._id;
 
@@ -40,6 +44,10 @@ exports.getViewStudentPage = async (req, res) => {
 //view staff page
 exports.getViewStaffPage = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
         // Query the database for the user with the matching ID
@@ -72,6 +80,10 @@ exports.getViewStaffPage = async (req, res) => {
 //admin psrticular user load
 exports.getviewoneStudentPage = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
         // Query the database for the user with the matching ID
@@ -94,6 +106,10 @@ exports.getviewoneStudentPage = async (req, res) => {
 //admin psrticular staff load
 exports.getviewoneStaffPage = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
         // Query the database for the user with the matching ID
@@ -115,6 +131,10 @@ exports.getviewoneStaffPage = async (req, res) => {
 //admin edit user load
 exports.geteditUserPage = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
 
         const userId = req.user.userData._id;
 
@@ -137,6 +157,10 @@ exports.geteditUserPage = async (req, res) => {
 
 exports.posteditUserPage = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const existingUser = await Users.findOne({
             $or: [
                 { email: req.body.email },
@@ -210,6 +234,10 @@ exports.posteditUserPage = async (req, res) => {
 // admin edit staff load
 exports.geteditstaffPage = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
 
         const userId = req.user.userData._id;
 
@@ -234,6 +262,10 @@ exports.geteditstaffPage = async (req, res) => {
 
 exports.posteditstaffPage = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const existingUser = await Users.findOne({
             $or: [
                 { email: req.body.email },
@@ -311,6 +343,10 @@ exports.posteditstaffPage = async (req, res) => {
 exports.confirmDeleteStaffUser = async (req, res) => {
 
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
         // Query the database for the user with the matching ID
@@ -335,6 +371,10 @@ exports.confirmDeleteStaffUser = async (req, res) => {
 exports.confirmDeleteStudentUser = async (req, res) => {
 
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
         // Query the database for the user with the matching ID

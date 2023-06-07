@@ -12,15 +12,13 @@ exports.getapprovalHome = async (req, res) => {
     try {
         if (req.user.userData.usertype !== "Approval") {
             req.flash('error_msg', 'You are not authorized');
-            
-            return res.redirect('/');
 
-        
+            return res.redirect('/');
         }
         const userId = req.user.userData._id;
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
-        
-        
+
+
         console.log(req.user.userData._id);
         const cardsPerPage = 12;
         const currentPage = 1;
@@ -29,9 +27,11 @@ exports.getapprovalHome = async (req, res) => {
         const items = await Item.find({ isDeleted: false }).sort({ added_date: -1 }).populate('category', 'name');
 
         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-        res.render('../views/approval/approvalhome', { cardsPerPage: cardsPerPage, currentPage: currentPage,   cartItemCount: cart ? cart.items.length : 0,
+        res.render('../views/approval/approvalhome', {
+            cardsPerPage: cardsPerPage, currentPage: currentPage, cartItemCount: cart ? cart.items.length : 0,
 
-            user, items,  });
+            user, items,
+        });
         // res.send(req.user)
     } catch (error) {
         console.log(error.message);
@@ -41,12 +41,18 @@ exports.getapprovalHome = async (req, res) => {
 //@des user details 
 exports.getUserProfileLoad = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Approval") {
+            req.flash('error_msg', 'You are not authorized');
+
+            return res.redirect('/');
+        }
+
         const userId = req.user.userData._id;
-        
+
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
         const userData = await Users.findById(userId);
-        return res.render('approval/approvalprofile', { approval: userData,  cartItemCount: cart ? cart.items.length : 0 });
+        return res.render('approval/approvalprofile', { approval: userData, cartItemCount: cart ? cart.items.length : 0 });
 
 
     } catch (error) {
@@ -59,6 +65,11 @@ exports.getUserProfileLoad = async (req, res) => {
 
 exports.postEditProfile = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Approval") {
+            req.flash('error_msg', 'You are not authorized');
+
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
         if (req.file) {
@@ -112,13 +123,18 @@ exports.postEditProfile = async (req, res) => {
 
 exports.viewaboutus = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Approval") {
+            req.flash('error_msg', 'You are not authorized');
+
+            return res.redirect('/');
+        }
 
         const userId = req.user.userData._id;
         const users = await Users.findById(userId);
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
 
-        res.render('approval/ABOUTUS', { users, cartItemCount: cart ? cart.items.length : 0});
+        res.render('approval/ABOUTUS', { users, cartItemCount: cart ? cart.items.length : 0 });
 
 
     } catch (error) {
@@ -131,6 +147,11 @@ exports.viewaboutus = async (req, res) => {
 
 exports.viewAllitems = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Approval") {
+            req.flash('error_msg', 'You are not authorized');
+
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
         const userData = await Users.findById(userId);
         const categories = await Category.find();
@@ -152,7 +173,7 @@ exports.viewAllitems = async (req, res) => {
             );
         }
 
-        return res.render('approval/approvalitem', { items, cardsPerPage: cardsPerPage, currentPage: currentPage, user: userData, searchQuery, categories, cartItemCount: cart ? cart.items.length : 0});
+        return res.render('approval/approvalitem', { items, cardsPerPage: cardsPerPage, currentPage: currentPage, user: userData, searchQuery, categories, cartItemCount: cart ? cart.items.length : 0 });
 
     } catch (error) {
         console.error(error);
@@ -161,6 +182,11 @@ exports.viewAllitems = async (req, res) => {
 };
 exports.viewItemByid = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Approval") {
+            req.flash('error_msg', 'You are not authorized');
+
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
         const user = await Users.findById(userId);
         // Query the database for the user with the matching ID
@@ -180,6 +206,11 @@ exports.viewItemByid = async (req, res) => {
 
 exports.viewItemsByCategory = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Approval") {
+            req.flash('error_msg', 'You are not authorized');
+
+            return res.redirect('/');
+        }
         const categoryId = req.params.categoryId;
         // Query the database for the user with the matching ID
         const userId = req.user.userData._id;

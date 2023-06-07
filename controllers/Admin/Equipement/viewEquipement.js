@@ -6,6 +6,10 @@ const Loan = require("../../../models/loan");
 
 exports.viewItemByid = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
 
@@ -24,6 +28,10 @@ exports.viewItemByid = async (req, res) => {
 
 
 exports.getLoanRequestsForItem = async (req, res) => {
+    if (req.user.userData.usertype !== "Admin") {
+        req.flash('error_msg', 'You are not authorized');
+        return res.redirect('/');
+    }
     const itemID = req.params.id;
     const userId = req.user.userData._id;
 
@@ -42,9 +50,9 @@ exports.getLoanRequestsForItem = async (req, res) => {
         } = loan;
         return {
             name: name,
-            image:image,
+            image: image,
             userid: userid,
-            department:department,
+            department: department,
             requestDate: request_date, // Add request_date
             returnDate: return_date,
             status,
@@ -61,6 +69,10 @@ exports.getLoanRequestsForItem = async (req, res) => {
 
 exports.viewAllitems = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
         // Query the database for the user with the matching ID

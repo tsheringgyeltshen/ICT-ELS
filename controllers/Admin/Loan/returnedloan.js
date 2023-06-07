@@ -6,7 +6,11 @@ const Users = require("../../../models/userModel");
 const dotenv = require("dotenv");
 dotenv.config();
 
-exports.returnedloan = async (req, res)=>{
+exports.returnedloan = async (req, res) => {
+    if (req.user.userData.usertype !== "Admin") {
+        req.flash('error_msg', 'You are not authorized');
+        return res.redirect('/');
+    }
 
     try {
         const userId = req.user.userData._id;
@@ -22,7 +26,7 @@ exports.returnedloan = async (req, res)=>{
                 select: "name available_items"
             })
             .select("items status return_date admin_collection_date ")
-            
+
         console.log(collectloan)
         // Add this line to set the currentUserData variable
         const currentUserData = req.user.userData;

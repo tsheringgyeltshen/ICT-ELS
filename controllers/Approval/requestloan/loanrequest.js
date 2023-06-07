@@ -6,6 +6,11 @@ const ObjectId = require('mongodb').ObjectId;
 
 exports.loanRequestPage = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     const approvals = await Users.find({ usertype: 'Approval' });
     const userId = req.user.userData._id;
     const user = await Users.findById(userId);
@@ -27,6 +32,11 @@ exports.loanRequestPage = async (req, res) => {
 
 exports.requestLoan = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     const item_id = req.params.id;
     const item = await Item.findById(item_id);
 
@@ -62,10 +72,15 @@ exports.requestLoan = async (req, res) => {
 
 exports.getLoanRequests = async (req, res) => {
   try {
-    
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
+
     const user_id = req.user.userData._id;
     const users = await Users.findById(user_id);
-    
+
     const cart = await Cart.findOne({ user: user_id }).populate('items.item').populate('items.category', 'name');
     const loans = await Loan.find({ user_id }).populate('item').sort({ request_date: -1 });
 
@@ -82,7 +97,7 @@ exports.getLoanRequests = async (req, res) => {
       };
     });
 
-    return res.render('approval/personalapprovalloan', { loans: loanObjects, users, cartItemCount: cart ? cart.items.length : 0});
+    return res.render('approval/personalapprovalloan', { loans: loanObjects, users, cartItemCount: cart ? cart.items.length : 0 });
 
   } catch (error) {
     console.error(error.message);
@@ -96,6 +111,11 @@ exports.getLoanRequests = async (req, res) => {
 
 exports.addToCart = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     const userId = req.user.userData._id;
     const itemId = req.params.id;
 
@@ -132,6 +152,11 @@ exports.addToCart = async (req, res) => {
 
 exports.addToCartapprovalhome = async (req, res, next) => {
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     const userId = req.user.userData._id;
     const itemId = req.params.id;
     req.userId = userId
@@ -178,6 +203,11 @@ exports.addToCartapprovalhome = async (req, res, next) => {
 
 exports.deleteCart = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     const userId = req.user.userData._id;
     const cart_id = req.query.id;
     const cart = await Cart.findOne({ user: userId }).populate('items.item');
@@ -202,6 +232,11 @@ exports.deleteCart = async (req, res) => {
 
 exports.getCart = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     const userId = req.user.userData._id;
     console.log(userId);
     const users = await Users.findById(userId);
@@ -238,12 +273,13 @@ exports.getCart = async (req, res) => {
 
 
     return res.render('approval/add_to_card', {
-      approvals:filteredApprovals,
+      approvals: filteredApprovals,
       cart: cartData,
       users,
       user: req.user.userData,
       message: 'Item successfully added to cart',
-      cartItemCount: cart ? cart.items.length : 0 });
+      cartItemCount: cart ? cart.items.length : 0
+    });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: 'Server error' });
@@ -255,6 +291,11 @@ exports.getCart = async (req, res) => {
 
 exports.request_Loan = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     const userId = req.user.userData._id;
     const users = await Users.findById(userId);
 
@@ -265,7 +306,7 @@ exports.request_Loan = async (req, res) => {
 
     const loanRequest = {
       user_id: userId,
-      approval:req.body.approval,
+      approval: req.body.approval,
       return_date: req.body.return_date,
       items: [],
     };

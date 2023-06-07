@@ -7,6 +7,10 @@ dotenv.config();
 
 exports.viewPresentCollectionDates = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized'); 
+            return  res.redirect('/');
+          }
         const userId = req.user.userData._id;
 
         const admin = await Users.findById(userId);

@@ -5,6 +5,10 @@ const cloudinary = require('cloudinary').v2;
 
 exports.getAdminProfilePage = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
 
         // Retrieve the user ID from the JWT token
         const userId = req.user.userData._id;
@@ -22,6 +26,10 @@ exports.getAdminProfilePage = async (req, res) => {
 
 exports.getAdminEditProfile = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
 
         // Retrieve the user ID from the JWT token
         const userId = req.user.userData._id;
@@ -39,6 +47,10 @@ exports.getAdminEditProfile = async (req, res) => {
 
 exports.postAdminEditProfile = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const existingUser = await Users.findOne({
             $or: [
                 { email: req.body.email },

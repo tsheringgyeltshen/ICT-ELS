@@ -5,6 +5,10 @@ const Users = require("../../../models/userModel");
 
 exports.viewCategories = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
         // Query the database for the user with the matching ID
@@ -13,7 +17,7 @@ exports.viewCategories = async (req, res) => {
 
         const searchQuery = req.query.q || ''; // get search query parameter or default to empty string
         const categories = await Category.find({ name: { $regex: searchQuery, $options: 'i' } }); // filter categories based on search query
-        
+
 
 
         res.render('./admin/category', { admin: adminData, searchQuery: searchQuery, categories: categories, admin: adminData });
@@ -26,6 +30,10 @@ exports.viewCategories = async (req, res) => {
 
 exports.postaddCategory = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const searchQuery = req.query.q || '';
         const categories = await Category.find({ name: { $regex: searchQuery, $options: 'i' } });
 
@@ -67,6 +75,10 @@ exports.postaddCategory = async (req, res) => {
 
 exports.getEditCategories = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         // Use isLogin middleware to check if user is authenticated
         const userId = req.user.userData._id;
 
@@ -84,6 +96,10 @@ exports.getEditCategories = async (req, res) => {
 };
 exports.postUpdateCategory = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const { name } = req.body;
         const formattedName = name;
 
@@ -98,7 +114,7 @@ exports.postUpdateCategory = async (req, res) => {
         }
 
         const data = await Category.findByIdAndUpdate(req.params.category_id, { name });
-        req.flash("success_msg", "Category '"+name+ "' has been updated");
+        req.flash("success_msg", "Category '" + name + "' has been updated");
         req.session.save(() => {
             res.redirect('/categories');
         });
@@ -112,10 +128,10 @@ exports.postUpdateCategory = async (req, res) => {
 exports.getDeleteCategoryLoad = async (req, res) => {
     try {
 
-        
+
         const category = await Category.findById(req.params.category_id);
         return res.render('admin/category', { category });
-        
+
 
 
     } catch (error) {
@@ -127,10 +143,10 @@ exports.getDeleteCategoryLoad = async (req, res) => {
 
 exports.postDeleteCategory = async (req, res) => {
     try {
-        
+
         const data = await Category.findByIdAndDelete(req.params.category_id);
         return res.redirect('/categories')
-        
+
 
 
     } catch (error) {

@@ -8,6 +8,10 @@ dotenv.config();
 
 exports.viewApprovedloan = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "Admin") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
     const userId = req.user.userData._id;
 
     const adminData = await Users.findById(userId);
@@ -44,6 +48,10 @@ exports.viewApprovedloan = async (req, res) => {
 
 
 exports.viewuserapprovalloandetail = async (req, res) => {
+  if (req.user.userData.usertype !== "Admin") {
+    req.flash('error_msg', 'You are not authorized');
+    return res.redirect('/');
+  }
   try {
     const loanId = req.params.loanId;
     const userId = req.user.userData._id;
@@ -76,8 +84,10 @@ exports.viewuserapprovalloandetail = async (req, res) => {
 
 
 exports.updateloan = async (req, res) => {
-  //@dde
-
+  if (req.user.userData.usertype !== "Admin") {
+    req.flash('error_msg', 'You are not authorized');
+    return res.redirect('/');
+  }
   // Create a nodemailer transporter using Gmail SMTP settings
   var transporter = nodemailer.createTransport({
     service: "gmail",

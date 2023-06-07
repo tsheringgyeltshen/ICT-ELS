@@ -8,6 +8,10 @@ const fs = require('fs');
 
 
 exports.getAddCategoryItem = async (req, res) => {
+    if (req.user.userData.usertype !== "Admin") {
+        req.flash('error_msg', 'You are not authorized');
+        return res.redirect('/');
+    }
 
     const userId = req.user.userData._id;
 
@@ -28,61 +32,69 @@ exports.getAddCategoryItem = async (req, res) => {
 
 exports.postaddItem = async (req, res) => {
     try {
-      const userId = req.user.userData._id;
-      const categories = await Category.find();
-      const adminData = await Users.findById(userId);
-  
-      const itemTag = req.body.itemtag;
-  
-      // Check if the item tag already exists in the database
-      const existingItem = await Item.findOne({ itemtag: itemTag });
-  
-      if (existingItem) {
-        return res.render('admin/add-item', {
-          message2: 'Item tag already exists',
-          admin: adminData,
-          categories: categories,
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
+        const userId = req.user.userData._id;
+        const categories = await Category.find();
+        const adminData = await Users.findById(userId);
+
+        const itemTag = req.body.itemtag;
+
+        // Check if the item tag already exists in the database
+        const existingItem = await Item.findOne({ itemtag: itemTag });
+
+        if (existingItem) {
+            return res.render('admin/add-item', {
+                message2: 'Item tag already exists',
+                admin: adminData,
+                categories: categories,
+            });
+        }
+
+        const result = await cloudinary.uploader.upload(req.file.path);
+
+        const name = req.body.name;
+        const category = req.body.category;
+        const description = req.body.description;
+
+        const newItem = await Item({
+            name,
+            category,
+            description,
+            image: result.secure_url,
+            itemtag: itemTag,
         });
-      }
-  
-      const result = await cloudinary.uploader.upload(req.file.path);
-  
-      const name = req.body.name;
-      const category = req.body.category;
-      const description = req.body.description;
-  
-      const newItem = await Item({
-        name,
-        category,
-        description,
-        image: result.secure_url,
-        itemtag: itemTag,
-      });
-  
-      await newItem.save();
-  
-      return res.render('admin/add-item', {
-        message1: 'Equipment Successfully Added',
-        admin: adminData,
-        categories: categories,
-      });
-  
+
+        await newItem.save();
+
+        return res.render('admin/add-item', {
+            message1: 'Equipment Successfully Added',
+            admin: adminData,
+            categories: categories,
+        });
+
     } catch (error) {
-      console.error(error);
-      res.status(500).send('Server Error');
+        console.error(error);
+        res.status(500).send('Server Error');
     }
-  };
-  
+};
+
 
 exports.postUpdateItem = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const categories = await Category.find();
 
         const itemTag = req.body.itemtag;
-  
+
         // Check if the item tag already exists in the database
         const existingItem = await Item.findOne({ itemtag: itemTag });
-    
+
         if (existingItem) {
             req.flash('error_msg', "Item tag already exists");
             return res.redirect(`/view-items/${req.params.id}`);
@@ -104,7 +116,7 @@ exports.postUpdateItem = async (req, res) => {
                         name: req.body.name,
                         category: req.body.category,
                         description: req.body.description,
-                        itemtag:req.body.itemtag,
+                        itemtag: req.body.itemtag,
                         // available_items: req.body.available_items,
                         image: result.secure_url, // Update the Cloudinary URL in the MongoDB document
                     },
@@ -137,6 +149,10 @@ exports.postUpdateItem = async (req, res) => {
 };
 
 exports.getEditCategoryItem = async (req, res) => {
+    if (req.user.userData.usertype !== "Admin") {
+        req.flash('error_msg', 'You are not authorized');
+        return res.redirect('/');
+    }
     const userId = req.user.userData._id;
 
     // Query the database for the user with the matching ID
@@ -151,6 +167,10 @@ exports.getEditCategoryItem = async (req, res) => {
 }
 exports.getEditItemLoad = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
         // Query the database for the user with the matching ID
@@ -209,10 +229,14 @@ exports.getEditItemLoad = async (req, res) => {
 // };
 
 
-  
+
 
 exports.deleteItemLoad = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
 
         const item = await Item.findById(req.params.id).populate('category', 'name');
         return res.render('admin/itemdetails', { item });
@@ -225,6 +249,10 @@ exports.deleteItemLoad = async (req, res) => {
 
 exports.deleteItem = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "Admin") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         await Item.findByIdAndUpdate(req.params.id, { isDeleted: true });
         req.flash("success_msg", "Equipment Successfully Deleted");
         req.session.save(() => {

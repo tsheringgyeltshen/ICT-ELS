@@ -14,7 +14,9 @@ exports.viewLoanRequests = async (req, res) => {
   const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
   if (req.user.userData.usertype !== "Approval") {
-    return res.status(400).json({ error: "Invalid user type" });
+    req.flash('error_msg', 'You are not authorized');
+
+    return res.redirect('/');
   }
   try {
     const approvalDepartment = req.user.userData.department;
@@ -47,6 +49,11 @@ exports.viewLoanRequests = async (req, res) => {
 
 exports.viewapprovalLoanRequests = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     const currentUserData = req.user.userData;
     const userId = req.user.userData._id;
     const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
@@ -90,6 +97,11 @@ exports.viewapprovalLoanRequests = async (req, res) => {
 
 exports.viewuserloandetail = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     const loanId = req.params.loanId;
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
@@ -116,6 +128,11 @@ exports.viewuserloandetail = async (req, res) => {
 
 
 exports.manageLoanRequest = async (req, res) => {
+  if (req.user.userData.usertype !== "Approval") {
+    req.flash('error_msg', 'You are not authorized');
+
+    return res.redirect('/');
+  }
   const userId = req.user.userData._id;
   const users = await User.findById(userId);
   const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
@@ -252,6 +269,11 @@ exports.manageLoanRequest = async (req, res) => {
 };
 
 exports.manageapprovalLoanRequest = async (req, res) => {
+  if (req.user.userData.usertype !== "Approval") {
+    req.flash('error_msg', 'You are not authorized');
+
+    return res.redirect('/');
+  }
   const userId = req.user.userData._id;
   const users = await User.findById(userId);
   const approvalDepartment = req.user.userData.department;
@@ -401,7 +423,9 @@ exports.rejectLoanRequest = async (req, res) => {
   });
 
   if (req.user.userData.usertype !== "Approval") {
-    return res.status(400).json({ error: "Invalid user type" });
+    req.flash('error_msg', 'You are not authorized');
+
+    return res.redirect('/');
   }
 
   const loan_id = req.params.id;
@@ -454,6 +478,11 @@ exports.rejectLoanRequest = async (req, res) => {
 
 exports.getLoanRequests = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     var transporter = nodemailer.createTransport({
       service: "gmail",
       port: 587,
@@ -536,6 +565,11 @@ exports.getLoanRequests = async (req, res) => {
 
 exports.viewapprovalloandetail = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     const loanId = req.params.loanId;
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
@@ -549,7 +583,7 @@ exports.viewapprovalloandetail = async (req, res) => {
         select: "name available_items image itemtag category", // Include the 'category' field from the item schema
         populate: { path: "category", select: "name" } // Populate the 'category' field from the item schema
       });
-      
+
     if (!loanDetails) {
       // Handle loan not found
       return res.status(404).render('error', { message: 'Loan not found' });
@@ -569,6 +603,11 @@ exports.viewapprovalloandetail = async (req, res) => {
 exports.cancelapprovalloanRequest = async (req, res) => {
   // Get the loan ID from the request parameters
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     const loanId = req.params.loanId;
 
     console.log(loanId);
@@ -610,6 +649,11 @@ exports.cancelapprovalloanRequest = async (req, res) => {
 exports.acceptapprovalloanitems = async (req, res) => {
   // Get the loan ID from the request parameters
   try {
+    if (req.user.userData.usertype !== "Approval") {
+      req.flash('error_msg', 'You are not authorized');
+
+      return res.redirect('/');
+    }
     const loanId = req.params.loanId;
 
     const Loan = await loan.findById(loanId)
@@ -622,7 +666,7 @@ exports.acceptapprovalloanitems = async (req, res) => {
 
     // Retrieve the selected item IDs from the request body
     const selectedItems = req.body.selectedItems;
-    
+
     // Update the loan items based on the selected items
     const updatedLoanItems = await Promise.all(Loan.items.map(async (loanItem) => {
       if (selectedItems.includes(loanItem._id.toString())) {
@@ -659,9 +703,10 @@ exports.acceptapprovalloanitems = async (req, res) => {
     req.flash("error_msg", "Check at least one item");
     req.session.save(() => {
       res.redirect("/personalloan");
-  
-    }); }
+
+    });
   }
+}
 
 
 
@@ -678,7 +723,9 @@ exports.rejectapprovalLoanRequest = async (req, res) => {
   });
 
   if (req.user.userData.usertype !== "Approval") {
-    return res.status(400).json({ error: "Invalid user type" });
+    req.flash('error_msg', 'You are not authorized');
+
+    return res.redirect('/');
   }
 
   const loan_id = req.params.id;

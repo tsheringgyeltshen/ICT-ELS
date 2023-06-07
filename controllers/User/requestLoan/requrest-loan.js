@@ -11,6 +11,10 @@ var nodemailer = require("nodemailer");
 exports.loanRequestPage = async (req, res) => {
 
   try {
+    if (req.user.userData.usertype !== "User") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
     const userId = req.user.userData._id;
 
     // Query the database for the user with the matching ID
@@ -34,6 +38,10 @@ exports.requestLoan = async (req, res) => {
   const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
   try {
+    if (req.user.userData.usertype !== "User") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
     const item_id = req.params.id;
     const user_id = req.user.userData;
     const item = await Item.findById(item_id).populate('category', 'name');
@@ -81,6 +89,10 @@ exports.requestLoan = async (req, res) => {
 
 exports.getLoanRequests = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "User") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
 
     var transporter = nodemailer.createTransport({
       service: "gmail",
@@ -110,15 +122,15 @@ exports.getLoanRequests = async (req, res) => {
       .select("items status return_date request_date admin_collection_date")
       .exec();
 
-      const currentDate = moment().startOf('day'); // Get the current date
-      const loansToUpdate = userLoan.filter(loan => {
-        const collectionDate = moment(loan.admin_collection_date).startOf('day');
-        const newDateStarts = moment(loan.admin_new_date_start).startOf('day');
-        const isCollectionDatePassed = collectionDate.isBefore(currentDate);
-        const isNewDateStarted = newDateStarts.isSameOrBefore(currentDate);
-        const isLoanAccepted = loan.status === 'accept';
-        return isCollectionDatePassed && isNewDateStarted && isLoanAccepted;
-      });
+    const currentDate = moment().startOf('day'); // Get the current date
+    const loansToUpdate = userLoan.filter(loan => {
+      const collectionDate = moment(loan.admin_collection_date).startOf('day');
+      const newDateStarts = moment(loan.admin_new_date_start).startOf('day');
+      const isCollectionDatePassed = collectionDate.isBefore(currentDate);
+      const isNewDateStarted = newDateStarts.isSameOrBefore(currentDate);
+      const isLoanAccepted = loan.status === 'accept';
+      return isCollectionDatePassed && isNewDateStarted && isLoanAccepted;
+    });
 
     // Loop through the loans to update and send emails
     for (const Loan of loansToUpdate) {
@@ -170,6 +182,10 @@ exports.getLoanRequests = async (req, res) => {
 
 exports.viewuserloandetail = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "User") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
     const loanId = req.params.loanId;
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
@@ -205,6 +221,10 @@ exports.viewuserloandetail = async (req, res) => {
 exports.cancelloanRequest = async (req, res) => {
   // Get the loan ID from the request parameters
   try {
+    if (req.user.userData.usertype !== "User") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
     const loanId = req.params.loanId;
     const userId = req.user.userData._id;
 
@@ -246,6 +266,10 @@ exports.cancelloanRequest = async (req, res) => {
 exports.acceptloanitems = async (req, res) => {
   // Get the loan ID from the request parameters
   try {
+    if (req.user.userData.usertype !== "User") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
     const loanId = req.params.loanId;
     console.log(loanId);
 
@@ -304,6 +328,10 @@ exports.acceptloanitems = async (req, res) => {
 
 exports.addToCart = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "User") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
     const userId = req.user.userData._id;
     const itemId = req.params.id;
 
@@ -342,6 +370,10 @@ exports.addToCart = async (req, res) => {
 
 exports.addToCartuserhome = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "User") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
     const userId = req.user.userData._id;
     const itemId = req.params.id;
 
@@ -389,6 +421,10 @@ exports.addToCartuserhome = async (req, res) => {
 
 exports.getCart = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "User") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
 
@@ -438,6 +474,10 @@ exports.getCart = async (req, res) => {
 
 exports.deleteCart = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "User") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
     const userId = req.user.userData._id;
     const cart_id = req.query.id;
     const cart = await Cart.findOne({ user: userId }).populate('items.item');
@@ -459,6 +499,10 @@ exports.deleteCart = async (req, res) => {
 
 exports.request_Loan = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "User") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
 

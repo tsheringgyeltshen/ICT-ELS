@@ -13,8 +13,6 @@ exports.getUserHome = async (req, res) => {
         if (req.user.userData.usertype !== "User") {
             req.flash('error_msg', 'You are not authorized');
             return res.redirect('/');
-
-           
         }
         const userId = req.user.userData._id;
         const cardsPerPage = 12;
@@ -36,6 +34,10 @@ exports.getUserHome = async (req, res) => {
 //@des user details 
 exports.getUserProfileLoad = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "User") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
         const userData = await Users.findById(userId);
@@ -52,6 +54,10 @@ exports.getUserProfileLoad = async (req, res) => {
 
 exports.postEditProfile = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "User") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
         if (req.file) {
@@ -103,6 +109,10 @@ exports.postEditProfile = async (req, res) => {
 
 exports.viewAboutuspage = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "User") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
 
         const userId = req.user.userData._id;
         const users = await Users.findById(userId);
@@ -120,6 +130,10 @@ exports.viewAboutuspage = async (req, res) => {
 
 exports.viewAllitems = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "User") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
         const userData = await Users.findById(userId);
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
@@ -149,6 +163,10 @@ exports.viewAllitems = async (req, res) => {
 };
 exports.viewItemByid = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "User") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const userId = req.user.userData._id;
 
         // Query the database for the user with the matching ID
@@ -169,6 +187,10 @@ exports.viewItemByid = async (req, res) => {
 
 exports.viewItemsByCategory = async (req, res) => {
     try {
+        if (req.user.userData.usertype !== "User") {
+            req.flash('error_msg', 'You are not authorized');
+            return res.redirect('/');
+        }
         const categoryId = req.params.categoryId;
         // Query the database for the user with the matching ID
         const userId = req.user.userData._id;

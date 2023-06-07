@@ -10,6 +10,10 @@ dotenv.config();
 
 exports.readyforcollection = async (req, res) => {
   try {
+    if (req.user.userData.usertype !== "Admin") {
+      req.flash('error_msg', 'You are not authorized');
+      return res.redirect('/');
+    }
     // Create a nodemailer transporter using Gmail SMTP settings
     var transporter = nodemailer.createTransport({
       service: "gmail",
@@ -94,8 +98,10 @@ exports.readyforcollection = async (req, res) => {
 
 
 exports.collected = async (req, res) => {
-  //@dde
-
+  if (req.user.userData.usertype !== "Admin") {
+    req.flash('error_msg', 'You are not authorized');
+    return res.redirect('/');
+  }
   // Create a nodemailer transporter using Gmail SMTP settings
   var transporter = nodemailer.createTransport({
     service: "gmail",
