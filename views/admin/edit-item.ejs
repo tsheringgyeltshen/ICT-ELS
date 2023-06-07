@@ -124,19 +124,8 @@
               </ul>
             </li>
 
-            <li class="submenu">
-              <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span class="menu-arrow"></span></a>
-
-              <ul>
-                <li><a href="/view-approved-loan">Approved Loan</a></li>
-                <li><a href="/ready-forcollect">Collect Loan</a></li>
-                <li><a href="/on_loanview">On Loan</a></li>
-                <li><a href="/viewoverdue">Overdue Loan</a></li>
-                <li><a href="/returnedloan_view">Returned Loan</a></li>
-
-
-
-              </ul>
+            <li>
+              <a href="/view-approved-loan"><i class="fas fa-hand-holding"></i> <span> Loan</span> </a>
 
             </li>
 
@@ -226,11 +215,11 @@
                   </div>
                   <textarea style="font-size: 1em ; color: gray;" name="description" id="description" value=""
                     class="form-control" rows="3"><%=item.description%></textarea>
-                    <small id="descriptionError" class="text-danger"></small>
+                  <small id="descriptionError" class="text-danger"></small>
 
                 </div>
                 <hr>
-               
+
                 <div class="col-sm-3">
                   <p class="mb-2">Item Tag</p>
                 </div>
@@ -284,8 +273,8 @@
 
       reader.readAsDataURL(file);
     });
-    
-  
+
+
 
   </script>
   <script>
@@ -293,18 +282,18 @@
     var descriptionError = document.getElementById('descriptionError');
 
     descriptionInput.addEventListener('input', function () {
-        var maxLength = 150;
-        var currentLength = descriptionInput.value.length;
+      var maxLength = 150;
+      var currentLength = descriptionInput.value.length;
 
-        if (currentLength > maxLength) {
-            descriptionError.textContent = 'Maximum length exceeded. Please limit to 100 characters.';
-            descriptionInput.setCustomValidity('Maximum length exceeded');
-        } else {
-            descriptionError.textContent = '';
-            descriptionInput.setCustomValidity('');
-        }
+      if (currentLength > maxLength) {
+        descriptionError.textContent = 'Maximum length exceeded. Please limit to 100 characters.';
+        descriptionInput.setCustomValidity('Maximum length exceeded');
+      } else {
+        descriptionError.textContent = '';
+        descriptionInput.setCustomValidity('');
+      }
     });
-</script>
+  </script>
   <script src="/assets/js/jquery-3.6.0.min.js"></script>
 
   <script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

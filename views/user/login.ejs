@@ -51,14 +51,20 @@
                             <form action="/" method="post">
                                 <div class="form-group">
                                     <label>User ID <span class="login-danger">*</span></label>
-                                    <input class="form-control" name="userid" type="text">
+                                    <input class="form-control" name="userid" id="userid" type="text">
                                     <span class="profile-views"><i class="fas fa-user-circle"></i></span>
+                                    <small id="userid-error" class="text-danger"></small>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label>Password <span class="login-danger">*</span></label>
-                                    <input class="form-control pass-input" name="password" type="password">
+                                    <input class="form-control pass-input" name="password" id="password" type="password">
                                     <span class="profile-views feather-eye toggle-password"></span>
+                                    <small id="password-error" class="text-danger"></small>
                                 </div>
+                                
+                                
+                                
                                 <div class="forgotpass">
 
                                     <a href="/forget">Forgot Password?</a>
@@ -83,7 +89,32 @@
         </div>
     </div>
 
-
+    <script>
+        document.getElementById("userid").addEventListener("blur", validateUserId);
+        document.getElementById("password").addEventListener("blur", validatePassword);
+    
+        function validateUserId() {
+            const userId = document.getElementById("userid").value;
+            const userIdError = document.getElementById("userid-error");
+    
+            if (userId.length === 8 || userId.length === 10 || userId.length === 12) {
+                userIdError.textContent = "";
+            } else {
+                userIdError.textContent = "User ID should be 8, 10, or 12 characters long.";
+            }
+        }
+    
+        function validatePassword() {
+            const password = document.getElementById("password").value;
+            const passwordError = document.getElementById("password-error");
+    
+            if (password.length >= 8) {
+                passwordError.textContent = "";
+            } else {
+                passwordError.textContent = "Password should be at least 8 characters long.";
+            }
+        }
+    </script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
 
     <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -92,5 +123,4 @@
 
     <script src="assets/js/script.js"></script>
 </body>
-
 </html>

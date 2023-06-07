@@ -196,19 +196,8 @@
                             </ul>
                         </li>
 
-                        <li class="submenu">
-                            <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span
-                                    class="menu-arrow"></span></a>
-
-                            <ul>
-                                <li><a href="/view-approved-loan">Approved Loan</a></li>
-                                <li><a href="/ready-forcollect">Collect Loan</a></li>
-                                <li><a href="/on_loanview">On Loan</a></li>
-                                <li><a href="/viewoverdue">Overdue Loan</a></li>
-                                <li><a href="/returnedloan_view">Returned Loan</a></li>
-
-
-                            </ul>
+                        <li>
+                            <a href="/view-approved-loan"><i class="fas fa-hand-holding"></i> <span> Loan</span> </a>
 
                         </li>
 
@@ -279,7 +268,7 @@
                                             <div class="col-sm-9 col-lg-9 col-md-9">
                                                 <input class=" form-control" value="<%=users.name%>" type="text"
                                                     name="name" id="name" required>
-                                                    <small id="nameError" class="text-danger"></small>
+                                                <small id="nameError" class="text-danger"></small>
 
                                             </div>
                                         </div>
@@ -291,7 +280,7 @@
                                             <div class="col-sm-9">
                                                 <input class=" form-control" name="email" type="email" id="email"
                                                     value="<%=users.email%>" required>
-                                                    <small id="emailError" class="text-danger"></small>
+                                                <small id="emailError" class="text-danger"></small>
 
                                             </div>
                                         </div>
@@ -303,7 +292,7 @@
                                             <div class="col-sm-9">
                                                 <input type="text" min="0" name="userid" value="<%=users.userid%>"
                                                     class=" form-control" id="userid" required>
-                                                    <small id="useridError" class="text-danger"></small>
+                                                <small id="useridError" class="text-danger"></small>
 
                                             </div>
                                         </div>
@@ -315,7 +304,7 @@
                                             <div class="col-sm-9">
                                                 <input type="number" name="mno" min="0" value="<%=users.mobilenumber%>"
                                                     class=" form-control" id="mobilenumber" required>
-                                                    <small id="mobilenumberError" class="text-danger"></small>
+                                                <small id="mobilenumberError" class="text-danger"></small>
 
                                             </div>
                                         </div>
@@ -430,85 +419,85 @@
         // Get the input element and error message element
         const nameInput = document.getElementById('name');
         const nameError = document.getElementById('nameError');
-      
+
         // Add event listener to validate input on keyup
         nameInput.addEventListener('keyup', validateName);
-      
+
         function validateName() {
-          const name = nameInput.value.trim();
-      
-          // Reset error message
-          nameError.textContent = '';
-      
-          // Validate name format
-          const numberPattern = /\d/;
-          if (numberPattern.test(name)) {
-            nameError.textContent = 'Name should not contain numbers.';
-          }
+            const name = nameInput.value.trim();
+
+            // Reset error message
+            nameError.textContent = '';
+
+            // Validate name format
+            const numberPattern = /\d/;
+            if (numberPattern.test(name)) {
+                nameError.textContent = 'Name should not contain numbers.';
+            }
         }
-      </script>
-       <script>
+    </script>
+    <script>
         // Get the input element and error message element
         const userIdInput = document.getElementById('userid');
         const userIdError = document.getElementById('useridError');
-    
+
         // Add event listener to validate input on keyup
         userIdInput.addEventListener('keyup', validateUserId);
-    
+
         function validateUserId() {
-          const userId = userIdInput.value.trim();
-          const userIdLength = userId.length;
-    
-          // Reset error message
-          userIdError.textContent = '';
-    
-          // Validate the length
-          if (![8, 10, 12].includes(userIdLength)) {
-            userIdError.textContent = 'User ID must have a length of 8, 10, or 12 characters.';
-          }
+            const userId = userIdInput.value.trim();
+            const userIdLength = userId.length;
+
+            // Reset error message
+            userIdError.textContent = '';
+
+            // Validate the length
+            if (![8, 10, 12].includes(userIdLength)) {
+                userIdError.textContent = 'User ID must have a length of 8, 10, or 12 characters.';
+            }
         }
-      </script>
-      <script>
+    </script>
+    <script>
         // Get the input element and error message element
         const mobileNumberInput = document.getElementById('mobilenumber');
         const mobileNumberError = document.getElementById('mobilenumberError');
-      
+
         // Add event listener to validate input on keyup
         mobileNumberInput.addEventListener('keyup', validateMobileNumber);
-      
+
         function validateMobileNumber() {
-          const mobileNumber = mobileNumberInput.value.trim();
-      
-          // Reset error message
-          mobileNumberError.textContent = '';
-      
-          // Validate the length and first two numbers
-          if (mobileNumber.length !== 8 || !/^(77|17)/.test(mobileNumber)) {
-            mobileNumberError.textContent = 'Mobile number must have a length of 8 and start with 77 or 17.';
-          }
+            const mobileNumber = mobileNumberInput.value.trim();
+
+            // Reset error message
+            mobileNumberError.textContent = '';
+
+            // Validate the length and first two numbers
+            if (mobileNumber.length !== 8 || !/^(77|17)/.test(mobileNumber)) {
+                mobileNumberError.textContent = 'Mobile number must have a length of 8 and start with 77 or 17.';
+            }
         }
-      </script>
-      <script>
+    </script>
+    <script>
         // Get the input element and error message element
         const emailInput = document.getElementById('email');
         const emailError = document.getElementById('emailError');
-      
+
         // Add event listener to validate input on keyup
         emailInput.addEventListener('keyup', validateEmail);
-      
+
         function validateEmail() {
-          const email = emailInput.value.trim();
-      
-          // Reset error message
-          emailError.textContent = '';
-      
-          // Validate email format
-          const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailPattern.test(email)) {
-            emailError.textContent = 'Please enter a valid email address.';
-          }
+            const email = emailInput.value.trim();
+
+            // Reset error message
+            emailError.textContent = '';
+
+            // Validate email format
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                emailError.textContent = 'Please enter a valid email address.';
+            }
         }
-      </script>
+    </script>
 
 
     <script src="assets/js/jquery-3.6.0.min.js"></script>

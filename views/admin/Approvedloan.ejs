@@ -27,6 +27,20 @@
 
 
   <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+  <style>
+    @media (max-width: 576px) {
+
+      /* Breakpoint for mobile devices */
+      .row.justify-content-between {
+        flex-wrap: wrap;
+      }
+
+      .row.justify-content-between>div {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -124,19 +138,8 @@
               </ul>
             </li>
 
-            <li class="submenu active">
-              <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span class="menu-arrow"></span></a>
-
-              <ul>
-                <li><a class="active" href="/view-approved-loan">Approved Loan</a></li>
-                <li><a href="/ready-forcollect">Collect Loan</a></li>
-                <li><a href="/on_loanview">On Loan</a></li>
-                <li><a href="/viewoverdue">Overdue Loan</a></li>
-                <li><a href="/returnedloan_view">Returned Loan</a></li>
-
-
-
-              </ul>
+            <li class="active">
+              <a href="/view-approved-loan"><i class="fas fa-hand-holding"></i> <span> Loan</span> </a>
 
             </li>
 
@@ -147,13 +150,60 @@
 
 
     <div class="page-wrapper">
+      <div class="content container-fluid ">
+
+
+        <div class="d-flex flex-wrap justify-content-between" id="buttonGroup">
+          <div class="mb-3 mb-sm-0">
+            <h5 class="text-center">
+              <a href="view-approved-loan" class="btn btn-primary d-none d-sm-block">Approved Loan</a>
+            </h5>
+          </div>
+          <div class="mb-3 mb-sm-0">
+            <h5 class="text-center">
+              <a href="ready-forcollect" class="btn btn-outline-primary d-none d-sm-block">Collect Loan</a>
+            </h5>
+          </div>
+          <div class="mb-3 mb-sm-0">
+            <h5 class="text-center">
+              <a href="on_loanview" class="btn btn-outline-primary d-none d-sm-block">On Loan</a>
+            </h5>
+          </div>
+          <div class="mb-3 mb-sm-0">
+            <h5 class="text-center">
+              <a href="viewoverdue" class="btn btn-outline-primary d-none d-sm-block">Overdue Loan</a>
+            </h5>
+          </div>
+          <div class="mb-3 mb-sm-0">
+            <h5 class="text-center">
+              <a href="returnedloan_view" class="btn btn-outline-primary d-none d-sm-block">Return Loan</a>
+            </h5>
+          </div>
+        </div>
+
+        <div class="dropdown" id="buttonDropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Loan
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item active" href="view-approved-loan">Approved Loan</a></li>
+            <li><a class="dropdown-item" href="ready-forcollect">Collect Loan</a></li>
+            <li><a class="dropdown-item" href="on_loanview">On Loan</a></li>
+            <li><a class="dropdown-item" href="viewoverdue">Overdue Loan</a></li>
+            <li><a class="dropdown-item" href="returnedloan_view">Return Loan</a></li>
+          </ul>
+        </div>
+
+      </div>
+
       <div class="content container-fluid">
 
         <div class="page-header">
           <div class="row">
             <div class="col-sm-12">
               <div class="page-sub-header">
-                <h3 class="page-title">Manage Loan</h3>
+                <h4 class="page-title">Manage Loan</h4>
                 <ul class="breadcrumb"
                   style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
                   aria-label="breadcrumb">
@@ -263,7 +313,7 @@
   </div>
 
 
-
+  
 
 
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

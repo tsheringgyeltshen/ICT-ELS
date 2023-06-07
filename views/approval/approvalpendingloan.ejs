@@ -36,29 +36,29 @@
               <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
               <li class="nav-item"><a class="nav-link" href="/all-equipment">Equipment</a></li>
               <li class="nav-item active submenu dropdown">
-                <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Loan</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item">
-                    <a href="/personalloan" class="nav-link">Your Loan</a>
+                  <li class="nav-item ">
+                    <a href="/personalloan" class="nav-link active">Your Loan</a>
 
                   </li>
                   <div class="nav-item dropright">
-                    <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                        aria-haspopup="true" aria-expanded="false" id="loanDropdown">Pending
-                        Loan
-                        <i class="ti-angle-right" style="margin-left: 22.5px;"></i></a>
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                      aria-expanded="false" id="loanDropdown">Pending
+                      Loan
+                      <i class="ti-angle-right" style="margin-left: 22.5px;"></i></a>
 
                     <div class="dropdown-menu" aria-labelledby="loanDropdown">
-                        <div class="nav-item">
-                            <a class="dropdown-item" href="/view-req-loan">User</a>
-                        </div>
-                        <div class="nav-item">
-                            <a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
-                        </div>
+                      <div class="nav-item">
+                        <a class="dropdown-item" href="/view-req-loan">User</a>
+                      </div>
+                      <div class="nav-item">
+                        <a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
+                      </div>
                     </div>
 
-                </div>
+                  </div>
 
 
                 </ul>
@@ -76,16 +76,13 @@
                     <%= cartItemCount %>
                   </span></a> </li>
               <li class="nav-item submenu dropdown">
-
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false"> <img src="<%=users.image%>" class="rounded-circle" height="30" width="30"
                     alt="User Profile" loading="lazy" /></a>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="/approval-profile">My Profile</a>
                   <a class="dropdown-item" href="/logout">Logout</a>
-
                 </div>
-
               </li>
             </ul>
           </div>
@@ -94,7 +91,7 @@
     </div>
   </header>
   <!-- <div class="product_image_area"> -->
-  <div class="container">
+  <div class="container mt-3">
     <%- include('messages') %>
 
       <% if (typeof message !=='undefined' ) { %>
@@ -110,9 +107,9 @@
             <h4>Approval Pending Loan</h4>
             <table id="example" class="table table-striped table-bordered" style="width: 100%;">
               <thead class="student-thread">
-             
+
                 <tr>
-                  
+
                   <th>Username</th>
                   <th>User ID</th>
                   <th>Department</th>
@@ -207,9 +204,9 @@
   <!--================ End footer Area  =================-->
 
 
-  <!-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-  <!-- <script src="../assets/jquery/jquery-3.2.1.min.js"></script> -->
+  <script src="../assets/jquery/jquery-3.2.1.min.js"></script>
   <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="../assets/skrollr.min.js"></script>
 

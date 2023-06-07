@@ -12,6 +12,11 @@ body {
     overflow-x: hidden
 }
 
+.dropdown-menu .dropdown-item:hover {
+    background-color: #18aefa;
+    color: white;
+}
+
 h1,
 h2,
 h3,
