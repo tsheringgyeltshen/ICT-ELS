@@ -222,16 +222,22 @@
                                                     </td>
                                                     <td style="padding-top: 22px;">
                                                         <% if (loan.status==='pending' ) { %>
-                                                            <p class="badge bg-info badge">Pending</p>
+                                                            <p class="badge bg-info">Pending</p><br>                          
                                                             <% } else if (loan.status==='approved' ) { %>
-                                                                <p class="adge bg-success">Approved</p>
+                                                              <p class="badge bg-success">Approved</p>
+                                                              <% } else if (loan.status==='accept' ) { %>
+                                                                <p class="badge bg-primary">Accept Collect</p>
                                                                 <% } else if (loan.status==='rejected' ) { %>
-                                                                    <p class="badge bg-danger">Rejected</p>
-                                                                    <% } else if (loan.status==='onloan' ) { %>
-                                                                        <p class="badge bg-warning">On Loan</p>
-                                                                        <% } else if (loan.status==='returned' ) { %>
-                                                                            <p class="badge bg-primary">Returned</p>
-                                                                            <% } %>
+                                                                  <p class="badge bg-danger">Rejected</p>
+                                                                  <% } else if (loan.status==='onloan' ) { %>
+                                                                    <p class="badge bg-warning">On Loan</p>
+                                                                    <% } else if (loan.status==='returned' ) { %>
+                                                                      <p class="badge bg-primary">Returned</p>
+                                                                      <% } else if (loan.status==='collect' ) { %>
+                                                                        <p class="badge bg-info">Collect</p>
+                                                                        <% } else if (loan.status==='collect' ) { %>
+                                                                          <p class="badge bg-info">Collect</p>
+                                                                          <% } %>
                                                     </td>
                                                 </tr>
                                                 <% }); %>
