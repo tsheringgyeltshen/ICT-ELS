@@ -269,7 +269,7 @@
                                                     const returnDate = new Date(loan.return_date).toLocaleString("en-US", { timeZone: "Asia/Thimphu" });
                                                     const returnDateTimestamp = new Date(returnDate).getTime(); 
                                                     const timeDiff = returnDateTimestamp - todayTimestamp; 
-                                                    const diffDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                                                    const diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
                                                     const overdueDays = Math.max(0, diffDays); %>
                                                 <tr>
                                                     <td>
