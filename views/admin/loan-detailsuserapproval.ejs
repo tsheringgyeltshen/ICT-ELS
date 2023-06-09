@@ -4,24 +4,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-  <title>Approved Loan</title>
+  <title>Ready For Collection Loan</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
   <link rel="shortcut icon" href="../assets/img/logo-small.png">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
     rel="stylesheet">
+
   <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+
+
   <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
+
   <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
+
   <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
   <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+
+
   <link rel="stylesheet" href="../assets/css/style.css" type="text/css">
 </head>
 
 <body>
+
   <div class="main-wrapper">
 
     <div class="header">
@@ -32,7 +41,7 @@
           <img src="../assets/img/logo.png" alt="Logo">
         </a>
         <a href="/adminhome" class="logo logo-small">
-          <img src="assets/img/logo-small.png" alt="Logo" width="30" height="30">
+          <img src="../assets/img/logo-small.png" alt="Logo" width="30" height="30">
         </a>
       </div>
       <div class="menu-toggle">
@@ -40,10 +49,14 @@
           <i class="fas fa-bars"></i>
         </a>
       </div>
+
+
       <a class="mobile_btn" id="mobile_btn">
         <i class="fas fa-bars"></i>
       </a>
+
       <ul class="nav user-menu">
+
         <li class="nav-item dropdown has-arrow new-user-menus">
           <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
             <span class="user-img">
@@ -76,6 +89,8 @@
       </ul>
 
     </div>
+
+
     <div class="sidebar" id="sidebar">
       <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
@@ -85,6 +100,7 @@
             </li>
             <li>
               <a href="/adminhome"><i class="feather-grid"></i> <span> Dashboard</span></a>
+
             </li>
             <li class="submenu">
               <a href="#"><i class="fas fa-user"></i> <span> User</span> <span class="menu-arrow"></span></a>
@@ -92,6 +108,8 @@
                 <li><a href="/new-user">Add User</a></li>
                 <li><a href="/viewstudent">All User</a></li>
                 <!-- <li><a href="/viewstaff">Staff View</a></li> -->
+
+
               </ul>
             </li>
 
@@ -104,14 +122,19 @@
 
               </ul>
             </li>
-            <li>
+
+            <li class="active">
               <a href="/view-approved-loan"><i class="fas fa-hand-holding"></i> <span> Loan</span> </a>
 
-          </li>
+            </li>
+
           </ul>
         </div>
       </div>
     </div>
+
+
+  
     <div class="page-wrapper">
       <div class="content container-fluid">
 
@@ -173,7 +196,7 @@
                           <td>
                             <%=item.item.itemtag %>
                           </td>
-                          <td>                          
+                          <td>
                             <%=item.item.category.name %>
                           </td>
                         </tr>
@@ -185,15 +208,34 @@
           </div>
         </div>
       </div>
+
+
+
+
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="../assets/js/jquery-3.6.0.min.js"></script>
-    <script src="../ssets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/feather.min.js"></script>
-    <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="../assets/js/datatables-simple-demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-      crossorigin="anonymous"></script>
-    <script src="../assets/js/script.js"></script>
+
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <script src="../assets/js/jquery-3.6.0.min.js"></script>
+
+  <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <script src="../assets/js/feather.min.js"></script>
+
+  <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+
+  <!-- <script src="assets/plugins/datatables/datatables.min.js"></script> -->
+
+  <script src="../assets/js/datatables-simple-demo.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+    crossorigin="anonymous"></script>
+    <script src="../assets/js/loan.js"></script>
+  <script src="assets/js/script.js"></script>
 </body>
+
 </html>
