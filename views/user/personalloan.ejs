@@ -80,8 +80,8 @@
               <th>Username</th>
               <th>User ID</th>
               <th>Request Date</th>
-              <th>Return Date</th>
               <th>Collection Date</th>
+              <th>Return Date</th>
               <th>Status</th>
               <% if (userLoan.some(loan => loan.status === 'pending')) { %>
                 <th>Action</th>
@@ -110,17 +110,18 @@
                   <% } %>
                 </td>
                 <td style="padding-top: 22px;">
-                  <% if (loan.return_date) { %>
-                    <%= loan.return_date.toDateString() %>
-                  <% } %>
-                </td>
-                <td style="padding-top: 22px;">
                   <% if (loan.admin_collection_date) { %>
                     <%= loan.admin_collection_date.toDateString() %>
                   <% } else if (loan.status === 'pending' || loan.status === 'approved') { %>
                     To be determined
                   <% } %>
                 </td>
+                <td style="padding-top: 22px;">
+                  <% if (loan.return_date) { %>
+                    <%= loan.return_date.toDateString() %>
+                  <% } %>
+                </td>
+               
                 <td style="padding-top: 22px;">
                   <% if (loan.status === 'pending') { %>
                     <p class="badge bg-info">Pending</p>
