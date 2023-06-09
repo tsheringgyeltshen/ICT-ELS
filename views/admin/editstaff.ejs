@@ -153,7 +153,6 @@
                             </div>
                         </div>
                         <a class="dropdown-item" href="/adminprofile">My Profile</a>
-                        <!-- <a class="dropdown-item" href="inbox.html">Inbox</a> -->
                         <a class="dropdown-item" href="/logout">Logout</a>
                     </div>
                 </li>
@@ -339,6 +338,12 @@
                                                     <option value="ICT" <% if (users.department==="ICT" ) { %>selected<%
                                                             } %>
                                                             >ICT</option>
+
+                                                    <option value="nonteachingstaff" <% if
+                                                        (users.department==="nonteachingstaff" ) { %>selected<% } %>
+                                                            >Non-Teaching Staff</option>
+
+
                                                 </select>
                                             </div>
                                         </div>
