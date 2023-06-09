@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 
-  
+
   <link rel="stylesheet" href="assets/plugins/feather/feather.css">
 
   <link rel="stylesheet" href="assets/plugins/icons/flags/flags.css">
@@ -126,7 +126,7 @@
             <li>
               <a href="/view-approved-loan"><i class="fas fa-hand-holding"></i> <span> Loan</span> </a>
 
-          </li>
+            </li>
 
           </ul>
         </div>
@@ -192,9 +192,9 @@
                           <div class="form-group">
                             <select name="usertype" class="form-control">
                               <option value="">Select a role</option>
-                              <option value="User" <% if (usertype==="User" ) { %>selected<% }%>>user</option>
-                              <option value="Admin" <% if (usertype==="Admin" ) { %>selected<%} %>>admin</option>
-                              <option value="Approval" <% if (usertype==="Approval" ) { %>selected<% }%>>approval
+                              <option value="User" <% if (usertype==="User" ) { %>selected<% }%>>User</option>
+                              <option value="Admin" <% if (usertype==="Admin" ) { %>selected<%} %>>Admin</option>
+                              <option value="Approval" <% if (usertype==="Approval" ) { %>selected<% }%>>Approval
                               </option>
                             </select>
                           </div>
@@ -214,7 +214,8 @@
                               <option value="BScCS" <% if (department==="BScCS" ) { %>selected<% } %>>BScCS</option>
                               <option value="AI&DS" <% if (department==="AI&DS" ) { %>selected<% } %>>AI&DS</option>
                               <option value="ICT" <% if (department==="ICT" ) { %>selected<% } %>>ICT</option>
-                              <option value="nonteachingstaff" <% if (department==="nonteachingstaff" ) { %>selected<% } %>>Non-Teaching Staff</option>
+                              <option value="nonteachingstaff" <% if (department==="nonteachingstaff" ) { %>selected<% }
+                                  %>>Non-Teaching Staff</option>
                             </select>
                           </div>
                         </div>
@@ -327,7 +328,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
     crossorigin="anonymous"></script>
-  
+
   <script src="assets/js/script.js"></script>
 </body>
 
