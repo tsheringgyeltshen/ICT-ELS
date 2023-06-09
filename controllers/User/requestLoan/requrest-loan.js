@@ -381,7 +381,7 @@ exports.addToCartuserhome = async (req, res) => {
     if (item.available_items === 0) {
       req.flash('error_msg', "Equipment is on loan");
       req.session.save(() => {
-        return res.redirect('/userlhome');
+        return res.redirect('/userhome');
       });
       return; // Stop further execution
     }
