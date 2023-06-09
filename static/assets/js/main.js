@@ -79,10 +79,10 @@ $(function () {
     var windowHeight = $(window).height();
     var threshold = windowHeight * 0.3;
 
-    if (scroll >= threshold){
+    if (scroll >= threshold) {
       sticky.addClass('fixed');
     }
-    else{
+    else {
       sticky.removeClass('fixed');
     }
   });
@@ -154,7 +154,15 @@ $(document).ready(function () {
     }
   });
 });
-
+$(document).ready(function () {
+  $(".description-toggle").click(function (e) {
+    e.preventDefault();
+    $(".description-more").toggleClass("show");
+    $(this).text(function (_, text) {
+      return text === "See More" ? "See Less" : "See More";
+    });
+  });
+});
 
 
 

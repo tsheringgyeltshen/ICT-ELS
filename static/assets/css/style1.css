@@ -4765,9 +4765,20 @@ a {
 
 .footer-bottom {
     background: rgba(0, 35, 71, 0.980392);
-    padding: 32px;
+    padding: 15px;
 
 
+}
+.description-more {
+    display: none;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
 }
 
 .footer-bottom .footer-text {
