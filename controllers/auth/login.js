@@ -142,10 +142,6 @@ exports.postForgetPassword = async (req, res) => {
         const userData = await Users.findOne({email });
         if (userData) {
 
-            //email verifiied or not
-            // if (userData.is_verified === false) {
-            //     res.render('forget', { message: "Please verify your email" });
-            // }
             if(userData) {
                 const randomstring = randomString.generate();
                 const updatedData = await Users.updateOne({email }, { $set: { token: randomstring } });
@@ -174,7 +170,6 @@ exports. getForgetPasswordLoad= async (req, res) => {
         const tokenData = await Users.findOne({ token: token });
         if (tokenData) {
            res.render('user/forget-password', { user_id: tokenData._id });
-            // res.send({ user_id: tokenData._id })
 
         }
         else {
@@ -206,16 +201,3 @@ exports. postForgetPasswordLoad = async (req, res) => {
     }
 }
 
-// exports. userLogout = async (req, res) => {
-//     try {
-
-//         req.session.destroy();
-//         res.redirect('/');
-
-
-//     } catch (error) {
-
-//         console.log(error.message);
-
-//     }
-// }

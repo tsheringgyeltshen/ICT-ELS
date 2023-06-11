@@ -183,6 +183,20 @@ a {
     color: #384aeb
 }
 
+@media (max-width: 992px) {
+    .dropdown-dropright .dropdown-menu {
+        display: block !important;
+        position: static !important;
+        margin-top: 0;
+        min-width: 100%;
+        white-space: normal;
+    }
+
+    .dropdown-dropright .dropdown-menu>.nav-item {
+        display: block;
+        text-align: left;
+    }
+}
 
 .header_area .navbar .nav .nav-item.submenu {
     position: relative
@@ -4770,6 +4784,7 @@ a {
 
 
 }
+
 .description-more {
     display: none;
 }

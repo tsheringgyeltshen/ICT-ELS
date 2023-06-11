@@ -45,13 +45,12 @@
 								<ul class="dropdown-menu">
 									<li class="nav-item">
 										<a href="/personalloan" class="nav-link">Your Loan</a>
-
 									</li>
-									<div class="nav-item dropright">
+									<div class="nav-item dropright dropdown-dropright">
 										<a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-											aria-haspopup="true" aria-expanded="false" id="loanDropdown">Pending
-											Loan
-											<i class="ti-angle-right" style="margin-left: 22.5px;"></i></a>
+											aria-haspopup="true" aria-expanded="false" id="loanDropdown">Pending Loan
+											<i class="ti-angle-right" style="margin-left: 22.5px;"></i>
+										</a>
 
 										<div class="dropdown-menu" aria-labelledby="loanDropdown">
 											<div class="nav-item">
@@ -61,12 +60,8 @@
 												<a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
 											</div>
 										</div>
-
 									</div>
-
-
 								</ul>
-
 							</li>
 							<li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
@@ -74,11 +69,11 @@
 
 						<ul class="nav-shop">
 							<li class="nav-item cartnav"><a href="/cart1"><i class="ti-shopping-cart"
-								style="font-size: large;"></i> <span
-								class="position-relative start-100 translate-middle badge rounded-pill bg-danger <%= cartItemCount > 0 ? ' active' : '' %>"
-								style="color: #fff; top: -10px; font-size: smaller; right: 7px;">
-								<%= cartItemCount %>
-							</span></a> </li>
+										style="font-size: large;"></i> <span
+										class="position-relative start-100 translate-middle badge rounded-pill bg-danger <%= cartItemCount > 0 ? ' active' : '' %>"
+										style="color: #fff; top: -10px; font-size: smaller; right: 7px;">
+										<%= cartItemCount %>
+									</span></a> </li>
 
 							<!-- <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li> -->
 							<li class="nav-item submenu dropdown">
@@ -120,12 +115,13 @@
 					</span><br>
 					<span>
 						Category:
-							<%= item.category.name %>
-						
-						<!-- <li><a href="#"><span>Available</span>: <%= item.available_items %></a></li> -->
+						<%= item.category.name %>
+
+							<!-- <li><a href="#"><span>Available</span>: <%= item.available_items %></a></li> -->
 
 					</span><br>
-					<span class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-warning<% } %>">
+					<span
+						class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-warning<% } %>">
 						<% if (item.available_items===1) { %>
 							Available
 							<% } else if (item.available_items===0) { %>

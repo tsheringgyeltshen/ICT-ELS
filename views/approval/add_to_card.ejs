@@ -44,13 +44,12 @@
                 <ul class="dropdown-menu">
                   <li class="nav-item">
                     <a href="/personalloan" class="nav-link">Your Loan</a>
-
                   </li>
-                  <div class="nav-item dropright">
+                  <div class="nav-item dropright dropdown-dropright">
                     <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                      aria-expanded="false" id="loanDropdown">Pending
-                      Loan
-                      <i class="ti-angle-right" style="margin-left: 22.5px;"></i></a>
+                      aria-expanded="false" id="loanDropdown">Pending Loan
+                      <i class="ti-angle-right" style="margin-left: 22.5px;"></i>
+                    </a>
 
                     <div class="dropdown-menu" aria-labelledby="loanDropdown">
                       <div class="nav-item">
@@ -60,12 +59,8 @@
                         <a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
                       </div>
                     </div>
-
                   </div>
-
-
                 </ul>
-
               </li>
               <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
@@ -181,8 +176,7 @@
 
                               <label for="return_date">Return Date:</label>
                               <input type="date" class="form-control col-lg-4" name="return_date" min="<%= today%>"
-                                required   oninput="disableWeekends(event.target)"
-                                >
+                                required oninput="disableWeekends(event.target)">
                           </div>
                         </td>
                       </tr>
@@ -233,7 +227,7 @@
     function disableWeekends(input) {
       const selectedDate = new Date(input.value);
       const day = selectedDate.getDay(); // 0 (Sunday) to 6 (Saturday)
-  
+
       if (day === 0 || day === 6) {
         // Disable selection on weekends
         input.setCustomValidity('Please select a weekday for the return date.');
