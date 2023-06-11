@@ -39,7 +39,10 @@
                             <li class="nav-item"><a class="nav-link" href="/all-equipment">Equipment</a></li>
                             <li class="nav-item submenu dropdown">
                                 <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                    aria-haspopup="true" aria-expanded="false">Loan</a>
+                                    aria-haspopup="true" aria-expanded="false">Loan<span class="badge badge-danger">
+                                        <!-- Display the pending loan count here -->
+                                        <%= pendingLoansCount + pendingapprovalLoanCount %>
+                                    </span></a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item">
                                         <a href="/personalloan" class="nav-link">Your Loan</a>
@@ -52,10 +55,17 @@
 
                                         <div class="dropdown-menu" aria-labelledby="loanDropdown">
                                             <div class="nav-item">
-                                                <a class="dropdown-item" href="/view-req-loan">User</a>
+                                                <a class="dropdown-item" href="/view-req-loan">User<span
+                                                        class="badge badge-danger">
+                                                        <!-- Display the pending loan count here -->
+                                                        <%= pendingLoansCount %>
+                                                    </span></a>
                                             </div>
                                             <div class="nav-item">
-                                                <a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
+                                                <a class="dropdown-item" href="/viewapproval-req-loan">Approval<span
+                                                        class="badge badge-danger">
+                                                        <%= pendingapprovalLoanCount %>
+                                                    </span></a>
                                             </div>
                                         </div>
                                     </div>

@@ -35,29 +35,46 @@
               <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
               <li class="nav-item"><a class="nav-link" href="/all-equipment">Equipment</a></li>
               <li class="nav-item active submenu dropdown">
-                <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false">Loan</a>
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">
+                  Loan<span class="badge badge-danger">
+                    <!-- Display the pending loan count here -->
+                    <%= pendingLoansCount + pendingapprovalLoanCount %>
+                  </span>
+                </a>
                 <ul class="dropdown-menu">
-                    <li class="nav-item">
-                        <a href="/personalloan" class="nav-link">Your Loan</a>
-                    </li>
-                    <div class="nav-item dropright dropdown-dropright">
-                        <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                            aria-haspopup="true" aria-expanded="false" id="loanDropdown">Pending Loan
-                            <i class="ti-angle-right" style="margin-left: 22.5px;"></i>
-                        </a>
+                  <li class="nav-item">
+                    <a href="/personalloan" class="nav-link">Your Loan</a>
+                  </li>
+                  <div class="nav-item dropright dropdown-dropright">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                      aria-haspopup="true" aria-expanded="false" id="loanDropdown">
+                      Pending Loan
 
-                        <div class="dropdown-menu" aria-labelledby="loanDropdown">
-                            <div class="nav-item">
-                                <a class="dropdown-item" href="/view-req-loan">User</a>
-                            </div>
-                            <div class="nav-item">
-                                <a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
-                            </div>
-                        </div>
+                      <i class="ti-angle-right" style="margin-left: 22.5px;"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="loanDropdown">
+                      <div class="nav-item">
+                        <a class="dropdown-item" href="/view-req-loan">
+                          User<span class="badge badge-danger">
+                            <!-- Display the pending loan count here -->
+                            <%= pendingLoansCount %>
+                          </span>
+                        </a>
+                      </div>
+                      <div class="nav-item">
+                        <a class="dropdown-item" href="/viewapproval-req-loan">
+                          Approval<span class="badge badge-danger">
+                            <%= pendingapprovalLoanCount %>
+                          </span>
+                        </a>
+                      </div>
                     </div>
+                  </div>
                 </ul>
-            </li>
+              </li>
+
+
               <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
             </ul>
@@ -87,7 +104,6 @@
       </nav>
     </div>
   </header>
-  <!-- <div class="product_image_area"> -->
   <div class="container mt-3">
     <%- include('messages') %>
 
@@ -117,28 +133,19 @@
               <tbody>
                 <% if (loanRequests.length===0) { %>
 
-                  <!-- <p style="text-align: center;"> >No loan request</p> -->
-
                   <% } else { %>
                     <% loanRequests.forEach((loanRequest)=> { %>
                       <tr>
                         <td>
-                          <!-- <div class="media align-items-center"> -->
-                          <!-- <div class="avatar avatar-sm me-2"> -->
+
                           <a href="/loan-detailsapproval/<%= loanRequest._id %>">
                             <img class="rounded-circle" src="<%= loanRequest.user_id.image %>" alt="User Image"
                               style="max-width: 50px; max-height: 50px;"></a>
-                          <!-- </div> -->
-                          <!-- <a href="/loan-detailsapproval/<%= loanRequest._id %>" class="avatar avatar-sm mr-2">
-                              <img class="avatar-img rounded-circle" src="<%= loanRequest.user_id.image %>"
-                                alt="User Image" style="max-width: 50px;">
-                            </a> -->
-                          <!-- <div class="media-body ml-2"> -->
+
                           <a href="/loan-detailsapproval/<%= loanRequest._id %>" style="color: black;">
                             <%= loanRequest.user_id.name %>
                           </a>
-                          <!-- </div> -->
-                          <!-- </div> -->
+
                         </td>
                         <td class="pt-4">
 
@@ -236,7 +243,7 @@
 
 
   </script>
- 
+
 
 
 

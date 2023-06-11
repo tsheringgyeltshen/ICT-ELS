@@ -15,11 +15,14 @@ exports.viewLoanRequests = async (req, res) => {
 
   if (req.user.userData.usertype !== "Approval") {
     req.flash('error_msg', 'You are not authorized');
-
     return res.redirect('/');
   }
+
   try {
     const approvalDepartment = req.user.userData.department;
+    let pendingapprovalLoanCount = 0; // Variable to store the count of pending loans
+
+    // Find the pending loan requests for the current approval user's department
     const loanRequests = await loan
       .find({ status: "pending" })
       .populate({
@@ -34,11 +37,19 @@ exports.viewLoanRequests = async (req, res) => {
       .select("items status return_date request_date")
       .exec();
 
+    // Count the number of pending loans for the current approval user
+    const pendingLoansCount = loanRequests.filter((loanRequest) => loanRequest.user_id).length;
+    pendingapprovalLoanCount = await loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
+
     const currentUserData = req.user.userData;
     return res.render("approval/pendingloan", {
       loanRequests: loanRequests.filter((loanRequest) => loanRequest.user_id),
-      currentUserData, cartItemCount: cart ? cart.items.length : 0,
+      currentUserData,
+      cartItemCount: cart ? cart.items.length : 0,
       users,
+      pendingLoansCount: pendingLoansCount,
+      pendingapprovalLoanCount // Pass the pendingLoanCount variable to the view
+
     });
   } catch (error) {
     console.error(error);
@@ -51,15 +62,29 @@ exports.viewapprovalLoanRequests = async (req, res) => {
   try {
     if (req.user.userData.usertype !== "Approval") {
       req.flash('error_msg', 'You are not authorized');
-
       return res.redirect('/');
     }
+
     const currentUserData = req.user.userData;
     const userId = req.user.userData._id;
     const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
-
     const approvalDepartment = currentUserData.department;
-    console.log(approvalDepartment);
+
+    let pendingapprovalLoanCount = 0;
+    const userloanRequests = await loan
+      .find({ status: "pending" })
+      .populate({
+        path: "user_id",
+        select: "name department year usertype userid image",
+        match: { department: approvalDepartment, usertype: "User" },
+      })
+      .populate({
+        path: "items.item",
+        select: "name available_items",
+      })
+      .select("items status return_date request_date")
+      .exec();// Variable to store the count of pending loans
+
     const loanRequests = await loan
       .find({
         $or: [
@@ -67,24 +92,25 @@ exports.viewapprovalLoanRequests = async (req, res) => {
             status: "pending",
             approval: userId
           },
-
         ]
       })
       .populate("user_id", "name userid department year usertype image")
       .populate("items.item", "name available_items")
       .select("items status return_date request_date approval")
       .exec();
-
-
-
+    const pendingLoansCount = userloanRequests.filter((userloanRequests) => userloanRequests.user_id).length;
+    pendingapprovalLoanCount = await loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
 
     const users = await User.findById(userId);
-    console.log(loanRequests)
+    console.log(loanRequests);
 
     return res.render("approval/approvalpendingloan", {
       loanRequests,
       users,
-      currentUserData, cartItemCount: cart ? cart.items.length : 0
+      currentUserData,
+      cartItemCount: cart ? cart.items.length : 0,
+      pendingLoansCount: pendingLoansCount,
+      pendingapprovalLoanCount // Pass the pendingLoanCount variable to the view
     });
 
   } catch (error) {
@@ -92,7 +118,6 @@ exports.viewapprovalLoanRequests = async (req, res) => {
     return res.status(500).json({ error: "Server error" });
   }
 };
-
 
 
 exports.viewuserloandetail = async (req, res) => {
@@ -104,9 +129,41 @@ exports.viewuserloandetail = async (req, res) => {
     }
     const loanId = req.params.loanId;
     const userId = req.user.userData._id;
+    const currentUserData = req.user.userData;
     const users = await User.findById(userId);
     const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+    const approvalDepartment = currentUserData.department;
 
+    let pendingapprovalLoanCount = 0;
+    const userloanRequests = await loan
+      .find({ status: "pending" })
+      .populate({
+        path: "user_id",
+        select: "name department year usertype userid image",
+        match: { department: approvalDepartment, usertype: "User" },
+      })
+      .populate({
+        path: "items.item",
+        select: "name available_items",
+      })
+      .select("items status return_date request_date")
+      .exec();// Variable to store the count of pending loans
+
+    const loanRequests = await loan
+      .find({
+        $or: [
+          {
+            status: "pending",
+            approval: userId
+          },
+        ]
+      })
+      .populate("user_id", "name userid department year usertype image")
+      .populate("items.item", "name available_items")
+      .select("items status return_date request_date approval")
+      .exec();
+    const pendingLoansCount = userloanRequests.filter((userloanRequests) => userloanRequests.user_id).length;
+    pendingapprovalLoanCount = await loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
 
     // Retrieve the loan details using the loanId
     const loanDetails = await loan.findById(loanId)
@@ -119,7 +176,10 @@ exports.viewuserloandetail = async (req, res) => {
     }
 
     // Render the loan details page with the loanDetails data
-    return res.render('approval/loan-detailsapproval', { loanDetails, users, cartItemCount: cart ? cart.items.length : 0 });
+    return res.render('approval/loan-detailsapproval', {
+      loanDetails, users, cartItemCount: cart ? cart.items.length : 0, pendingLoansCount: pendingLoansCount,
+      pendingapprovalLoanCount
+    });
   } catch (error) {
     // Handle errors
     return res.status(500).render('error', { message: 'Server Error' });
@@ -134,25 +194,6 @@ exports.manageLoanRequest = async (req, res) => {
     return res.redirect('/');
   }
   const userId = req.user.userData._id;
-  const users = await User.findById(userId);
-  const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
-  const approvalDepartment = req.user.userData.department;
-
-  const loanRequests = await loan
-    .find({
-      status: "pending",
-    })
-    .populate("user_id", "name department year usertype")
-    .populate({
-      path: "user_id",
-      select: "name department year usertype image",
-      match: { department: approvalDepartment, usertype: "User" },
-    })
-    .populate("items.item", "name available_items")
-    .select("items.item status return_date request_date")
-    .exec();
-
-  const currentUserData = req.user.userData;
 
   var transporter = nodemailer.createTransport({
     service: "gmail",
@@ -175,12 +216,8 @@ exports.manageLoanRequest = async (req, res) => {
   const Items = await item.find({ _id: { $in: itemIds } });
 
   if (!Items) {
-    return res.render("approval/pendingloan", {
-      loanRequests,
-      currentUserData,
-      users, cartItemCount: cart ? cart.items.length : 0,
-      message: "Item is not available",
-    });
+    req.flash('error_msg', 'Item not available');
+    return res.redirect('/view-req-loan');
   }
 
   let insufficientStock = false;
@@ -210,13 +247,9 @@ exports.manageLoanRequest = async (req, res) => {
   }
 
   if (insufficientStock) {
-    return res.render("approval/pendingloan", {
-      loanRequests,
-      users,
-      currentUserData,
-      users, cartItemCount: cart ? cart.items.length : 0,
-      message: "Insufficient stock or quantity, the item is on loan.",
-    });
+    req.flash('error_msg', 'Insufficient stock or quantity, the item is on loan.');
+    return res.redirect('/view-req-loan');
+
   }
 
   try {
@@ -317,13 +350,8 @@ exports.manageapprovalLoanRequest = async (req, res) => {
   const Items = await item.find({ _id: { $in: itemIds } });
 
   if (!Items) {
-    return res.render("approval/approvalpendingloan", {
-      loanRequests,
-      currentUserData,
-      users, users, cartItemCount: cart ? cart.items.length : 0,
-
-      message: "Item is not available",
-    });
+    req.flash('error_msg', 'Equipment not found');
+    return res.redirect('/viewapproval-req-loan');
   }
 
   let insufficientStock = false;
@@ -353,12 +381,8 @@ exports.manageapprovalLoanRequest = async (req, res) => {
   }
 
   if (insufficientStock) {
-    return res.render("approval/approvalpendingloan", {
-      loanRequests,
-      users, users, cartItemCount: cart ? cart.items.length : 0,
-      currentUserData,
-      message: "Insufficient stock or quantity, the item is on loan.",
-    });
+    req.flash('error_msg', 'Insufficient stock or quantity, the item is on loan.');
+    return res.redirect('/viewapproval-req-loan');
   }
 
   try {
@@ -497,6 +521,27 @@ exports.getLoanRequests = async (req, res) => {
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
     const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+    const currentUserData = req.user.userData;
+    const approvalDepartment = currentUserData.department;
+
+    let pendingapprovalLoanCount = 0;
+    const userloanRequests = await loan
+      .find({ status: "pending" })
+      .populate({
+        path: "user_id",
+        select: "name department year usertype userid image",
+        match: { department: approvalDepartment, usertype: "User" },
+      })
+      .populate({
+        path: "items.item",
+        select: "name available_items",
+      })
+      .select("items status return_date request_date")
+      .exec();// Variable to store the count of pending loans
+
+
+    const pendingLoansCount = userloanRequests.filter((userloanRequests) => userloanRequests.user_id).length;
+    pendingapprovalLoanCount = await loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
 
     // Retrieve the loan details using the loanId
     const userLoan = await loan
@@ -552,7 +597,11 @@ exports.getLoanRequests = async (req, res) => {
     }
 
     // Render the loan details page with the loanDetails data
-    return res.render('approval/personalapprovalloan', { userLoan, users, users, cartItemCount: cart ? cart.items.length : 0 });
+    return res.render('approval/personalapprovalloan', {
+      userLoan, users, users, pendingLoansCount: pendingLoansCount,
+      pendingapprovalLoanCount,
+      cartItemCount: cart ? cart.items.length : 0
+    });
   } catch (error) {
     // Handle errors
     console.log(error.message);
@@ -574,7 +623,39 @@ exports.viewapprovalloandetail = async (req, res) => {
     const userId = req.user.userData._id;
     const users = await User.findById(userId);
     const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+    const currentUserData = req.user.userData;
+    const approvalDepartment = currentUserData.department;
 
+    let pendingapprovalLoanCount = 0;
+    const userloanRequests = await loan
+      .find({ status: "pending" })
+      .populate({
+        path: "user_id",
+        select: "name department year usertype userid image",
+        match: { department: approvalDepartment, usertype: "User" },
+      })
+      .populate({
+        path: "items.item",
+        select: "name available_items",
+      })
+      .select("items status return_date request_date")
+      .exec();// Variable to store the count of pending loans
+
+    const loanRequests = await loan
+      .find({
+        $or: [
+          {
+            status: "pending",
+            approval: userId
+          },
+        ]
+      })
+      .populate("user_id", "name userid department year usertype image")
+      .populate("items.item", "name available_items")
+      .select("items status return_date request_date approval")
+      .exec();
+    const pendingLoansCount = userloanRequests.filter((userloanRequests) => userloanRequests.user_id).length;
+    pendingapprovalLoanCount = await loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
     // Retrieve the loan details using the loanId
     const loanDetails = await loan.findById(loanId)
       .populate("user_id", "name department usertype userid image")
@@ -593,7 +674,11 @@ exports.viewapprovalloandetail = async (req, res) => {
     const acceptItems = loanDetails.status === 'accept' ? loanDetails.items : [];
 
     // Render the loan details page with the loanDetails data and acceptItems
-    return res.render('approval/approvalloandetail', { loanDetails, acceptItems, users, cartItemCount: cart ? cart.items.length : 0 });
+    return res.render('approval/approvalloandetail', {
+      pendingLoansCount: pendingLoansCount,
+      pendingapprovalLoanCount,
+      loanDetails, acceptItems, users, cartItemCount: cart ? cart.items.length : 0
+    });
   } catch (error) {
     // Handle errors
     return res.status(500).render('error', { message: 'Server Error' });

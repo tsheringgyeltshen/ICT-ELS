@@ -16,12 +16,33 @@ exports.loanRequestPage = async (req, res) => {
     const user = await Users.findById(userId);
     const item_id = req.params.id;
     const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+    const currentUserData = req.user.userData;
+    const approvalDepartment = currentUserData.department;
 
+    let pendingapprovalLoanCount = 0;
+    const userloanRequests = await Loan
+        .find({ status: "pending" })
+        .populate({
+            path: "user_id",
+            select: "name department year usertype userid image",
+            match: { department: approvalDepartment, usertype: "User" },
+        })
+        .populate({
+            path: "items.item",
+            select: "name available_items",
+        })
+        .select("items status return_date request_date")
+        .exec();// Variable to store the count of pending loans
+
+    
+    const pendingLoansCount = userloanRequests.filter((userloanRequests) => userloanRequests.user_id).length;
+    pendingapprovalLoanCount = await Loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
     // Filter out the current user from the approvals
     const filteredApprovals = approvals.filter(approval => String(approval._id) !== String(userId));
 
     const item = await Item.findById(item_id).populate('category', 'name');
-    return res.render('approval/loan', { item, user, message: null, approvals: filteredApprovals, cartItemCount: cart ? cart.items.length : 0 });
+    return res.render('approval/loan', { item, user, message: null, approvals: filteredApprovals, cartItemCount: cart ? cart.items.length : 0,pendingLoansCount: pendingLoansCount,
+      pendingapprovalLoanCount });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ message: "Server error" });
@@ -57,9 +78,6 @@ exports.requestLoan = async (req, res) => {
       }]
     });
 
-    // item.available_items -= 1;
-    // await item.save();
-
     await loan.save();
 
     req.flash("success_msg", "Loan request successfully submitted. Check your loan section for more information.");
@@ -69,43 +87,6 @@ exports.requestLoan = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
-
-exports.getLoanRequests = async (req, res) => {
-  try {
-    if (req.user.userData.usertype !== "Approval") {
-      req.flash('error_msg', 'You are not authorized');
-
-      return res.redirect('/');
-    }
-
-    const user_id = req.user.userData._id;
-    const users = await Users.findById(user_id);
-
-    const cart = await Cart.findOne({ user: user_id }).populate('items.item').populate('items.category', 'name');
-    const loans = await Loan.find({ user_id }).populate('item').sort({ request_date: -1 });
-
-    const loanObjects = loans.map(loan => {
-      const { name } = loan.item;
-      const { quantity, return_date, status, admin_collection_date, request_date } = loan;
-      return {
-        itemName: name,
-        quantity,
-        requestDate: request_date,
-        returnDate: return_date,
-        status,
-        collectionDate: admin_collection_date || "To be determined",
-      };
-    });
-
-    return res.render('approval/personalapprovalloan', { loans: loanObjects, users, cartItemCount: cart ? cart.items.length : 0 });
-
-  } catch (error) {
-    console.error(error.message);
-    return res.status(500).json({ message: "Server error" });
-  }
-};
-
-
 
 
 
@@ -241,7 +222,27 @@ exports.getCart = async (req, res) => {
     console.log(userId);
     const users = await Users.findById(userId);
     const approval = await Users.find({ usertype: 'Approval' });
+    const currentUserData = req.user.userData;
+    const approvalDepartment = currentUserData.department;
 
+    let pendingapprovalLoanCount = 0;
+    const userloanRequests = await Loan
+        .find({ status: "pending" })
+        .populate({
+            path: "user_id",
+            select: "name department year usertype userid image",
+            match: { department: approvalDepartment, usertype: "User" },
+        })
+        .populate({
+            path: "items.item",
+            select: "name available_items",
+        })
+        .select("items status return_date request_date")
+        .exec();// Variable to store the count of pending loans
+
+    
+    const pendingLoansCount = userloanRequests.filter((userloanRequests) => userloanRequests.user_id).length;
+    pendingapprovalLoanCount = await Loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
     const filteredApprovals = approval.filter(approval => String(approval._id) !== String(userId));
 
     const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
@@ -250,7 +251,8 @@ exports.getCart = async (req, res) => {
         approval,
         cartItemCount: 0, // Set cart item count to 0 if cart is null
         cart: null, // Set cart to null
-        users,
+        users,pendingLoansCount: pendingLoansCount,
+        pendingapprovalLoanCount,
         user: req.user.userData,
         message: 'Item successfully added to cart',
       });
@@ -275,7 +277,8 @@ exports.getCart = async (req, res) => {
     return res.render('approval/add_to_card', {
       approvals: filteredApprovals,
       cart: cartData,
-      users,
+      users,pendingLoansCount: pendingLoansCount,
+      pendingapprovalLoanCount,
       user: req.user.userData,
       message: 'Item successfully added to cart',
       cartItemCount: cart ? cart.items.length : 0

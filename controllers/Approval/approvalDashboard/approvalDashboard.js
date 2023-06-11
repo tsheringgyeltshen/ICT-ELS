@@ -2,6 +2,7 @@ const Item = require("../../../models/item");
 const Users = require("../../../models/userModel");
 const Category = require("../../../models/Category");
 const cloudinary = require('cloudinary').v2;
+const loan = require("../../../models/loan");
 const mongoose = require('mongoose');
 const fs = require('fs');
 const { request } = require("http");
@@ -18,6 +19,39 @@ exports.getapprovalHome = async (req, res) => {
         const userId = req.user.userData._id;
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
+        const currentUserData = req.user.userData;
+        const approvalDepartment = currentUserData.department;
+
+        let pendingapprovalLoanCount = 0;
+        const userloanRequests = await loan
+            .find({ status: "pending" })
+            .populate({
+                path: "user_id",
+                select: "name department year usertype userid image",
+                match: { department: approvalDepartment, usertype: "User" },
+            })
+            .populate({
+                path: "items.item",
+                select: "name available_items",
+            })
+            .select("items status return_date request_date")
+            .exec();// Variable to store the count of pending loans
+
+        const loanRequests = await loan
+            .find({
+                $or: [
+                    {
+                        status: "pending",
+                        approval: userId
+                    },
+                ]
+            })
+            .populate("user_id", "name userid department year usertype image")
+            .populate("items.item", "name available_items")
+            .select("items status return_date request_date approval")
+            .exec();
+        const pendingLoansCount = userloanRequests.filter((userloanRequests) => userloanRequests.user_id).length;
+        pendingapprovalLoanCount = await loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
 
         console.log(req.user.userData._id);
         const cardsPerPage = 12;
@@ -28,7 +62,8 @@ exports.getapprovalHome = async (req, res) => {
 
         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
         res.render('../views/approval/approvalhome', {
-            cardsPerPage: cardsPerPage, currentPage: currentPage, cartItemCount: cart ? cart.items.length : 0,
+            cardsPerPage: cardsPerPage, currentPage: currentPage, cartItemCount: cart ? cart.items.length : 0, pendingLoansCount: pendingLoansCount,
+            pendingapprovalLoanCount,
 
             user, items,
         });
@@ -52,7 +87,45 @@ exports.getUserProfileLoad = async (req, res) => {
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
         const userData = await Users.findById(userId);
-        return res.render('approval/approvalprofile', { approval: userData, cartItemCount: cart ? cart.items.length : 0 });
+
+        const currentUserData = req.user.userData;
+        const approvalDepartment = currentUserData.department;
+
+        let pendingapprovalLoanCount = 0;
+        const userloanRequests = await loan
+            .find({ status: "pending" })
+            .populate({
+                path: "user_id",
+                select: "name department year usertype userid image",
+                match: { department: approvalDepartment, usertype: "User" },
+            })
+            .populate({
+                path: "items.item",
+                select: "name available_items",
+            })
+            .select("items status return_date request_date")
+            .exec();// Variable to store the count of pending loans
+
+        const loanRequests = await loan
+            .find({
+                $or: [
+                    {
+                        status: "pending",
+                        approval: userId
+                    },
+                ]
+            })
+            .populate("user_id", "name userid department year usertype image")
+            .populate("items.item", "name available_items")
+            .select("items status return_date request_date approval")
+            .exec();
+        const pendingLoansCount = userloanRequests.filter((userloanRequests) => userloanRequests.user_id).length;
+        pendingapprovalLoanCount = await loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
+
+        return res.render('approval/approvalprofile', {
+            approval: userData, cartItemCount: cart ? cart.items.length : 0, pendingLoansCount: pendingLoansCount,
+            pendingapprovalLoanCount
+        });
 
 
     } catch (error) {
@@ -131,10 +204,47 @@ exports.viewaboutus = async (req, res) => {
 
         const userId = req.user.userData._id;
         const users = await Users.findById(userId);
+        const currentUserData = req.user.userData;
+        const approvalDepartment = currentUserData.department;
+
+        let pendingapprovalLoanCount = 0;
+        const userloanRequests = await loan
+            .find({ status: "pending" })
+            .populate({
+                path: "user_id",
+                select: "name department year usertype userid image",
+                match: { department: approvalDepartment, usertype: "User" },
+            })
+            .populate({
+                path: "items.item",
+                select: "name available_items",
+            })
+            .select("items status return_date request_date")
+            .exec();// Variable to store the count of pending loans
+
+        const loanRequests = await loan
+            .find({
+                $or: [
+                    {
+                        status: "pending",
+                        approval: userId
+                    },
+                ]
+            })
+            .populate("user_id", "name userid department year usertype image")
+            .populate("items.item", "name available_items")
+            .select("items status return_date request_date approval")
+            .exec();
+        const pendingLoansCount = userloanRequests.filter((userloanRequests) => userloanRequests.user_id).length;
+        pendingapprovalLoanCount = await loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
+
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
 
 
-        res.render('approval/ABOUTUS', { users, cartItemCount: cart ? cart.items.length : 0 });
+        res.render('approval/ABOUTUS', {
+            users, cartItemCount: cart ? cart.items.length : 0, pendingLoansCount: pendingLoansCount,
+            pendingapprovalLoanCount
+        });
 
 
     } catch (error) {
@@ -153,6 +263,41 @@ exports.viewAllitems = async (req, res) => {
             return res.redirect('/');
         }
         const userId = req.user.userData._id;
+        const currentUserData = req.user.userData;
+        const approvalDepartment = currentUserData.department;
+
+        let pendingapprovalLoanCount = 0;
+        const userloanRequests = await loan
+            .find({ status: "pending" })
+            .populate({
+                path: "user_id",
+                select: "name department year usertype userid image",
+                match: { department: approvalDepartment, usertype: "User" },
+            })
+            .populate({
+                path: "items.item",
+                select: "name available_items",
+            })
+            .select("items status return_date request_date")
+            .exec();// Variable to store the count of pending loans
+
+        const loanRequests = await loan
+            .find({
+                $or: [
+                    {
+                        status: "pending",
+                        approval: userId
+                    },
+                ]
+            })
+            .populate("user_id", "name userid department year usertype image")
+            .populate("items.item", "name available_items")
+            .select("items status return_date request_date approval")
+            .exec();
+        const pendingLoansCount = userloanRequests.filter((userloanRequests) => userloanRequests.user_id).length;
+        pendingapprovalLoanCount = await loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
+
+
         const userData = await Users.findById(userId);
         const categories = await Category.find();
         const cardsPerPage = 9;
@@ -173,13 +318,17 @@ exports.viewAllitems = async (req, res) => {
             );
         }
 
-        return res.render('approval/approvalitem', { items, cardsPerPage: cardsPerPage, currentPage: currentPage, user: userData, searchQuery, categories, cartItemCount: cart ? cart.items.length : 0 });
+        return res.render('approval/approvalitem', {
+            items, cardsPerPage: cardsPerPage, currentPage: currentPage, user: userData, searchQuery, categories, cartItemCount: cart ? cart.items.length : 0, pendingLoansCount: pendingLoansCount,
+            pendingapprovalLoanCount
+        });
 
     } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
     }
 };
+
 exports.viewItemByid = async (req, res) => {
     try {
         if (req.user.userData.usertype !== "Approval") {
@@ -188,13 +337,49 @@ exports.viewItemByid = async (req, res) => {
             return res.redirect('/');
         }
         const userId = req.user.userData._id;
+
         const user = await Users.findById(userId);
         // Query the database for the user with the matching ID
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+        const currentUserData = req.user.userData;
+        const approvalDepartment = currentUserData.department;
 
+        let pendingapprovalLoanCount = 0;
+        const userloanRequests = await loan
+            .find({ status: "pending" })
+            .populate({
+                path: "user_id",
+                select: "name department year usertype userid image",
+                match: { department: approvalDepartment, usertype: "User" },
+            })
+            .populate({
+                path: "items.item",
+                select: "name available_items",
+            })
+            .select("items status return_date request_date")
+            .exec();// Variable to store the count of pending loans
+
+        const loanRequests = await loan
+            .find({
+                $or: [
+                    {
+                        status: "pending",
+                        approval: userId
+                    },
+                ]
+            })
+            .populate("user_id", "name userid department year usertype image")
+            .populate("items.item", "name available_items")
+            .select("items status return_date request_date approval")
+            .exec();
+        const pendingLoansCount = userloanRequests.filter((userloanRequests) => userloanRequests.user_id).length;
+        pendingapprovalLoanCount = await loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
         const itemId = req.params.id;
         const item = await Item.findById(itemId).populate('category', 'name');
-        return res.render('approval/itemdetails', { item, user, cartItemCount: cart ? cart.items.length : 0 });
+        return res.render('approval/itemdetails', {
+            item, user, cartItemCount: cart ? cart.items.length : 0, pendingLoansCount: pendingLoansCount,
+            pendingapprovalLoanCount
+        });
 
         //return res.send(item)
     } catch (error) {
@@ -220,7 +405,39 @@ exports.viewItemsByCategory = async (req, res) => {
         // Query the database for the user with the matching ID
         const user = await Users.findById(userId);
         const cart = await Cart.findOne({ user: userId }).populate('items.item').populate('items.category', 'name');
+        const currentUserData = req.user.userData;
+        const approvalDepartment = currentUserData.department;
 
+        let pendingapprovalLoanCount = 0;
+        const userloanRequests = await loan
+            .find({ status: "pending" })
+            .populate({
+                path: "user_id",
+                select: "name department year usertype userid image",
+                match: { department: approvalDepartment, usertype: "User" },
+            })
+            .populate({
+                path: "items.item",
+                select: "name available_items",
+            })
+            .select("items status return_date request_date")
+            .exec();// Variable to store the count of pending loans
+
+        const loanRequests = await loan
+            .find({
+                $or: [
+                    {
+                        status: "pending",
+                        approval: userId
+                    },
+                ]
+            })
+            .populate("user_id", "name userid department year usertype image")
+            .populate("items.item", "name available_items")
+            .select("items status return_date request_date approval")
+            .exec();
+        const pendingLoansCount = userloanRequests.filter((userloanRequests) => userloanRequests.user_id).length;
+        pendingapprovalLoanCount = await loan.countDocuments({ status: "pending", approval: userId }); // Count of pending loans
 
         if (!mongoose.Types.ObjectId.isValid(categoryId)) {
             return res.status(400).send('Invalid category ID');
@@ -236,7 +453,8 @@ exports.viewItemsByCategory = async (req, res) => {
                 item.name.toLowerCase().includes(searchQuery.toLowerCase())
             );
         }
-        return res.render('approval/categoryitems', { category, items, categories, user, cardsPerPage: cardsPerPage, currentPage: currentPage, searchQuery, cartItemCount: cart ? cart.items.length : 0 });
+        return res.render('approval/categoryitems', { category, items, categories, user, cardsPerPage: cardsPerPage, currentPage: currentPage, searchQuery, cartItemCount: cart ? cart.items.length : 0,pendingLoansCount: pendingLoansCount,
+            pendingapprovalLoanCount});
     } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');

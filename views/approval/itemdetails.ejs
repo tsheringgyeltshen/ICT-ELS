@@ -40,29 +40,39 @@
 							<li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
 							<li class="nav-item active"><a class="nav-link" href="/all-equipment">Equipment</a></li>
 							<li class="nav-item submenu dropdown">
-								<a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-									aria-haspopup="true" aria-expanded="false">Loan</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item">
-										<a href="/personalloan" class="nav-link">Your Loan</a>
-									</li>
-									<div class="nav-item dropright dropdown-dropright">
-										<a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-											aria-haspopup="true" aria-expanded="false" id="loanDropdown">Pending Loan
-											<i class="ti-angle-right" style="margin-left: 22.5px;"></i>
-										</a>
+                                <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">Loan<span class="badge badge-danger">
+                                        <!-- Display the pending loan count here -->
+                                        <%= pendingLoansCount + pendingapprovalLoanCount %>
+                                    </span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="/personalloan" class="nav-link">Your Loan</a>
+                                    </li>
+                                    <div class="nav-item dropright dropdown-dropright">
+                                        <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                            aria-haspopup="true" aria-expanded="false" id="loanDropdown">Pending Loan
+                                            <i class="ti-angle-right" style="margin-left: 22.5px;"></i>
+                                        </a>
 
-										<div class="dropdown-menu" aria-labelledby="loanDropdown">
-											<div class="nav-item">
-												<a class="dropdown-item" href="/view-req-loan">User</a>
-											</div>
-											<div class="nav-item">
-												<a class="dropdown-item" href="/viewapproval-req-loan">Approval</a>
-											</div>
-										</div>
-									</div>
-								</ul>
-							</li>
+                                        <div class="dropdown-menu" aria-labelledby="loanDropdown">
+                                            <div class="nav-item">
+                                                <a class="dropdown-item" href="/view-req-loan">User<span
+                                                        class="badge badge-danger">
+                                                        <!-- Display the pending loan count here -->
+                                                        <%= pendingLoansCount %>
+                                                    </span></a>
+                                            </div>
+                                            <div class="nav-item">
+                                                <a class="dropdown-item" href="/viewapproval-req-loan">Approval<span
+                                                        class="badge badge-danger">
+                                                        <%= pendingapprovalLoanCount %>
+                                                    </span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </li>
 							<li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
 
 						</ul>
